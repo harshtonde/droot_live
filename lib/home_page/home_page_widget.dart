@@ -253,7 +253,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'No Trips Found👻',
+                'No Trip Found👻',
                 style: FlutterFlowTheme.subtitle2.override(
                   fontFamily: 'Poppins',
                   color: FlutterFlowTheme.tertiaryColor,
