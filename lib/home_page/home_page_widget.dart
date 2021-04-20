@@ -3,6 +3,7 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../new_trip/new_trip_widget.dart';
 import '../start_page/start_page_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -92,8 +93,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                     ),
-                    child: Image.network(
-                      currentUserPhoto,
+                    child: CachedNetworkImage(
+                      imageUrl: 'https://picsum.photos/seed/355/400',
                       fit: BoxFit.cover,
                     ),
                   ),
