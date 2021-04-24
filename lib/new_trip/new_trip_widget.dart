@@ -289,11 +289,12 @@ class _NewTripWidgetState extends State<NewTripWidget> {
                         await NewtripdetailsRecord.collection
                             .doc()
                             .set(newtripdetailsRecordData);
-                        await Navigator.pushReplacement(
+                        await Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
                             builder: (context) => HomePageWidget(),
                           ),
+                          (r) => false,
                         );
                       },
                       text: 'Save',

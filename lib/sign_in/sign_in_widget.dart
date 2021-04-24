@@ -142,14 +142,12 @@ class _SignInWidgetState extends State<SignInWidget> {
                               return;
                             }
 
-                            if (mounted && Navigator.of(context).canPop()) {
-                              Navigator.of(context).pop();
-                            }
-                            await Navigator.pushReplacement(
+                            await Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => HomePageWidget(),
                               ),
+                              (r) => false,
                             );
                           },
                           text: 'Sign In',
@@ -207,7 +205,17 @@ class _SignInWidgetState extends State<SignInWidget> {
                         padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
                         child: FFButtonWidget(
                           onPressed: () async {
-                            await signInWithGoogle(context);
+                            final user = await signInWithGoogle(context);
+                            if (user == null) {
+                              return;
+                            }
+                            await Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePageWidget(),
+                              ),
+                              (r) => false,
+                            );
                           },
                           text: 'Sign In with Google',
                           iconData: FontAwesomeIcons.google,
