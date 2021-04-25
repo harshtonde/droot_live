@@ -37,11 +37,11 @@ abstract class UserdataRecord
   String get photoUrl;
 
   @nullable
-  String get uid;
-
-  @nullable
   @BuiltValueField(wireName: 'created_time')
   Timestamp get createdTime;
+
+  @nullable
+  String get uid;
 
   @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
@@ -77,8 +77,8 @@ Map<String, dynamic> createUserdataRecordData({
   String email,
   String displayName,
   String photoUrl,
-  String uid,
   Timestamp createdTime,
+  String uid,
 }) =>
     serializers.serializeWith(
         UserdataRecord.serializer,
@@ -90,8 +90,8 @@ Map<String, dynamic> createUserdataRecordData({
           ..email = email
           ..displayName = displayName
           ..photoUrl = photoUrl
-          ..uid = uid
-          ..createdTime = createdTime));
+          ..createdTime = createdTime
+          ..uid = uid));
 
 UserdataRecord get dummyUserdataRecord {
   final builder = UserdataRecordBuilder()
@@ -102,8 +102,8 @@ UserdataRecord get dummyUserdataRecord {
     ..email = dummyString
     ..displayName = dummyString
     ..photoUrl = dummyImagePath
-    ..uid = dummyString
-    ..createdTime = dummyTimestamp;
+    ..createdTime = dummyTimestamp
+    ..uid = dummyString;
   return builder.build();
 }
 

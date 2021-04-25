@@ -29,9 +29,6 @@ abstract class NewtripdetailsRecord
   String get enddate;
 
   @nullable
-  String get uid;
-
-  @nullable
   DocumentReference get userref;
 
   @nullable
@@ -47,8 +44,7 @@ abstract class NewtripdetailsRecord
     ..destination = ''
     ..origin = ''
     ..startdate = ''
-    ..enddate = ''
-    ..uid = '';
+    ..enddate = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('newtripdetails');
@@ -69,7 +65,6 @@ Map<String, dynamic> createNewtripdetailsRecordData({
   String origin,
   String startdate,
   String enddate,
-  String uid,
   DocumentReference userref,
   Timestamp createdAt,
 }) =>
@@ -81,7 +76,6 @@ Map<String, dynamic> createNewtripdetailsRecordData({
           ..origin = origin
           ..startdate = startdate
           ..enddate = enddate
-          ..uid = uid
           ..userref = userref
           ..createdAt = createdAt));
 
@@ -92,7 +86,6 @@ NewtripdetailsRecord get dummyNewtripdetailsRecord {
     ..origin = dummyString
     ..startdate = dummyString
     ..enddate = dummyString
-    ..uid = dummyString
     ..createdAt = dummyTimestamp;
   return builder.build();
 }
