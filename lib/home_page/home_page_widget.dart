@@ -58,8 +58,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         backgroundColor: Color(0xFFF40000),
         elevation: 25,
         child: IconButton(
-          onPressed: () {
-            print('IconButton pressed ...');
+          onPressed: () async {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NewTripWidget(),
+              ),
+            );
           },
           icon: Icon(
             Icons.add,
