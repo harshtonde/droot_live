@@ -308,16 +308,17 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(16),
                                   ),
-                                  child: StreamBuilder<UserdataRecord>(
-                                    stream: UserdataRecord.getDocument(
-                                        listViewNewtripdetailsRecord.userref),
+                                  child: StreamBuilder<NewtripdetailsRecord>(
+                                    stream: NewtripdetailsRecord.getDocument(
+                                        listViewNewtripdetailsRecord.reference),
                                     builder: (context, snapshot) {
                                       // Customize what your widget looks like when it's loading.
                                       if (!snapshot.hasData) {
                                         return Center(
                                             child: CircularProgressIndicator());
                                       }
-                                      final rowUserdataRecord = snapshot.data;
+                                      final rowNewtripdetailsRecord =
+                                          snapshot.data;
                                       return Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
