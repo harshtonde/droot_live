@@ -29,12 +29,10 @@ abstract class NewtripdetailsRecord
   String get enddate;
 
   @nullable
-  @BuiltValueField(wireName: 'created_at')
   Timestamp get createdAt;
 
   @nullable
-  @BuiltValueField(wireName: 'user_ref')
-  DocumentReference get userRef;
+  DocumentReference get userref;
 
   @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
@@ -67,7 +65,7 @@ Map<String, dynamic> createNewtripdetailsRecordData({
   String startdate,
   String enddate,
   Timestamp createdAt,
-  DocumentReference userRef,
+  DocumentReference userref,
 }) =>
     serializers.serializeWith(
         NewtripdetailsRecord.serializer,
@@ -78,7 +76,7 @@ Map<String, dynamic> createNewtripdetailsRecordData({
           ..startdate = startdate
           ..enddate = enddate
           ..createdAt = createdAt
-          ..userRef = userRef));
+          ..userref = userref));
 
 NewtripdetailsRecord get dummyNewtripdetailsRecord {
   final builder = NewtripdetailsRecordBuilder()

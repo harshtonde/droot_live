@@ -263,7 +263,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 child: StreamBuilder<List<NewtripdetailsRecord>>(
                   stream: queryNewtripdetailsRecord(
                     queryBuilder: (newtripdetailsRecord) => newtripdetailsRecord
-                        .orderBy('created_at', descending: true),
+                        .orderBy('createdAt', descending: true),
                   ),
                   builder: (context, snapshot) {
                     // Customize what your widget looks like when it's loading.
@@ -310,7 +310,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   ),
                                   child: StreamBuilder<UserdataRecord>(
                                     stream: UserdataRecord.getDocument(
-                                        listViewNewtripdetailsRecord.userRef),
+                                        listViewNewtripdetailsRecord.userref),
                                     builder: (context, snapshot) {
                                       // Customize what your widget looks like when it's loading.
                                       if (!snapshot.hasData) {
