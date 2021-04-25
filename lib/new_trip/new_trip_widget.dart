@@ -275,8 +275,8 @@ class _NewTripWidgetState extends State<NewTripWidget> {
                         final startdate = textController4.text;
                         final enddate = textController5.text;
                         final destination = textController2.text;
-                        final userref = currentUserReference;
                         final createdAt = getCurrentTimestamp;
+                        final userRef = currentUserReference;
 
                         final newtripdetailsRecordData =
                             createNewtripdetailsRecordData(
@@ -285,8 +285,8 @@ class _NewTripWidgetState extends State<NewTripWidget> {
                           startdate: startdate,
                           enddate: enddate,
                           destination: destination,
-                          userref: userref,
                           createdAt: createdAt,
+                          userRef: userRef,
                         );
 
                         await NewtripdetailsRecord.collection

@@ -310,7 +310,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   ),
                                   child: StreamBuilder<UserdataRecord>(
                                     stream: UserdataRecord.getDocument(
-                                        listViewNewtripdetailsRecord.userref),
+                                        listViewNewtripdetailsRecord.userRef),
                                     builder: (context, snapshot) {
                                       // Customize what your widget looks like when it's loading.
                                       if (!snapshot.hasData) {
