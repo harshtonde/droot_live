@@ -348,14 +348,12 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                               .doc(user.uid)
                               .update(userdataRecordData);
 
-                          if (mounted && Navigator.of(context).canPop()) {
-                            Navigator.of(context).pop();
-                          }
-                          await Navigator.pushReplacement(
+                          await Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
                               builder: (context) => HomePageWidget(),
                             ),
+                            (r) => false,
                           );
                         },
                         text: 'Sign Up',
@@ -393,7 +391,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     Divider(),
                     FFButtonWidget(
                       onPressed: () async {
-                        await signInWithGoogle(context);
+                        final user = await signInWithGoogle(context);
+                        if (user == null) {
+                          return;
+                        }
                         final firstname = currentUserDisplayName;
                         final emailaddress = currentUserEmail;
 
@@ -405,11 +406,12 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         await UserdataRecord.collection
                             .doc()
                             .set(userdataRecordData);
-                        await Navigator.pushReplacement(
+                        await Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
                             builder: (context) => HomePageWidget(),
                           ),
+                          (r) => false,
                         );
                       },
                       text: 'Sign Up with Google',

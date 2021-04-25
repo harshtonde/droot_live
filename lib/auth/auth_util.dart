@@ -44,18 +44,14 @@ Future resetPassword({String email, BuildContext context}) async {
   );
 }
 
-String get currentUserEmail =>
-    currentUser.maybeWhen(user: (user) => user.email, orElse: () => '');
+String get currentUserEmail => currentUser?.user?.email ?? '';
 
-String get currentUserUid =>
-    currentUser.maybeWhen(user: (user) => user.uid, orElse: () => '');
+String get currentUserUid => currentUser?.user?.uid ?? '';
 
-String get currentUserDisplayName =>
-    currentUser.maybeWhen(user: (user) => user.displayName, orElse: () => '');
+String get currentUserDisplayName => currentUser?.user?.displayName ?? '';
 
-String get currentUserPhoto =>
-    currentUser.maybeWhen(user: (user) => user.photoURL, orElse: () => '');
+String get currentUserPhoto => currentUser?.user?.photoURL ?? '';
 
-DocumentReference get currentUserReference => currentUser.maybeWhen(
-    user: (user) => UserdataRecord.collection.doc(user.uid),
-    orElse: () => null);
+DocumentReference get currentUserReference => currentUser?.user != null
+    ? UserdataRecord.collection.doc(currentUser.user.uid)
+    : null;
