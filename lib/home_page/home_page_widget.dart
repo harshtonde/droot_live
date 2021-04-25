@@ -261,7 +261,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             children: [
               Expanded(
                 child: StreamBuilder<List<NewtripdetailsRecord>>(
-                  stream: queryNewtripdetailsRecord(),
+                  stream: queryNewtripdetailsRecord(
+                    queryBuilder: (newtripdetailsRecord) => newtripdetailsRecord
+                        .orderBy('created_at', descending: true),
+                  ),
                   builder: (context, snapshot) {
                     // Customize what your widget looks like when it's loading.
                     if (!snapshot.hasData) {
@@ -305,89 +308,107 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(16),
                                   ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(16, 0, 0, 0),
-                                        child: Stack(
-                                          children: [
-                                            Align(
-                                              alignment: Alignment(0, -0.63),
-                                              child: Text(
-                                                listViewNewtripdetailsRecord
-                                                    .tripname,
-                                                style: FlutterFlowTheme
-                                                    .subtitle2
-                                                    .override(
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xFF15212B),
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w500,
+                                  child: StreamBuilder<UserdataRecord>(
+                                    stream: UserdataRecord.getDocument(
+                                        listViewNewtripdetailsRecord.userref),
+                                    builder: (context, snapshot) {
+                                      // Customize what your widget looks like when it's loading.
+                                      if (!snapshot.hasData) {
+                                        return Center(
+                                            child: CircularProgressIndicator());
+                                      }
+                                      final rowUserdataRecord = snapshot.data;
+                                      return Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                16, 0, 0, 0),
+                                            child: Stack(
+                                              children: [
+                                                Align(
+                                                  alignment:
+                                                      Alignment(0, -0.63),
+                                                  child: Text(
+                                                    listViewNewtripdetailsRecord
+                                                        .tripname,
+                                                    style: FlutterFlowTheme
+                                                        .subtitle2
+                                                        .override(
+                                                      fontFamily: 'Montserrat',
+                                                      color: Color(0xFF15212B),
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            Align(
-                                              alignment: Alignment(-1.08, 0.12),
-                                              child: Text(
-                                                listViewNewtripdetailsRecord
-                                                    .startdate,
-                                                style: FlutterFlowTheme
-                                                    .bodyText2
-                                                    .override(
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xFF8B97A2),
-                                                  fontWeight: FontWeight.w500,
+                                                Align(
+                                                  alignment:
+                                                      Alignment(-1.08, 0.12),
+                                                  child: Text(
+                                                    listViewNewtripdetailsRecord
+                                                        .startdate,
+                                                    style: FlutterFlowTheme
+                                                        .bodyText2
+                                                        .override(
+                                                      fontFamily: 'Montserrat',
+                                                      color: Color(0xFF8B97A2),
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            Align(
-                                              alignment: Alignment(-0.89, 0.82),
-                                              child: Text(
-                                                listViewNewtripdetailsRecord
-                                                    .enddate,
-                                                style: FlutterFlowTheme
-                                                    .bodyText2
-                                                    .override(
-                                                  fontFamily: 'Poppins',
-                                                  color: Color(0xFF8B97A2),
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 2,
-                                        child: Align(
-                                          alignment: Alignment(1, 0),
-                                          child: Container(
-                                            width: 40,
-                                            height: 40,
-                                            clipBehavior: Clip.antiAlias,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: Image.network(
-                                              'https://picsum.photos/seed/913/400',
+                                                Align(
+                                                  alignment:
+                                                      Alignment(-0.89, 0.82),
+                                                  child: Text(
+                                                    listViewNewtripdetailsRecord
+                                                        .enddate,
+                                                    style: FlutterFlowTheme
+                                                        .bodyText2
+                                                        .override(
+                                                      fontFamily: 'Poppins',
+                                                      color: Color(0xFF8B97A2),
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Align(
-                                          alignment: Alignment(0.05, 0),
-                                          child: Icon(
-                                            Icons.chevron_right,
-                                            color: Color(0xFF95A1AC),
-                                            size: 28,
+                                          Expanded(
+                                            flex: 2,
+                                            child: Align(
+                                              alignment: Alignment(1, 0),
+                                              child: Container(
+                                                width: 40,
+                                                height: 40,
+                                                clipBehavior: Clip.antiAlias,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: Image.network(
+                                                  'https://picsum.photos/seed/913/400',
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      )
-                                    ],
+                                          Expanded(
+                                            flex: 1,
+                                            child: Align(
+                                              alignment: Alignment(0.05, 0),
+                                              child: Icon(
+                                                Icons.chevron_right,
+                                                color: Color(0xFF95A1AC),
+                                                size: 28,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      );
+                                    },
                                   ),
                                 ),
                               ),
