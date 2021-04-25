@@ -4,26 +4,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../flutter_flow/flutter_flow_util.dart';
 
-import 'schema/userdata_record.dart';
-import 'schema/newtripdetails_record.dart';
+import 'schema/users_record.dart';
 import 'schema/serializers.dart';
 
-export 'schema/userdata_record.dart';
-export 'schema/newtripdetails_record.dart';
+export 'schema/users_record.dart';
 
-Stream<List<UserdataRecord>> queryUserdataRecord(
+Stream<List<UsersRecord>> queryUsersRecord(
         {Query Function(Query) queryBuilder,
         int limit = -1,
         bool singleRecord = false}) =>
-    queryCollection(UserdataRecord.collection, UserdataRecord.serializer,
-        queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
-
-Stream<List<NewtripdetailsRecord>> queryNewtripdetailsRecord(
-        {Query Function(Query) queryBuilder,
-        int limit = -1,
-        bool singleRecord = false}) =>
-    queryCollection(
-        NewtripdetailsRecord.collection, NewtripdetailsRecord.serializer,
+    queryCollection(UsersRecord.collection, UsersRecord.serializer,
         queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
 
 Stream<List<T>> queryCollection<T>(
@@ -43,13 +33,13 @@ Stream<List<T>> queryCollection<T>(
 
 // Creates a Firestore record representing the logged in user if it doesn't yet exist
 Future maybeCreateUser(User user) async {
-  final userRecord = UserdataRecord.collection.doc(user.uid);
+  final userRecord = UsersRecord.collection.doc(user.uid);
   final userExists = await userRecord.get().then((u) => u.exists);
   if (userExists) {
     return;
   }
 
-  final userData = createUserdataRecordData(
+  final userData = createUsersRecordData(
     email: user.email,
     displayName: user.displayName,
     photoUrl: user.photoURL,

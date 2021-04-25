@@ -53,5 +53,5 @@ String get currentUserDisplayName => currentUser?.user?.displayName ?? '';
 String get currentUserPhoto => currentUser?.user?.photoURL ?? '';
 
 DocumentReference get currentUserReference => currentUser?.user != null
-    ? UserdataRecord.collection.doc(currentUser.user.uid)
+    ? UsersRecord.collection.doc(currentUser.user.uid)
     : null;

@@ -4,7 +4,6 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../home_page/home_page_widget.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -334,19 +333,22 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                             return;
                           }
 
-                          final firstname = firstNameController.text;
-                          final lastname = lastNameController.text;
-                          final dateofbirth = dateofBirthController.text;
+                          final email = emailAddressController.text;
+                          final displayName = firstNameController.text;
+                          final photoUrl =
+                              'https://upload.wikimedia.org/wikipedia/commons/8/85/Elon_Musk_Royal_Society_%28crop1%29.jpg';
+                          final createdTime = getCurrentTimestamp;
 
-                          final userdataRecordData = createUserdataRecordData(
-                            firstname: firstname,
-                            lastname: lastname,
-                            dateofbirth: dateofbirth,
+                          final usersRecordData = createUsersRecordData(
+                            email: email,
+                            displayName: displayName,
+                            photoUrl: photoUrl,
+                            createdTime: createdTime,
                           );
 
-                          await UserdataRecord.collection
+                          await UsersRecord.collection
                               .doc(user.uid)
-                              .update(userdataRecordData);
+                              .update(usersRecordData);
 
                           await Navigator.pushAndRemoveUntil(
                             context,
@@ -395,17 +397,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         if (user == null) {
                           return;
                         }
-                        final firstname = currentUserDisplayName;
-                        final emailaddress = currentUserEmail;
-
-                        final userdataRecordData = createUserdataRecordData(
-                          firstname: firstname,
-                          emailaddress: emailaddress,
-                        );
-
-                        await UserdataRecord.collection
-                            .doc()
-                            .set(userdataRecordData);
                         await Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
