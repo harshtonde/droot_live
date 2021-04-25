@@ -3,7 +3,6 @@ import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import '../home_page/home_page_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -272,30 +271,27 @@ class _NewTripWidgetState extends State<NewTripWidget> {
                     FFButtonWidget(
                       onPressed: () async {
                         final tripname = textController1.text;
-                        final destination = textController2.text;
                         final origin = textController3.text;
                         final startdate = textController4.text;
                         final enddate = textController5.text;
+                        final destination = textController2.text;
+                        final userref = currentUserReference;
+                        final createdAt = getCurrentTimestamp;
 
                         final newtripdetailsRecordData =
                             createNewtripdetailsRecordData(
                           tripname: tripname,
-                          destination: destination,
                           origin: origin,
                           startdate: startdate,
                           enddate: enddate,
+                          destination: destination,
+                          userref: userref,
+                          createdAt: createdAt,
                         );
 
                         await NewtripdetailsRecord.collection
                             .doc()
                             .set(newtripdetailsRecordData);
-                        await Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomePageWidget(),
-                          ),
-                          (r) => false,
-                        );
                       },
                       text: 'Save',
                       options: FFButtonOptions(

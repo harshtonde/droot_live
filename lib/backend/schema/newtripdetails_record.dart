@@ -29,6 +29,16 @@ abstract class NewtripdetailsRecord
   String get enddate;
 
   @nullable
+  String get uid;
+
+  @nullable
+  DocumentReference get userref;
+
+  @nullable
+  @BuiltValueField(wireName: 'created_at')
+  Timestamp get createdAt;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
@@ -37,7 +47,8 @@ abstract class NewtripdetailsRecord
     ..destination = ''
     ..origin = ''
     ..startdate = ''
-    ..enddate = '';
+    ..enddate = ''
+    ..uid = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('newtripdetails');
@@ -58,6 +69,9 @@ Map<String, dynamic> createNewtripdetailsRecordData({
   String origin,
   String startdate,
   String enddate,
+  String uid,
+  DocumentReference userref,
+  Timestamp createdAt,
 }) =>
     serializers.serializeWith(
         NewtripdetailsRecord.serializer,
@@ -66,7 +80,10 @@ Map<String, dynamic> createNewtripdetailsRecordData({
           ..destination = destination
           ..origin = origin
           ..startdate = startdate
-          ..enddate = enddate));
+          ..enddate = enddate
+          ..uid = uid
+          ..userref = userref
+          ..createdAt = createdAt));
 
 NewtripdetailsRecord get dummyNewtripdetailsRecord {
   final builder = NewtripdetailsRecordBuilder()
@@ -74,7 +91,9 @@ NewtripdetailsRecord get dummyNewtripdetailsRecord {
     ..destination = dummyString
     ..origin = dummyString
     ..startdate = dummyString
-    ..enddate = dummyString;
+    ..enddate = dummyString
+    ..uid = dummyString
+    ..createdAt = dummyTimestamp;
   return builder.build();
 }
 
