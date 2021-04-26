@@ -308,8 +308,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                         Align(
                                           alignment: Alignment(0, -0.74),
                                           child: Text(
-                                            listViewTriprecordRecordList
-                                                .tripname,
+                                            listViewTriprecordRecord.tripname,
                                             style: FlutterFlowTheme.subtitle2
                                                 .override(
                                               fontFamily: 'Montserrat',
@@ -322,8 +321,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                         Align(
                                           alignment: Alignment(-0.92, 0.67),
                                           child: Text(
-                                            listViewTriprecordRecordList
-                                                .enddate,
+                                            listViewTriprecordRecord.enddate,
                                             style: FlutterFlowTheme.bodyText2
                                                 .override(
                                               fontFamily: 'Montserrat',
@@ -335,8 +333,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                         Align(
                                           alignment: Alignment(-0.77, 0.09),
                                           child: Text(
-                                            listViewTriprecordRecordList
-                                                .startdate,
+                                            listViewTriprecordRecord.startdate,
                                             style: FlutterFlowTheme.bodyText2
                                                 .override(
                                               fontFamily: 'Montserrat',
