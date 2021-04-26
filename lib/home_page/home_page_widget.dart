@@ -4,6 +4,7 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../new_trip/new_trip_widget.dart';
 import '../start_page/start_page_widget.dart';
+import '../trip_page/trip_page_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -291,94 +292,108 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               color: Colors.transparent,
                               borderRadius: BorderRadius.circular(16),
                             ),
-                            child: Card(
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              color: Colors.white,
-                              elevation: 2,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
-                                    child: Stack(
-                                      children: [
-                                        Align(
-                                          alignment: Alignment(0, -0.74),
-                                          child: Text(
-                                            listViewTriprecordRecord.tripname,
-                                            style: FlutterFlowTheme.subtitle2
-                                                .override(
-                                              fontFamily: 'Montserrat',
-                                              color: Color(0xFF15212B),
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500,
-                                            ),
+                            child: InkWell(
+                              onTap: () async {
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => TripPageWidget(),
+                                  ),
+                                );
+                              },
+                              child: Card(
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                color: FlutterFlowTheme.tertiaryColor,
+                                elevation: 2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(3, 0, 0, 0),
+                                        child: Container(
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Image.asset(
+                                            'assets/images/AppIcon.png',
                                           ),
                                         ),
-                                        Align(
-                                          alignment: Alignment(-0.92, 0.67),
-                                          child: Text(
-                                            listViewTriprecordRecord.enddate,
-                                            style: FlutterFlowTheme.bodyText2
-                                                .override(
-                                              fontFamily: 'Montserrat',
-                                              color: Color(0xFF8B97A2),
-                                              fontWeight: FontWeight.w500,
+                                      ),
+                                      Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(16, 0, 0, 0),
+                                        child: Stack(
+                                          children: [
+                                            Align(
+                                              alignment:
+                                                  Alignment(-0.88, -0.78),
+                                              child: Text(
+                                                listViewTriprecordRecord
+                                                    .tripname,
+                                                style: FlutterFlowTheme
+                                                    .subtitle2
+                                                    .override(
+                                                  fontFamily: 'Montserrat',
+                                                  color: FlutterFlowTheme
+                                                      .primaryColor,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
                                             ),
+                                            Align(
+                                              alignment: Alignment(-0.81, 0.73),
+                                              child: Text(
+                                                listViewTriprecordRecord
+                                                    .startdate,
+                                                style: FlutterFlowTheme
+                                                    .bodyText2
+                                                    .override(
+                                                  fontFamily: 'Montserrat',
+                                                  color: Color(0xFF8B97A2),
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment: Alignment(-0.8, 0.09),
+                                              child: Text(
+                                                listViewTriprecordRecord
+                                                    .destination,
+                                                style: FlutterFlowTheme
+                                                    .bodyText2
+                                                    .override(
+                                                  fontFamily: 'Montserrat',
+                                                  color: Color(0xFF8B97A2),
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: Align(
+                                          alignment: Alignment(1, 0),
+                                          child: Icon(
+                                            Icons.arrow_right,
+                                            color:
+                                                FlutterFlowTheme.primaryColor,
+                                            size: 28,
                                           ),
                                         ),
-                                        Align(
-                                          alignment: Alignment(-0.77, 0.09),
-                                          child: Text(
-                                            listViewTriprecordRecord.startdate,
-                                            style: FlutterFlowTheme.bodyText2
-                                                .override(
-                                              fontFamily: 'Montserrat',
-                                              color: Color(0xFF8B97A2),
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                      )
+                                    ],
                                   ),
-                                  FFButtonWidget(
-                                    onPressed: () async {
-                                      await listViewTriprecordRecord.reference
-                                          .delete();
-                                    },
-                                    text: 'Delete',
-                                    options: FFButtonOptions(
-                                      width: 130,
-                                      height: 40,
-                                      color: FlutterFlowTheme.primaryColor,
-                                      textStyle:
-                                          FlutterFlowTheme.subtitle2.override(
-                                        fontFamily: 'Poppins',
-                                        color: Colors.white,
-                                      ),
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 1,
-                                      ),
-                                      borderRadius: 12,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Align(
-                                      alignment: Alignment(0.05, 0),
-                                      child: Icon(
-                                        Icons.chevron_right,
-                                        color: Color(0xFF95A1AC),
-                                        size: 28,
-                                      ),
-                                    ),
-                                  )
-                                ],
+                                ),
                               ),
                             ),
                           ),
