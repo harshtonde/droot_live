@@ -4,7 +4,6 @@ import 'package:built_value/standard_json_plugin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'users_record.dart';
-import 'triprecord_record.dart';
 
 part 'serializers.g.dart';
 
@@ -12,7 +11,6 @@ const kDocumentReferenceField = 'Document__Reference__Field';
 
 @SerializersFor(const [
   UsersRecord,
-  TriprecordRecord,
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..add(DocumentReferenceSerializer())
