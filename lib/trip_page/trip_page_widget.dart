@@ -6,6 +6,7 @@ import '../new_trip/new_trip_widget.dart';
 import '../start_page/start_page_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TripPageWidget extends StatefulWidget {
@@ -400,7 +401,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                         ),
                         Align(
                           alignment: Alignment(0.92, 0.85),
-                          child: FloatingActionButton.extended(
+                          child: FloatingActionButton(
                             onPressed: () async {
                               await Navigator.push(
                                 context,
@@ -410,17 +411,17 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                               );
                             },
                             backgroundColor: Color(0xFFF40000),
-                            icon: Icon(
-                              Icons.flag_outlined,
-                              size: 20,
-                            ),
                             elevation: 25,
-                            child: Text(
-                              'Start Trip',
-                              style: FlutterFlowTheme.bodyText1.override(
-                                fontFamily: 'Poppins',
-                                color: FlutterFlowTheme.tertiaryColor,
+                            child: IconButton(
+                              onPressed: () {
+                                print('IconButton pressed ...');
+                              },
+                              icon: FaIcon(
+                                FontAwesomeIcons.flagCheckered,
+                                color: FlutterFlowTheme.primaryColor,
+                                size: 25,
                               ),
+                              iconSize: 25,
                             ),
                           ),
                         )
