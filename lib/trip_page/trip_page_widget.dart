@@ -330,7 +330,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                               padding: EdgeInsets.fromLTRB(
                                                   5, 8, 0, 0),
                                               child: Text(
-                                                columnTriprecordRecord.origin,
+                                                'Origin',
                                                 style: FlutterFlowTheme
                                                     .bodyText1
                                                     .override(
@@ -354,8 +354,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                               padding: EdgeInsets.fromLTRB(
                                                   5, 8, 0, 0),
                                               child: Text(
-                                                columnTriprecordRecord
-                                                    .destination,
+                                                'Destination',
                                                 style: FlutterFlowTheme
                                                     .bodyText1
                                                     .override(
@@ -384,8 +383,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                               padding: EdgeInsets.fromLTRB(
                                                   5, 8, 0, 0),
                                               child: Text(
-                                                columnTriprecordRecord
-                                                    .startdate,
+                                                'Start Date',
                                                 style: FlutterFlowTheme
                                                     .bodyText1
                                                     .override(
@@ -414,7 +412,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                               padding: EdgeInsets.fromLTRB(
                                                   5, 8, 0, 0),
                                               child: Text(
-                                                columnTriprecordRecord.enddate,
+                                                'End Date',
                                                 style: FlutterFlowTheme
                                                     .bodyText1
                                                     .override(
@@ -457,6 +455,27 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                               ),
                             )
                           ],
+                        ),
+                      ),
+                      FFButtonWidget(
+                        onPressed: () async {
+                          await tripPageTriprecordRecord.reference.delete();
+                          Navigator.pop(context);
+                        },
+                        text: 'Delete',
+                        options: FFButtonOptions(
+                          width: 130,
+                          height: 40,
+                          color: FlutterFlowTheme.secondaryColor,
+                          textStyle: FlutterFlowTheme.subtitle2.override(
+                            fontFamily: 'Poppins',
+                            color: Colors.white,
+                          ),
+                          borderSide: BorderSide(
+                            color: Colors.transparent,
+                            width: 1,
+                          ),
+                          borderRadius: 12,
                         ),
                       )
                     ],
