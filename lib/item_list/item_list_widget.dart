@@ -2,21 +2,19 @@ import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import '../new_trip/new_trip_widget.dart';
 import '../profile/profile_widget.dart';
 import '../start_page/start_page_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TripPageWidget extends StatefulWidget {
-  TripPageWidget({Key key}) : super(key: key);
+class ItemListWidget extends StatefulWidget {
+  ItemListWidget({Key key}) : super(key: key);
 
   @override
-  _TripPageWidgetState createState() => _TripPageWidgetState();
+  _ItemListWidgetState createState() => _ItemListWidgetState();
 }
 
-class _TripPageWidgetState extends State<TripPageWidget> {
+class _ItemListWidgetState extends State<ItemListWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -30,14 +28,14 @@ class _TripPageWidgetState extends State<TripPageWidget> {
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         }
-        List<TriprecordRecord> tripPageTriprecordRecordList = snapshot.data;
+        List<TriprecordRecord> itemListTriprecordRecordList = snapshot.data;
         // Customize what your widget looks like with no query results.
         if (snapshot.data.isEmpty) {
           // return Container();
           // For now, we'll just include some dummy data.
-          tripPageTriprecordRecordList = createDummyTriprecordRecord(count: 1);
+          itemListTriprecordRecordList = createDummyTriprecordRecord(count: 1);
         }
-        final tripPageTriprecordRecord = tripPageTriprecordRecordList.first;
+        final itemListTriprecordRecord = itemListTriprecordRecordList.first;
         return Scaffold(
           key: scaffoldKey,
           appBar: AppBar(
@@ -290,12 +288,6 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Image.network(
-                                'https://media.cntraveler.com/photos/5f3484e301aedaf2771c644b/16:9/w_4239,h_2384,c_limit/RoadtripPlaylist-GettyImages-1192260535.jpg',
-                                width: double.infinity,
-                                height: 120,
-                                fit: BoxFit.cover,
-                              ),
                               Padding(
                                 padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
                                 child: Column(
@@ -429,55 +421,8 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                               )
                             ],
                           ),
-                        ),
-                        Align(
-                          alignment: Alignment(0.92, 0.85),
-                          child: FloatingActionButton(
-                            onPressed: () async {
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => NewTripWidget(),
-                                ),
-                              );
-                            },
-                            backgroundColor: Color(0xFFF40000),
-                            elevation: 25,
-                            child: IconButton(
-                              onPressed: () {
-                                print('IconButton pressed ...');
-                              },
-                              icon: FaIcon(
-                                FontAwesomeIcons.flagCheckered,
-                                color: FlutterFlowTheme.tertiaryColor,
-                                size: 25,
-                              ),
-                              iconSize: 25,
-                            ),
-                          ),
                         )
                       ],
-                    ),
-                  ),
-                  FFButtonWidget(
-                    onPressed: () async {
-                      await itemListTriprecordRecord.reference.delete();
-                      Navigator.pop(context);
-                    },
-                    text: 'Delete',
-                    options: FFButtonOptions(
-                      width: 130,
-                      height: 40,
-                      color: FlutterFlowTheme.secondaryColor,
-                      textStyle: FlutterFlowTheme.subtitle2.override(
-                        fontFamily: 'Poppins',
-                        color: Colors.white,
-                      ),
-                      borderSide: BorderSide(
-                        color: Colors.transparent,
-                        width: 1,
-                      ),
-                      borderRadius: 12,
                     ),
                   )
                 ],
