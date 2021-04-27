@@ -5,7 +5,6 @@ import '../flutter_flow/flutter_flow_widgets.dart';
 import '../new_trip/new_trip_widget.dart';
 import '../profile/profile_widget.dart';
 import '../start_page/start_page_widget.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -90,8 +89,8 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                         ),
-                        child: CachedNetworkImage(
-                          imageUrl: currentUserPhoto,
+                        child: Image.network(
+                          currentUserPhoto,
                           fit: BoxFit.cover,
                         ),
                       ),
