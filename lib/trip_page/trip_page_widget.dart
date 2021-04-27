@@ -53,7 +53,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
               ),
             ),
             title: Text(
-              itemListTriprecordRecord.tripname,
+              'Home',
               style: FlutterFlowTheme.bodyText1.override(
                 fontFamily: 'Poppins',
                 color: Colors.white,
@@ -338,7 +338,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                           padding:
                                               EdgeInsets.fromLTRB(5, 8, 0, 0),
                                           child: Text(
-                                            itemListTriprecordRecord.origin,
+                                            'Origin',
                                             style: FlutterFlowTheme.bodyText1
                                                 .override(
                                               fontFamily: 'Poppins',
@@ -360,8 +360,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                           padding:
                                               EdgeInsets.fromLTRB(5, 8, 0, 0),
                                           child: Text(
-                                            itemListTriprecordRecord
-                                                .destination,
+                                            'Destination',
                                             style: FlutterFlowTheme.bodyText1
                                                 .override(
                                               fontFamily: 'Poppins',
@@ -388,7 +387,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                           padding:
                                               EdgeInsets.fromLTRB(5, 8, 0, 0),
                                           child: Text(
-                                            itemListTriprecordRecord.startdate,
+                                            'Start Date',
                                             style: FlutterFlowTheme.bodyText1
                                                 .override(
                                               fontFamily: 'Poppins',
@@ -415,7 +414,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                           padding:
                                               EdgeInsets.fromLTRB(5, 8, 0, 0),
                                           child: Text(
-                                            itemListTriprecordRecord.enddate,
+                                            'End Date',
                                             style: FlutterFlowTheme.bodyText1
                                                 .override(
                                               fontFamily: 'Poppins',
@@ -461,7 +460,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                   ),
                   FFButtonWidget(
                     onPressed: () async {
-                      await itemListTriprecordRecord.reference.delete();
+                      await itemListRecord.reference.delete();
                       Navigator.pop(context);
                     },
                     text: 'Delete',
