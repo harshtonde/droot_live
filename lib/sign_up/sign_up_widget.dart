@@ -18,8 +18,7 @@ class SignUpWidget extends StatefulWidget {
 class _SignUpWidgetState extends State<SignUpWidget> {
   TextEditingController confirmPasswordController;
   TextEditingController dateofBirthController;
-  TextEditingController firstNameController;
-  TextEditingController lastNameController;
+  TextEditingController fullNameController;
   TextEditingController emailAddressController;
   TextEditingController passwordController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -29,8 +28,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     super.initState();
     confirmPasswordController = TextEditingController();
     dateofBirthController = TextEditingController();
-    firstNameController = TextEditingController();
-    lastNameController = TextEditingController();
+    fullNameController = TextEditingController();
     emailAddressController = TextEditingController();
     passwordController = TextEditingController();
   }
@@ -78,10 +76,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       children: [
                         Expanded(
                           child: TextFormField(
-                            controller: firstNameController,
+                            controller: fullNameController,
                             obscureText: false,
                             decoration: InputDecoration(
-                              labelText: 'First Name',
+                              labelText: 'Full Name',
                               labelStyle: FlutterFlowTheme.bodyText1.override(
                                 fontFamily: 'Poppins',
                                 color: FlutterFlowTheme.tertiaryColor,
@@ -120,43 +118,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           decoration: BoxDecoration(
                             color: Color(0xFFEEEEEE),
                             shape: BoxShape.rectangle,
-                          ),
-                        ),
-                        Expanded(
-                          child: TextFormField(
-                            controller: lastNameController,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                              labelText: 'Last Name',
-                              labelStyle: FlutterFlowTheme.bodyText1.override(
-                                fontFamily: 'Poppins',
-                                color: FlutterFlowTheme.tertiaryColor,
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFF9090AC),
-                                  width: 1,
-                                ),
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(4.0),
-                                  topRight: Radius.circular(4.0),
-                                ),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFF9090AC),
-                                  width: 1,
-                                ),
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(4.0),
-                                  topRight: Radius.circular(4.0),
-                                ),
-                              ),
-                            ),
-                            style: FlutterFlowTheme.bodyText1.override(
-                              fontFamily: 'Poppins',
-                              color: FlutterFlowTheme.tertiaryColor,
-                            ),
                           ),
                         )
                       ],
@@ -334,7 +295,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           }
 
                           final email = emailAddressController.text;
-                          final displayName = firstNameController.text;
+                          final displayName = fullNameController.text;
                           final photoUrl =
                               'https://upload.wikimedia.org/wikipedia/commons/8/85/Elon_Musk_Royal_Society_%28crop1%29.jpg';
                           final createdTime = getCurrentTimestamp;

@@ -3,6 +3,7 @@ import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../new_trip/new_trip_widget.dart';
+import '../profile/profile_widget.dart';
 import '../start_page/start_page_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +91,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                           shape: BoxShape.circle,
                         ),
                         child: CachedNetworkImage(
-                          imageUrl: 'https://picsum.photos/seed/355/400',
+                          imageUrl: currentUserPhoto,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -149,8 +150,13 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                             ),
                             Divider(),
                             FFButtonWidget(
-                              onPressed: () {
-                                print('Button pressed ...');
+                              onPressed: () async {
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProfileWidget(),
+                                  ),
+                                );
                               },
                               text: 'Profile',
                               iconData: Icons.person,
@@ -418,7 +424,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                               },
                               icon: FaIcon(
                                 FontAwesomeIcons.flagCheckered,
-                                color: FlutterFlowTheme.primaryColor,
+                                color: FlutterFlowTheme.tertiaryColor,
                                 size: 25,
                               ),
                               iconSize: 25,
