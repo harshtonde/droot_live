@@ -2,6 +2,7 @@ import '../auth/auth_util.dart';
 import '../backend/api_requests/api_calls.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
+import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../new_trip/new_trip_widget.dart';
 import '../profile/profile_widget.dart';
@@ -298,7 +299,8 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                   }
                                   final imageUnsplashResponse = snapshot.data;
                                   return Image.network(
-                                    'https://media.cntraveler.com/photos/5f3484e301aedaf2771c644b/16:9/w_4239,h_2384,c_limit/RoadtripPlaylist-GettyImages-1192260535.jpg',
+                                    getJsonField(
+                                        imageUnsplashResponse, r'$.urls.full'),
                                     width: double.infinity,
                                     height: 120,
                                     fit: BoxFit.cover,
