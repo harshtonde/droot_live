@@ -1,3 +1,4 @@
+import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../new_item/new_item_widget.dart';
@@ -19,28 +20,49 @@ class _ItemListWidgetState extends State<ItemListWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: Color(0xFF191938),
-        automaticallyImplyLeading: true,
-        leading: InkWell(
-          onTap: () async {
-            scaffoldKey.currentState.openDrawer();
-          },
-          child: Icon(
-            Icons.menu,
-            color: FlutterFlowTheme.secondaryColor,
-          ),
+      appBar: StreamBuilder<List<TriprecordRecord>>(
+        stream: queryTriprecordRecord(
+          queryBuilder: (triprecordRecord) => triprecordRecord.where('userref',
+              isEqualTo: currentUserReference),
+          singleRecord: true,
         ),
-        title: Text(
-          'Home',
-          style: FlutterFlowTheme.bodyText1.override(
-            fontFamily: 'Poppins',
-            color: Colors.white,
-          ),
-        ),
-        actions: [],
-        centerTitle: true,
-        elevation: 100,
+        builder: (context, snapshot) {
+          // Customize what your widget looks like when it's loading.
+          if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          }
+          List<TriprecordRecord> appBarTriprecordRecordList = snapshot.data;
+          // Customize what your widget looks like with no query results.
+          if (snapshot.data.isEmpty) {
+            // return Container();
+            // For now, we'll just include some dummy data.
+            appBarTriprecordRecordList = createDummyTriprecordRecord(count: 1);
+          }
+          final appBarTriprecordRecord = appBarTriprecordRecordList.first;
+          return AppBar(
+            backgroundColor: Color(0xFF191938),
+            automaticallyImplyLeading: true,
+            leading: InkWell(
+              onTap: () async {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back_ios,
+                color: FlutterFlowTheme.secondaryColor,
+              ),
+            ),
+            title: Text(
+              appBarTriprecordRecord.tripname,
+              style: FlutterFlowTheme.bodyText1.override(
+                fontFamily: 'Poppins',
+                color: Colors.white,
+              ),
+            ),
+            actions: [],
+            centerTitle: true,
+            elevation: 100,
+          );
+        },
       ),
       backgroundColor: FlutterFlowTheme.primaryColor,
       floatingActionButton: FloatingActionButton(

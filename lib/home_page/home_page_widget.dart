@@ -329,8 +329,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                         await Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) =>
-                                                TripPageWidget(),
+                                            builder: (context) => NavBarPage(
+                                                initialPage: 'TripPage'),
                                           ),
                                         );
                                       },
