@@ -282,7 +282,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 children: [
                   Expanded(
                     child: StreamBuilder<List<TriprecordRecord>>(
-                      stream: queryTriprecordRecord(),
+                      stream: queryTriprecordRecord(
+                        queryBuilder: (triprecordRecord) => triprecordRecord
+                            .where('userref', isEqualTo: currentUserReference),
+                      ),
                       builder: (context, snapshot) {
                         // Customize what your widget looks like when it's loading.
                         if (!snapshot.hasData) {

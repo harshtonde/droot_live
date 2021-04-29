@@ -55,7 +55,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
               ),
             ),
             title: Text(
-              'Home',
+              tripPageTriprecordRecord.tripname,
               style: FlutterFlowTheme.bodyText1.override(
                 fontFamily: 'Poppins',
                 color: Colors.white,
