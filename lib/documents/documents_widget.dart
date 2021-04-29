@@ -9,14 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TripPageWidget extends StatefulWidget {
-  TripPageWidget({Key key}) : super(key: key);
+class DocumentsWidget extends StatefulWidget {
+  DocumentsWidget({Key key}) : super(key: key);
 
   @override
-  _TripPageWidgetState createState() => _TripPageWidgetState();
+  _DocumentsWidgetState createState() => _DocumentsWidgetState();
 }
 
-class _TripPageWidgetState extends State<TripPageWidget> {
+class _DocumentsWidgetState extends State<DocumentsWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -30,14 +30,14 @@ class _TripPageWidgetState extends State<TripPageWidget> {
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         }
-        List<TriprecordRecord> tripPageTriprecordRecordList = snapshot.data;
+        List<TriprecordRecord> documentsTriprecordRecordList = snapshot.data;
         // Customize what your widget looks like with no query results.
         if (snapshot.data.isEmpty) {
           // return Container();
           // For now, we'll just include some dummy data.
-          tripPageTriprecordRecordList = createDummyTriprecordRecord(count: 1);
+          documentsTriprecordRecordList = createDummyTriprecordRecord(count: 1);
         }
-        final tripPageTriprecordRecord = tripPageTriprecordRecordList.first;
+        final documentsTriprecordRecord = documentsTriprecordRecordList.first;
         return Scaffold(
           key: scaffoldKey,
           appBar: AppBar(
@@ -451,26 +451,6 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                           ),
                         )
                       ],
-                    ),
-                  ),
-                  FFButtonWidget(
-                    onPressed: () {
-                      print('Button pressed ...');
-                    },
-                    text: 'Delete',
-                    options: FFButtonOptions(
-                      width: 130,
-                      height: 40,
-                      color: FlutterFlowTheme.secondaryColor,
-                      textStyle: FlutterFlowTheme.subtitle2.override(
-                        fontFamily: 'Poppins',
-                        color: Colors.white,
-                      ),
-                      borderSide: BorderSide(
-                        color: Colors.transparent,
-                        width: 1,
-                      ),
-                      borderRadius: 12,
                     ),
                   )
                 ],

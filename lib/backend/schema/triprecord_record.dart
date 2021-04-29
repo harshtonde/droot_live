@@ -32,6 +32,10 @@ abstract class TriprecordRecord
   DocumentReference get userref;
 
   @nullable
+  @BuiltValueField(wireName: 'created_at')
+  Timestamp get createdAt;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
@@ -61,6 +65,7 @@ Map<String, dynamic> createTriprecordRecordData({
   String startdate,
   String enddate,
   DocumentReference userref,
+  Timestamp createdAt,
 }) =>
     serializers.serializeWith(
         TriprecordRecord.serializer,
@@ -70,7 +75,8 @@ Map<String, dynamic> createTriprecordRecordData({
           ..origin = origin
           ..startdate = startdate
           ..enddate = enddate
-          ..userref = userref));
+          ..userref = userref
+          ..createdAt = createdAt));
 
 TriprecordRecord get dummyTriprecordRecord {
   final builder = TriprecordRecordBuilder()
@@ -78,7 +84,8 @@ TriprecordRecord get dummyTriprecordRecord {
     ..destination = dummyString
     ..origin = dummyString
     ..startdate = dummyString
-    ..enddate = dummyString;
+    ..enddate = dummyString
+    ..createdAt = dummyTimestamp;
   return builder.build();
 }
 
