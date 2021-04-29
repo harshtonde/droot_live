@@ -272,202 +272,248 @@ class _TripPageWidgetState extends State<TripPageWidget> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Card(
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    color: Color(0xFFF5F5F5),
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                  FutureBuilder<dynamic>(
+                    future: unsplashCall(
+                      query: tripPageTriprecordRecord.destination,
                     ),
-                    child: Stack(
-                      alignment: Alignment(-0.09999999999999998, 0.95),
-                      children: [
-                        Align(
-                          alignment: Alignment(0, 0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              FutureBuilder<dynamic>(
-                                future: unsplashCall(
-                                  query: tripPageTriprecordRecord.destination,
-                                ),
-                                builder: (context, snapshot) {
-                                  // Customize what your widget looks like when it's loading.
-                                  if (!snapshot.hasData) {
-                                    return Center(
-                                        child: CircularProgressIndicator());
-                                  }
-                                  final imageUnsplashResponse = snapshot.data;
-                                  return Image.network(
-                                    getJsonField(
-                                        imageUnsplashResponse, r'$.urls.full'),
-                                    width: double.infinity,
-                                    height: 120,
-                                    fit: BoxFit.cover,
+                    builder: (context, snapshot) {
+                      // Customize what your widget looks like when it's loading.
+                      if (!snapshot.hasData) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      final cardUnsplashResponse = snapshot.data;
+                      return Card(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        color: Color(0xFFF5F5F5),
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Stack(
+                          alignment: Alignment(-0.09999999999999998, 0.95),
+                          children: [
+                            Align(
+                              alignment: Alignment(0, 0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Builder(
+                                    builder: (context) {
+                                      final searchResults = (getJsonField(
+                                                  cardUnsplashResponse,
+                                                  r'$.results') ??
+                                              [])
+                                          .take(1)
+                                          .toList();
+                                      return Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children:
+                                            List.generate(searchResults.length,
+                                                (searchResultsIndex) {
+                                          final searchResultsItem =
+                                              searchResults[searchResultsIndex];
+                                          return FutureBuilder<dynamic>(
+                                            future: unsplashCall(
+                                              query: tripPageTriprecordRecord
+                                                  .destination,
+                                            ),
+                                            builder: (context, snapshot) {
+                                              // Customize what your widget looks like when it's loading.
+                                              if (!snapshot.hasData) {
+                                                return Center(
+                                                    child:
+                                                        CircularProgressIndicator());
+                                              }
+                                              final imageUnsplashResponse =
+                                                  snapshot.data;
+                                              return Image.network(
+                                                getJsonField(
+                                                    imageUnsplashResponse,
+                                                    r'$.urls.full'),
+                                                width: double.infinity,
+                                                height: 120,
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
+                                          );
+                                        }),
+                                      );
+                                    },
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.fromLTRB(15, 15, 15, 25),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                'Overview',
+                                                style: FlutterFlowTheme
+                                                    .bodyText1
+                                                    .override(
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  0, 8, 0, 0),
+                                              child: Text(
+                                                'Origin:',
+                                                style: FlutterFlowTheme
+                                                    .bodyText1
+                                                    .override(
+                                                  fontFamily: 'Poppins',
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  5, 8, 0, 0),
+                                              child: Text(
+                                                'Origin',
+                                                style: FlutterFlowTheme
+                                                    .bodyText1
+                                                    .override(
+                                                  fontFamily: 'Poppins',
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  20, 8, 0, 0),
+                                              child: Text(
+                                                'Destination:',
+                                                style: FlutterFlowTheme
+                                                    .bodyText1
+                                                    .override(
+                                                  fontFamily: 'Poppins',
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  5, 8, 0, 0),
+                                              child: Text(
+                                                'Destination',
+                                                style: FlutterFlowTheme
+                                                    .bodyText1
+                                                    .override(
+                                                  fontFamily: 'Poppins',
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  0, 8, 0, 0),
+                                              child: Text(
+                                                'Start Date:',
+                                                style: FlutterFlowTheme
+                                                    .bodyText1
+                                                    .override(
+                                                  fontFamily: 'Poppins',
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  5, 8, 0, 0),
+                                              child: Text(
+                                                'Start Date',
+                                                style: FlutterFlowTheme
+                                                    .bodyText1
+                                                    .override(
+                                                  fontFamily: 'Poppins',
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  0, 8, 0, 0),
+                                              child: Text(
+                                                'End  Date:',
+                                                style: FlutterFlowTheme
+                                                    .bodyText1
+                                                    .override(
+                                                  fontFamily: 'Poppins',
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  5, 8, 0, 0),
+                                              child: Text(
+                                                'End Date',
+                                                style: FlutterFlowTheme
+                                                    .bodyText1
+                                                    .override(
+                                                  fontFamily: 'Poppins',
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment(0.92, 0.85),
+                              child: FloatingActionButton(
+                                onPressed: () async {
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => NewTripWidget(),
+                                    ),
                                   );
                                 },
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'Overview',
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                          child: Text(
-                                            'Origin:',
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(5, 8, 0, 0),
-                                          child: Text(
-                                            'Origin',
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(20, 8, 0, 0),
-                                          child: Text(
-                                            'Destination:',
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(5, 8, 0, 0),
-                                          child: Text(
-                                            'Destination',
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                          child: Text(
-                                            'Start Date:',
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(5, 8, 0, 0),
-                                          child: Text(
-                                            'Start Date',
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                          child: Text(
-                                            'End  Date:',
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(5, 8, 0, 0),
-                                          child: Text(
-                                            'End Date',
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  ],
+                                backgroundColor: Color(0xFFF40000),
+                                elevation: 25,
+                                child: IconButton(
+                                  onPressed: () {
+                                    print('IconButton pressed ...');
+                                  },
+                                  icon: FaIcon(
+                                    FontAwesomeIcons.flagCheckered,
+                                    color: FlutterFlowTheme.tertiaryColor,
+                                    size: 25,
+                                  ),
+                                  iconSize: 25,
                                 ),
-                              )
-                            ],
-                          ),
+                              ),
+                            )
+                          ],
                         ),
-                        Align(
-                          alignment: Alignment(0.92, 0.85),
-                          child: FloatingActionButton(
-                            onPressed: () async {
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => NewTripWidget(),
-                                ),
-                              );
-                            },
-                            backgroundColor: Color(0xFFF40000),
-                            elevation: 25,
-                            child: IconButton(
-                              onPressed: () {
-                                print('IconButton pressed ...');
-                              },
-                              icon: FaIcon(
-                                FontAwesomeIcons.flagCheckered,
-                                color: FlutterFlowTheme.tertiaryColor,
-                                size: 25,
-                              ),
-                              iconSize: 25,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                      );
+                    },
                   ),
                   FFButtonWidget(
                     onPressed: () {
