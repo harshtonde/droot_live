@@ -327,11 +327,10 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                               final imageUnsplashResponse =
                                                   snapshot.data;
                                               return Image.network(
-                                                getJsonField(
-                                                    imageUnsplashResponse,
+                                                getJsonField(searchResultsItem,
                                                     r'$.urls.full'),
                                                 width: double.infinity,
-                                                height: 120,
+                                                height: 200,
                                                 fit: BoxFit.cover,
                                               );
                                             },
