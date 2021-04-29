@@ -5,7 +5,6 @@ import 'package:droot/start_page/start_page_widget.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'trip_page/trip_page_widget.dart';
 import 'item_list/item_list_widget.dart';
-import 'documents/documents_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -72,7 +71,6 @@ class _NavBarPageState extends State<NavBarPage> {
     final tabs = {
       'TripPage': TripPageWidget(),
       'ItemList': ItemListWidget(),
-      'Documents': DocumentsWidget(),
     };
     return Scaffold(
       body: tabs[_currentPage],
@@ -99,17 +97,6 @@ class _NavBarPageState extends State<NavBarPage> {
               size: 24,
             ),
             label: 'List',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.file_copy,
-              size: 24,
-            ),
-            activeIcon: Icon(
-              Icons.file_copy_sharp,
-              size: 24,
-            ),
-            label: 'Document',
           )
         ],
         backgroundColor: Color(0xFF191938),
