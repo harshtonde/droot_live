@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'auth/firebase_user_provider.dart';
 import 'package:droot/start_page/start_page_widget.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
-import 'trip_page/trip_page_widget.dart';
 import 'item_list/item_list_widget.dart';
 
 void main() async {
@@ -69,24 +68,12 @@ class _NavBarPageState extends State<NavBarPage> {
   @override
   Widget build(BuildContext context) {
     final tabs = {
-      'TripPage': TripPageWidget(),
       'ItemList': ItemListWidget(),
     };
     return Scaffold(
       body: tabs[_currentPage],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home_outlined,
-              size: 24,
-            ),
-            activeIcon: Icon(
-              Icons.home,
-              size: 24,
-            ),
-            label: 'Trip',
-          ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.list,

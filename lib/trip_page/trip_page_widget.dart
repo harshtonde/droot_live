@@ -1,4 +1,5 @@
 import '../auth/auth_util.dart';
+import '../backend/api_requests/api_calls.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
@@ -285,11 +286,24 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Image.network(
-                                'https://media.cntraveler.com/photos/5f3484e301aedaf2771c644b/16:9/w_4239,h_2384,c_limit/RoadtripPlaylist-GettyImages-1192260535.jpg',
-                                width: double.infinity,
-                                height: 120,
-                                fit: BoxFit.cover,
+                              FutureBuilder<dynamic>(
+                                future: unsplashCall(
+                                  query: tripPageTriprecordRecord.destination,
+                                ),
+                                builder: (context, snapshot) {
+                                  // Customize what your widget looks like when it's loading.
+                                  if (!snapshot.hasData) {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                  final imageUnsplashResponse = snapshot.data;
+                                  return Image.network(
+                                    'https://media.cntraveler.com/photos/5f3484e301aedaf2771c644b/16:9/w_4239,h_2384,c_limit/RoadtripPlaylist-GettyImages-1192260535.jpg',
+                                    width: double.infinity,
+                                    height: 120,
+                                    fit: BoxFit.cover,
+                                  );
+                                },
                               ),
                               Padding(
                                 padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
