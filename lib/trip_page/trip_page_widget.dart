@@ -518,8 +518,9 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                     },
                   ),
                   FFButtonWidget(
-                    onPressed: () {
-                      print('Button pressed ...');
+                    onPressed: () async {
+                      Navigator.pop(context);
+                      await tripPageTriprecordRecord.reference.delete();
                     },
                     text: 'Delete',
                     options: FFButtonOptions(
