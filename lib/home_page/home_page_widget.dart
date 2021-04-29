@@ -108,7 +108,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         shape: BoxShape.circle,
                       ),
                       child: CachedNetworkImage(
-                        imageUrl: 'https://picsum.photos/seed/355/400',
+                        imageUrl: currentUserPhoto,
                         fit: BoxFit.cover,
                       ),
                     ),
