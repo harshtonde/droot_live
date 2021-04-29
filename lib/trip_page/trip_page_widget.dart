@@ -385,7 +385,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                               padding: EdgeInsets.fromLTRB(
                                                   5, 8, 0, 0),
                                               child: Text(
-                                                'Origin',
+                                                tripPageTriprecordRecord.origin,
                                                 style: FlutterFlowTheme
                                                     .bodyText1
                                                     .override(
@@ -409,7 +409,8 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                               padding: EdgeInsets.fromLTRB(
                                                   5, 8, 0, 0),
                                               child: Text(
-                                                'Destination',
+                                                tripPageTriprecordRecord
+                                                    .destination,
                                                 style: FlutterFlowTheme
                                                     .bodyText1
                                                     .override(
@@ -438,7 +439,8 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                               padding: EdgeInsets.fromLTRB(
                                                   5, 8, 0, 0),
                                               child: Text(
-                                                'Start Date',
+                                                tripPageTriprecordRecord
+                                                    .startdate,
                                                 style: FlutterFlowTheme
                                                     .bodyText1
                                                     .override(
@@ -467,7 +469,8 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                               padding: EdgeInsets.fromLTRB(
                                                   5, 8, 0, 0),
                                               child: Text(
-                                                'End Date',
+                                                tripPageTriprecordRecord
+                                                    .enddate,
                                                 style: FlutterFlowTheme
                                                     .bodyText1
                                                     .override(
