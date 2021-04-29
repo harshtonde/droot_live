@@ -18,28 +18,26 @@ class _ItemListWidgetState extends State<ItemListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      appBar: StreamBuilder<List<TriprecordRecord>>(
-        stream: queryTriprecordRecord(
-          queryBuilder: (triprecordRecord) => triprecordRecord.where('userref',
-              isEqualTo: currentUserReference),
-          singleRecord: true,
-        ),
-        builder: (context, snapshot) {
-          // Customize what your widget looks like when it's loading.
-          if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
-          }
-          List<TriprecordRecord> appBarTriprecordRecordList = snapshot.data;
-          // Customize what your widget looks like with no query results.
-          if (snapshot.data.isEmpty) {
-            // return Container();
-            // For now, we'll just include some dummy data.
-            appBarTriprecordRecordList = createDummyTriprecordRecord(count: 1);
-          }
-          final appBarTriprecordRecord = appBarTriprecordRecordList.first;
-          return AppBar(
+    return StreamBuilder<List<TriprecordRecord>>(
+      stream: queryTriprecordRecord(
+        singleRecord: true,
+      ),
+      builder: (context, snapshot) {
+        // Customize what your widget looks like when it's loading.
+        if (!snapshot.hasData) {
+          return Center(child: CircularProgressIndicator());
+        }
+        List<TriprecordRecord> itemListTriprecordRecordList = snapshot.data;
+        // Customize what your widget looks like with no query results.
+        if (snapshot.data.isEmpty) {
+          // return Container();
+          // For now, we'll just include some dummy data.
+          itemListTriprecordRecordList = createDummyTriprecordRecord(count: 1);
+        }
+        final itemListTriprecordRecord = itemListTriprecordRecordList.first;
+        return Scaffold(
+          key: scaffoldKey,
+          appBar: AppBar(
             backgroundColor: Color(0xFF191938),
             automaticallyImplyLeading: true,
             leading: InkWell(
@@ -52,7 +50,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
               ),
             ),
             title: Text(
-              appBarTriprecordRecord.tripname,
+              itemListTriprecordRecord.tripname,
               style: FlutterFlowTheme.bodyText1.override(
                 fontFamily: 'Poppins',
                 color: Colors.white,
@@ -61,86 +59,86 @@ class _ItemListWidgetState extends State<ItemListWidget> {
             actions: [],
             centerTitle: true,
             elevation: 100,
-          );
-        },
-      ),
-      backgroundColor: FlutterFlowTheme.primaryColor,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => NewItemWidget(),
-            ),
-          );
-        },
-        backgroundColor: FlutterFlowTheme.secondaryColor,
-        elevation: 8,
-        child: IconButton(
-          onPressed: () async {
-            await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => NewItemWidget(),
-              ),
-            );
-          },
-          icon: Icon(
-            Icons.add,
-            color: FlutterFlowTheme.tertiaryColor,
-            size: 30,
           ),
-          iconSize: 30,
-        ),
-      ),
-      body: SafeArea(
-        child: StreamBuilder<List<ItemlistRecord>>(
-          stream: queryItemlistRecord(),
-          builder: (context, snapshot) {
-            // Customize what your widget looks like when it's loading.
-            if (!snapshot.hasData) {
-              return Center(child: CircularProgressIndicator());
-            }
-            List<ItemlistRecord> listViewItemlistRecordList = snapshot.data;
-            // Customize what your widget looks like with no query results.
-            if (listViewItemlistRecordList.isEmpty) {
-              return Center(
-                child: Image.asset(
-                  'assets/images/no-trips-found.png',
-                  width: MediaQuery.of(context).size.width * 0.7,
+          backgroundColor: FlutterFlowTheme.primaryColor,
+          floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NewItemWidget(),
                 ),
               );
-            }
-            return ListView.builder(
-              padding: EdgeInsets.zero,
-              scrollDirection: Axis.vertical,
-              itemCount: listViewItemlistRecordList.length,
-              itemBuilder: (context, listViewIndex) {
-                final listViewItemlistRecord =
-                    listViewItemlistRecordList[listViewIndex];
-                return Padding(
-                  padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                  child: CheckboxListTile(
-                    value: checkboxListTileValue ??
-                        listViewItemlistRecord.packedinbag,
-                    onChanged: (newValue) =>
-                        setState(() => checkboxListTileValue = newValue),
-                    title: Text(
-                      listViewItemlistRecord.itemname,
-                      style: FlutterFlowTheme.title3.override(
-                        fontFamily: 'Poppins',
-                      ),
-                    ),
-                    tileColor: Color(0xFFF5F5F5),
-                    activeColor: FlutterFlowTheme.secondaryColor,
-                    dense: false,
+            },
+            backgroundColor: FlutterFlowTheme.secondaryColor,
+            elevation: 8,
+            child: IconButton(
+              onPressed: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NewItemWidget(),
                   ),
                 );
               },
-            );
-          },
-        ),
-      ),
+              icon: Icon(
+                Icons.add,
+                color: FlutterFlowTheme.tertiaryColor,
+                size: 30,
+              ),
+              iconSize: 30,
+            ),
+          ),
+          body: SafeArea(
+            child: StreamBuilder<List<ItemlistRecord>>(
+              stream: queryItemlistRecord(),
+              builder: (context, snapshot) {
+                // Customize what your widget looks like when it's loading.
+                if (!snapshot.hasData) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                List<ItemlistRecord> listViewItemlistRecordList = snapshot.data;
+                // Customize what your widget looks like with no query results.
+                if (listViewItemlistRecordList.isEmpty) {
+                  return Center(
+                    child: Image.asset(
+                      'assets/images/no-trips-found.png',
+                      width: MediaQuery.of(context).size.width * 0.7,
+                    ),
+                  );
+                }
+                return ListView.builder(
+                  padding: EdgeInsets.zero,
+                  scrollDirection: Axis.vertical,
+                  itemCount: listViewItemlistRecordList.length,
+                  itemBuilder: (context, listViewIndex) {
+                    final listViewItemlistRecord =
+                        listViewItemlistRecordList[listViewIndex];
+                    return Padding(
+                      padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                      child: CheckboxListTile(
+                        value: checkboxListTileValue ??
+                            listViewItemlistRecord.packedinbag,
+                        onChanged: (newValue) =>
+                            setState(() => checkboxListTileValue = newValue),
+                        title: Text(
+                          listViewItemlistRecord.itemname,
+                          style: FlutterFlowTheme.title3.override(
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                        tileColor: Color(0xFFF5F5F5),
+                        activeColor: FlutterFlowTheme.secondaryColor,
+                        dense: false,
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        );
+      },
     );
   }
 }
