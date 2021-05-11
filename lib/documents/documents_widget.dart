@@ -145,7 +145,11 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                                   print('Button pressed ...');
                                 },
                                 text: 'Home',
-                                iconData: Icons.home,
+                                icon: Icon(
+                                  Icons.home,
+                                  color: FlutterFlowTheme.tertiaryColor,
+                                  size: 20,
+                                ),
                                 options: FFButtonOptions(
                                   width: 130,
                                   height: 40,
@@ -155,8 +159,6 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                                     fontFamily: 'Poppins',
                                     color: Colors.white,
                                   ),
-                                  iconSize: 20,
-                                  iconColor: FlutterFlowTheme.tertiaryColor,
                                   borderSide: BorderSide(
                                     color: Colors.transparent,
                                     width: 1,
@@ -175,7 +177,11 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                                   );
                                 },
                                 text: 'Profile',
-                                iconData: Icons.person,
+                                icon: Icon(
+                                  Icons.person,
+                                  color: FlutterFlowTheme.tertiaryColor,
+                                  size: 20,
+                                ),
                                 options: FFButtonOptions(
                                   width: 130,
                                   height: 40,
@@ -185,8 +191,6 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                                     fontFamily: 'Poppins',
                                     color: Colors.white,
                                   ),
-                                  iconSize: 20,
-                                  iconColor: FlutterFlowTheme.tertiaryColor,
                                   borderSide: BorderSide(
                                     color: Colors.transparent,
                                     width: 1,
@@ -200,7 +204,11 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                                   print('Button pressed ...');
                                 },
                                 text: 'Settings',
-                                iconData: Icons.settings,
+                                icon: Icon(
+                                  Icons.settings,
+                                  color: FlutterFlowTheme.tertiaryColor,
+                                  size: 20,
+                                ),
                                 options: FFButtonOptions(
                                   width: 130,
                                   height: 40,
@@ -210,8 +218,6 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                                     fontFamily: 'Poppins',
                                     color: Colors.white,
                                   ),
-                                  iconSize: 20,
-                                  iconColor: FlutterFlowTheme.tertiaryColor,
                                   borderSide: BorderSide(
                                     color: Colors.transparent,
                                     width: 1,
@@ -235,7 +241,11 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                                   );
                                 },
                                 text: 'Sign Out',
-                                iconData: Icons.logout,
+                                icon: Icon(
+                                  Icons.logout,
+                                  color: FlutterFlowTheme.tertiaryColor,
+                                  size: 20,
+                                ),
                                 options: FFButtonOptions(
                                   width: 130,
                                   height: 40,
@@ -245,8 +255,6 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                                     fontFamily: 'Poppins',
                                     color: Colors.white,
                                   ),
-                                  iconSize: 20,
-                                  iconColor: FlutterFlowTheme.tertiaryColor,
                                   borderSide: BorderSide(
                                     color: Colors.transparent,
                                     width: 1,

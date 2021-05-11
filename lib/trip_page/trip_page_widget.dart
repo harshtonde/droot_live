@@ -150,7 +150,11 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                   print('Button pressed ...');
                                 },
                                 text: 'Home',
-                                iconData: Icons.home,
+                                icon: Icon(
+                                  Icons.home,
+                                  color: FlutterFlowTheme.tertiaryColor,
+                                  size: 20,
+                                ),
                                 options: FFButtonOptions(
                                   width: 130,
                                   height: 40,
@@ -160,8 +164,6 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                     fontFamily: 'Poppins',
                                     color: Colors.white,
                                   ),
-                                  iconSize: 20,
-                                  iconColor: FlutterFlowTheme.tertiaryColor,
                                   borderSide: BorderSide(
                                     color: Colors.transparent,
                                     width: 1,
@@ -180,7 +182,11 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                   );
                                 },
                                 text: 'Profile',
-                                iconData: Icons.person,
+                                icon: Icon(
+                                  Icons.person,
+                                  color: FlutterFlowTheme.tertiaryColor,
+                                  size: 20,
+                                ),
                                 options: FFButtonOptions(
                                   width: 130,
                                   height: 40,
@@ -190,8 +196,6 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                     fontFamily: 'Poppins',
                                     color: Colors.white,
                                   ),
-                                  iconSize: 20,
-                                  iconColor: FlutterFlowTheme.tertiaryColor,
                                   borderSide: BorderSide(
                                     color: Colors.transparent,
                                     width: 1,
@@ -205,7 +209,11 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                   print('Button pressed ...');
                                 },
                                 text: 'Settings',
-                                iconData: Icons.settings,
+                                icon: Icon(
+                                  Icons.settings,
+                                  color: FlutterFlowTheme.tertiaryColor,
+                                  size: 20,
+                                ),
                                 options: FFButtonOptions(
                                   width: 130,
                                   height: 40,
@@ -215,8 +223,6 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                     fontFamily: 'Poppins',
                                     color: Colors.white,
                                   ),
-                                  iconSize: 20,
-                                  iconColor: FlutterFlowTheme.tertiaryColor,
                                   borderSide: BorderSide(
                                     color: Colors.transparent,
                                     width: 1,
@@ -240,7 +246,11 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                   );
                                 },
                                 text: 'Sign Out',
-                                iconData: Icons.logout,
+                                icon: Icon(
+                                  Icons.logout,
+                                  color: FlutterFlowTheme.tertiaryColor,
+                                  size: 20,
+                                ),
                                 options: FFButtonOptions(
                                   width: 130,
                                   height: 40,
@@ -250,8 +260,6 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                     fontFamily: 'Poppins',
                                     color: Colors.white,
                                   ),
-                                  iconSize: 20,
-                                  iconColor: FlutterFlowTheme.tertiaryColor,
                                   borderSide: BorderSide(
                                     color: Colors.transparent,
                                     width: 1,
@@ -552,7 +560,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                         FFButtonWidget(
                           onPressed: () async {
                             Navigator.pop(context);
-                            await tripPageTriprecordRecord.userref.delete();
+                            await tripPageTriprecordRecord.reference.delete();
                           },
                           text: 'Delete',
                           options: FFButtonOptions(

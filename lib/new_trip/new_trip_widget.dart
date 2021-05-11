@@ -6,6 +6,7 @@ import '../flutter_flow/flutter_flow_widgets.dart';
 import '../home_page/home_page_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NewTripWidget extends StatefulWidget {
@@ -16,11 +17,11 @@ class NewTripWidget extends StatefulWidget {
 }
 
 class _NewTripWidgetState extends State<NewTripWidget> {
+  DateTime datePicked1;
+  DateTime datePicked2;
   TextEditingController textController1;
   TextEditingController textController2;
   TextEditingController textController3;
-  TextEditingController textController4;
-  TextEditingController textController5;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -29,8 +30,6 @@ class _NewTripWidgetState extends State<NewTripWidget> {
     textController1 = TextEditingController();
     textController2 = TextEditingController();
     textController3 = TextEditingController();
-    textController4 = TextEditingController();
-    textController5 = TextEditingController();
   }
 
   @override
@@ -174,75 +173,58 @@ class _NewTripWidgetState extends State<NewTripWidget> {
                     color: FlutterFlowTheme.tertiaryColor,
                   ),
                 ),
-                TextFormField(
-                  controller: textController4,
-                  obscureText: false,
-                  decoration: InputDecoration(
-                    labelText: 'Start Date',
-                    labelStyle: FlutterFlowTheme.bodyText1.override(
-                      fontFamily: 'Poppins',
-                      color: FlutterFlowTheme.tertiaryColor,
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0xFF9090AC),
-                        width: 1,
-                      ),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(4.0),
-                        topRight: Radius.circular(4.0),
-                      ),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0xFF9090AC),
-                        width: 1,
-                      ),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(4.0),
-                        topRight: Radius.circular(4.0),
-                      ),
-                    ),
-                  ),
-                  style: FlutterFlowTheme.bodyText1.override(
-                    fontFamily: 'Poppins',
-                    color: FlutterFlowTheme.tertiaryColor,
-                  ),
-                ),
-                TextFormField(
-                  controller: textController5,
-                  obscureText: false,
-                  decoration: InputDecoration(
-                    labelText: 'End Date',
-                    labelStyle: FlutterFlowTheme.bodyText1.override(
-                      fontFamily: 'Poppins',
-                      color: FlutterFlowTheme.tertiaryColor,
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0xFF9090AC),
-                        width: 1,
-                      ),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(4.0),
-                        topRight: Radius.circular(4.0),
+                Divider(),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    FFButtonWidget(
+                      onPressed: () async {
+                        await DatePicker.showDatePicker(context,
+                            showTitleActions: true, onConfirm: (date) {
+                          setState(() => datePicked1 = date);
+                        }, currentTime: DateTime.now());
+                      },
+                      text: 'Start Date',
+                      options: FFButtonOptions(
+                        width: 130,
+                        height: 40,
+                        color: Color(0x5C9E9E9E),
+                        textStyle: FlutterFlowTheme.subtitle2.override(
+                          fontFamily: 'Poppins',
+                          color: Colors.white,
+                        ),
+                        borderSide: BorderSide(
+                          color: Colors.transparent,
+                          width: 1,
+                        ),
+                        borderRadius: 5,
                       ),
                     ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0xFF9090AC),
-                        width: 1,
+                    FFButtonWidget(
+                      onPressed: () async {
+                        await DatePicker.showDatePicker(context,
+                            showTitleActions: true, onConfirm: (date) {
+                          setState(() => datePicked2 = date);
+                        }, currentTime: DateTime.now());
+                      },
+                      text: 'End Date',
+                      options: FFButtonOptions(
+                        width: 130,
+                        height: 40,
+                        color: Color(0x5C9E9E9E),
+                        textStyle: FlutterFlowTheme.subtitle2.override(
+                          fontFamily: 'Poppins',
+                          color: Colors.white,
+                        ),
+                        borderSide: BorderSide(
+                          color: Colors.transparent,
+                          width: 1,
+                        ),
+                        borderRadius: 5,
                       ),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(4.0),
-                        topRight: Radius.circular(4.0),
-                      ),
-                    ),
-                  ),
-                  style: FlutterFlowTheme.bodyText1.override(
-                    fontFamily: 'Poppins',
-                    color: FlutterFlowTheme.tertiaryColor,
-                  ),
+                    )
+                  ],
                 ),
                 Divider(),
                 Row(
@@ -274,19 +256,19 @@ class _NewTripWidgetState extends State<NewTripWidget> {
                         final tripname = textController1.text;
                         final destination = textController2.text;
                         final origin = textController3.text;
-                        final startdate = textController4.text;
-                        final enddate = textController5.text;
                         final userref = currentUserReference;
                         final createdAt = getCurrentTimestamp;
+                        final startdate = Timestamp.fromDate(datePicked1);
+                        final enddate = Timestamp.fromDate(datePicked2);
 
                         final triprecordRecordData = createTriprecordRecordData(
                           tripname: tripname,
                           destination: destination,
                           origin: origin,
-                          startdate: startdate,
-                          enddate: enddate,
                           userref: userref,
                           createdAt: createdAt,
+                          startdate: startdate,
+                          enddate: enddate,
                         );
 
                         await TriprecordRecord.collection

@@ -23,17 +23,17 @@ abstract class TriprecordRecord
   String get origin;
 
   @nullable
-  String get startdate;
-
-  @nullable
-  String get enddate;
-
-  @nullable
   DocumentReference get userref;
 
   @nullable
   @BuiltValueField(wireName: 'created_at')
   Timestamp get createdAt;
+
+  @nullable
+  Timestamp get startdate;
+
+  @nullable
+  Timestamp get enddate;
 
   @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
@@ -42,9 +42,7 @@ abstract class TriprecordRecord
   static void _initializeBuilder(TriprecordRecordBuilder builder) => builder
     ..tripname = ''
     ..destination = ''
-    ..origin = ''
-    ..startdate = ''
-    ..enddate = '';
+    ..origin = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('triprecord');
@@ -62,10 +60,10 @@ Map<String, dynamic> createTriprecordRecordData({
   String tripname,
   String destination,
   String origin,
-  String startdate,
-  String enddate,
   DocumentReference userref,
   Timestamp createdAt,
+  Timestamp startdate,
+  Timestamp enddate,
 }) =>
     serializers.serializeWith(
         TriprecordRecord.serializer,
@@ -73,19 +71,19 @@ Map<String, dynamic> createTriprecordRecordData({
           ..tripname = tripname
           ..destination = destination
           ..origin = origin
-          ..startdate = startdate
-          ..enddate = enddate
           ..userref = userref
-          ..createdAt = createdAt));
+          ..createdAt = createdAt
+          ..startdate = startdate
+          ..enddate = enddate));
 
 TriprecordRecord get dummyTriprecordRecord {
   final builder = TriprecordRecordBuilder()
     ..tripname = dummyString
     ..destination = dummyString
     ..origin = dummyString
-    ..startdate = dummyString
-    ..enddate = dummyString
-    ..createdAt = dummyTimestamp;
+    ..createdAt = dummyTimestamp
+    ..startdate = dummyTimestamp
+    ..enddate = dummyTimestamp;
   return builder.build();
 }
 

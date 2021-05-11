@@ -367,7 +367,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         );
                       },
                       text: 'Sign Up with Google',
-                      iconData: FontAwesomeIcons.google,
+                      icon: FaIcon(
+                        FontAwesomeIcons.google,
+                        color: FlutterFlowTheme.primaryColor,
+                        size: 20,
+                      ),
                       options: FFButtonOptions(
                         width: 130,
                         height: 40,
@@ -376,8 +380,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           fontFamily: 'Poppins',
                           color: FlutterFlowTheme.primaryColor,
                         ),
-                        iconSize: 20,
-                        iconColor: FlutterFlowTheme.primaryColor,
                         borderSide: BorderSide(
                           color: Colors.transparent,
                           width: 1,
