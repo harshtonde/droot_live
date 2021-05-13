@@ -391,7 +391,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                         Alignment(-0.48, 0.76),
                                                     child: Text(
                                                       listViewTriprecordRecord
-                                                          .startdate,
+                                                          .startdate
+                                                          .toString(),
                                                       style: FlutterFlowTheme
                                                           .bodyText2
                                                           .override(
