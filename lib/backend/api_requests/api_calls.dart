@@ -16,3 +16,20 @@ Future<dynamic> unsplashCall({
       },
       returnResponse: true,
     );
+
+Future<dynamic> weatherCall({
+  String accessKey = 'efcd6f28c63935375939edcf137a6bf0',
+  String query = '',
+}) =>
+    ApiManager.instance.makeApiCall(
+      callName: 'Weather',
+      apiDomain: 'api.weatherstack.com',
+      apiEndpoint: 'current',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {
+        'access_key': accessKey,
+        'query': query,
+      },
+      returnResponse: true,
+    );

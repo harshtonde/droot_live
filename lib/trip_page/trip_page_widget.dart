@@ -535,52 +535,201 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                         );
                       },
                     ),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        FFButtonWidget(
-                          onPressed: () {
-                            print('Button pressed ...');
-                          },
-                          text: 'Edit',
-                          options: FFButtonOptions(
-                            width: 130,
-                            height: 40,
-                            color: Color(0x27FFFFFF),
-                            textStyle: FlutterFlowTheme.subtitle2.override(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          FFButtonWidget(
+                            onPressed: () {
+                              print('Button pressed ...');
+                            },
+                            text: 'Edit',
+                            options: FFButtonOptions(
+                              width: 130,
+                              height: 40,
+                              color: Color(0x27FFFFFF),
+                              textStyle: FlutterFlowTheme.subtitle2.override(
+                                fontFamily: 'Poppins',
+                                color: Colors.white,
+                              ),
+                              borderSide: BorderSide(
+                                color: Colors.transparent,
+                                width: 1,
+                              ),
+                              borderRadius: 12,
                             ),
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 1,
-                            ),
-                            borderRadius: 12,
                           ),
+                          FFButtonWidget(
+                            onPressed: () async {
+                              Navigator.pop(context);
+                              await tripPageTriprecordRecord.reference.delete();
+                            },
+                            text: 'Delete',
+                            options: FFButtonOptions(
+                              width: 130,
+                              height: 40,
+                              color: FlutterFlowTheme.secondaryColor,
+                              textStyle: FlutterFlowTheme.subtitle2.override(
+                                fontFamily: 'Poppins',
+                                color: Colors.white,
+                              ),
+                              borderSide: BorderSide(
+                                color: Colors.transparent,
+                                width: 1,
+                              ),
+                              borderRadius: 12,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Divider(),
+                    Text(
+                      'Weather ☁',
+                      textAlign: TextAlign.start,
+                      style: FlutterFlowTheme.title2.override(
+                        fontFamily: 'Poppins',
+                        color: FlutterFlowTheme.tertiaryColor,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    Card(
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      color: Color(0xFFF5F5F5),
+                      elevation: 3,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: FutureBuilder<dynamic>(
+                        future: weatherCall(
+                          query: tripPageTriprecordRecord.destination,
                         ),
-                        FFButtonWidget(
-                          onPressed: () async {
-                            Navigator.pop(context);
-                            await tripPageTriprecordRecord.reference.delete();
-                          },
-                          text: 'Delete',
-                          options: FFButtonOptions(
-                            width: 130,
-                            height: 40,
-                            color: FlutterFlowTheme.secondaryColor,
-                            textStyle: FlutterFlowTheme.subtitle2.override(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 1,
-                            ),
-                            borderRadius: 12,
-                          ),
-                        )
-                      ],
+                        builder: (context, snapshot) {
+                          // Customize what your widget looks like when it's loading.
+                          if (!snapshot.hasData) {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                          final columnWeatherResponse = snapshot.data;
+                          return Builder(
+                            builder: (context) {
+                              final weatherResult = (getJsonField(
+                                          columnWeatherResponse,
+                                          r'$.current') ??
+                                      [])
+                                  .take(1)
+                                  .toList();
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: List.generate(weatherResult.length,
+                                    (weatherResultIndex) {
+                                  final weatherResultItem =
+                                      weatherResult[weatherResultIndex];
+                                  return Padding(
+                                    padding: EdgeInsets.fromLTRB(15, 1, 15, 25),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Temperature(in °C):',
+                                                style: FlutterFlowTheme
+                                                    .bodyText1
+                                                    .override(
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    5, 0, 0, 0),
+                                                child: Text(
+                                                  getJsonField(
+                                                          weatherResultItem,
+                                                          r'$.temperature')
+                                                      .toString(),
+                                                  style: FlutterFlowTheme
+                                                      .subtitle2
+                                                      .override(
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsets.fromLTRB(0, 1, 0, 0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Description:',
+                                                style: FlutterFlowTheme
+                                                    .bodyText1
+                                                    .override(
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    2, 0, 0, 0),
+                                                child: Text(
+                                                  getJsonField(
+                                                          weatherResultItem,
+                                                          r'$.weather_descriptions')
+                                                      .toString(),
+                                                  style: FlutterFlowTheme
+                                                      .subtitle2
+                                                      .override(
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    2, 0, 0, 0),
+                                                child: Image.network(
+                                                  getJsonField(
+                                                      weatherResultItem,
+                                                      r'$.weather_icons'),
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.08,
+                                                  height: 100,
+                                                  fit: BoxFit.scaleDown,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                }),
+                              );
+                            },
+                          );
+                        },
+                      ),
                     )
                   ],
                 ),
