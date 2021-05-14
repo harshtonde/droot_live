@@ -30,6 +30,9 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   Timestamp get createdTime;
 
   @nullable
+  DocumentReference get userreference;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
@@ -57,6 +60,7 @@ Map<String, dynamic> createUsersRecordData({
   String photoUrl,
   String uid,
   Timestamp createdTime,
+  DocumentReference userreference,
 }) =>
     serializers.serializeWith(
         UsersRecord.serializer,
@@ -65,7 +69,8 @@ Map<String, dynamic> createUsersRecordData({
           ..displayName = displayName
           ..photoUrl = photoUrl
           ..uid = uid
-          ..createdTime = createdTime));
+          ..createdTime = createdTime
+          ..userreference = userreference));
 
 UsersRecord get dummyUsersRecord {
   final builder = UsersRecordBuilder()

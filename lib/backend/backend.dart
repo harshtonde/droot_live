@@ -6,10 +6,12 @@ import '../flutter_flow/flutter_flow_util.dart';
 
 import 'schema/users_record.dart';
 import 'schema/triprecord_record.dart';
+import 'schema/itemlist_record.dart';
 import 'schema/serializers.dart';
 
 export 'schema/users_record.dart';
 export 'schema/triprecord_record.dart';
+export 'schema/itemlist_record.dart';
 
 Stream<List<UsersRecord>> queryUsersRecord(
         {Query Function(Query) queryBuilder,
@@ -23,6 +25,13 @@ Stream<List<TriprecordRecord>> queryTriprecordRecord(
         int limit = -1,
         bool singleRecord = false}) =>
     queryCollection(TriprecordRecord.collection, TriprecordRecord.serializer,
+        queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
+
+Stream<List<ItemlistRecord>> queryItemlistRecord(
+        {Query Function(Query) queryBuilder,
+        int limit = -1,
+        bool singleRecord = false}) =>
+    queryCollection(ItemlistRecord.collection, ItemlistRecord.serializer,
         queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
 
 Stream<List<T>> queryCollection<T>(

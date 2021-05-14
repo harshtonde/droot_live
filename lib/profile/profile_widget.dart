@@ -19,8 +19,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
   TextEditingController textController1;
   TextEditingController textController2;
   TextEditingController textController3;
-  TextEditingController textController4;
-  TextEditingController textController5;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -29,8 +27,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     textController1 = TextEditingController();
     textController2 = TextEditingController();
     textController3 = TextEditingController();
-    textController4 = TextEditingController();
-    textController5 = TextEditingController();
   }
 
   @override
@@ -53,7 +49,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
               color: FlutterFlowTheme.secondaryColor,
             ),
             title: Text(
-              'Trip',
+              'Profile',
               style: FlutterFlowTheme.bodyText1.override(
                 fontFamily: 'Poppins',
                 color: Colors.white,
@@ -115,7 +111,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       controller: textController1,
                       obscureText: false,
                       decoration: InputDecoration(
-                        labelText: 'Trip Name',
+                        labelText: 'Name',
                         labelStyle: FlutterFlowTheme.bodyText1.override(
                           fontFamily: 'Poppins',
                           color: FlutterFlowTheme.tertiaryColor,
@@ -150,7 +146,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       controller: textController2,
                       obscureText: false,
                       decoration: InputDecoration(
-                        labelText: 'Destination City',
+                        labelText: 'Age',
                         labelStyle: FlutterFlowTheme.bodyText1.override(
                           fontFamily: 'Poppins',
                           color: FlutterFlowTheme.tertiaryColor,
@@ -185,77 +181,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       controller: textController3,
                       obscureText: false,
                       decoration: InputDecoration(
-                        labelText: 'Origin City',
-                        labelStyle: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Poppins',
-                          color: FlutterFlowTheme.tertiaryColor,
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xFF9090AC),
-                            width: 1,
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(4.0),
-                            topRight: Radius.circular(4.0),
-                          ),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xFF9090AC),
-                            width: 1,
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(4.0),
-                            topRight: Radius.circular(4.0),
-                          ),
-                        ),
-                      ),
-                      style: FlutterFlowTheme.bodyText1.override(
-                        fontFamily: 'Poppins',
-                        color: FlutterFlowTheme.tertiaryColor,
-                      ),
-                    ),
-                    TextFormField(
-                      controller: textController4,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        labelText: 'Start Date',
-                        labelStyle: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Poppins',
-                          color: FlutterFlowTheme.tertiaryColor,
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xFF9090AC),
-                            width: 1,
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(4.0),
-                            topRight: Radius.circular(4.0),
-                          ),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xFF9090AC),
-                            width: 1,
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(4.0),
-                            topRight: Radius.circular(4.0),
-                          ),
-                        ),
-                      ),
-                      style: FlutterFlowTheme.bodyText1.override(
-                        fontFamily: 'Poppins',
-                        color: FlutterFlowTheme.tertiaryColor,
-                      ),
-                    ),
-                    TextFormField(
-                      controller: textController5,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        labelText: 'End Date',
+                        labelText: 'Email Address',
                         labelStyle: FlutterFlowTheme.bodyText1.override(
                           fontFamily: 'Poppins',
                           color: FlutterFlowTheme.tertiaryColor,
@@ -316,8 +242,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                             final tripname = textController1.text;
                             final destination = textController2.text;
                             final origin = textController3.text;
-                            final startdate = textController4.text;
-                            final enddate = textController5.text;
                             final userref = currentUserReference;
 
                             final triprecordRecordData =
@@ -325,8 +249,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                               tripname: tripname,
                               destination: destination,
                               origin: origin,
-                              startdate: startdate,
-                              enddate: enddate,
                               userref: userref,
                             );
 
