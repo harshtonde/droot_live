@@ -706,21 +706,6 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                         FontWeight.normal,
                                                   ),
                                                 ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    2, 0, 0, 0),
-                                                child: Image.network(
-                                                  getJsonField(
-                                                      weatherResultItem,
-                                                      r'$.weather_icons'),
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.08,
-                                                  height: 100,
-                                                  fit: BoxFit.scaleDown,
-                                                ),
                                               )
                                             ],
                                           ),
