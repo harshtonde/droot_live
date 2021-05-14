@@ -2,11 +2,9 @@ import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import '../new_trip/new_trip_widget.dart';
 import '../profile/profile_widget.dart';
 import '../start_page/start_page_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DocumentsWidget extends StatefulWidget {
@@ -53,7 +51,7 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
               ),
             ),
             title: Text(
-              'Home',
+              'Documents',
               style: FlutterFlowTheme.bodyText1.override(
                 fontFamily: 'Poppins',
                 color: Colors.white,
@@ -277,188 +275,63 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
               padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Card(
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    color: Color(0xFFF5F5F5),
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Stack(
-                      alignment: Alignment(-0.09999999999999998, 0.95),
-                      children: [
-                        Align(
-                          alignment: Alignment(0, 0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.network(
-                                'https://media.cntraveler.com/photos/5f3484e301aedaf2771c644b/16:9/w_4239,h_2384,c_limit/RoadtripPlaylist-GettyImages-1192260535.jpg',
-                                width: double.infinity,
-                                height: 120,
-                                fit: BoxFit.cover,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(15, 15, 15, 25),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'Overview',
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                          child: Text(
-                                            'Origin:',
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(5, 8, 0, 0),
-                                          child: Text(
-                                            'Origin',
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(20, 8, 0, 0),
-                                          child: Text(
-                                            'Destination:',
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(5, 8, 0, 0),
-                                          child: Text(
-                                            'Destination',
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                          child: Text(
-                                            'Start Date:',
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(5, 8, 0, 0),
-                                          child: Text(
-                                            'Start Date',
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                          child: Text(
-                                            'End  Date:',
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(5, 8, 0, 0),
-                                          child: Text(
-                                            'End Date',
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment(0.92, 0.85),
-                          child: FloatingActionButton(
-                            onPressed: () async {
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => NewTripWidget(),
-                                ),
-                              );
-                            },
-                            backgroundColor: Color(0xFFF40000),
-                            elevation: 25,
-                            child: IconButton(
+                  Align(
+                    alignment: Alignment(0, 0),
+                    child: Container(
+                      width: 230,
+                      height: 44,
+                      child: Stack(
+                        children: [
+                          Align(
+                            alignment: Alignment(0, 0),
+                            child: FFButtonWidget(
                               onPressed: () {
-                                print('IconButton pressed ...');
+                                print('Button pressed ...');
                               },
-                              icon: FaIcon(
-                                FontAwesomeIcons.flagCheckered,
-                                color: FlutterFlowTheme.tertiaryColor,
-                                size: 25,
+                              text: 'Upload Documents to Drive',
+                              icon: Icon(
+                                Icons.add,
+                                color: Colors.transparent,
+                                size: 20,
                               ),
-                              iconSize: 25,
+                              options: FFButtonOptions(
+                                width: 230,
+                                height: 44,
+                                color: Colors.white,
+                                textStyle: GoogleFonts.getFont(
+                                  'Roboto',
+                                  color: Color(0xFF606060),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 13,
+                                ),
+                                elevation: 4,
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                  width: 0,
+                                ),
+                                borderRadius: 12,
+                              ),
                             ),
                           ),
-                        )
-                      ],
+                          Align(
+                            alignment: Alignment(-0.83, 0),
+                            child: Container(
+                              width: 22,
+                              height: 22,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: Image.network(
+                                'https://i0.wp.com/nanophorm.com/wp-content/uploads/2018/04/google-logo-icon-PNG-Transparent-Background.png?w=1000&ssl=1',
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   )
                 ],

@@ -49,7 +49,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
               color: FlutterFlowTheme.secondaryColor,
             ),
             title: Text(
-              'Trip',
+              'Profile',
               style: FlutterFlowTheme.bodyText1.override(
                 fontFamily: 'Poppins',
                 color: Colors.white,
@@ -111,7 +111,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       controller: textController1,
                       obscureText: false,
                       decoration: InputDecoration(
-                        labelText: 'Trip Name',
+                        labelText: 'Name',
                         labelStyle: FlutterFlowTheme.bodyText1.override(
                           fontFamily: 'Poppins',
                           color: FlutterFlowTheme.tertiaryColor,
@@ -146,7 +146,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       controller: textController2,
                       obscureText: false,
                       decoration: InputDecoration(
-                        labelText: 'Destination City',
+                        labelText: 'Age',
                         labelStyle: FlutterFlowTheme.bodyText1.override(
                           fontFamily: 'Poppins',
                           color: FlutterFlowTheme.tertiaryColor,
@@ -181,7 +181,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       controller: textController3,
                       obscureText: false,
                       decoration: InputDecoration(
-                        labelText: 'Origin City',
+                        labelText: 'Email Address',
                         labelStyle: FlutterFlowTheme.bodyText1.override(
                           fontFamily: 'Poppins',
                           color: FlutterFlowTheme.tertiaryColor,
