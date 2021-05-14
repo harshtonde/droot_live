@@ -456,7 +456,8 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                     5, 8, 0, 0),
                                                 child: Text(
                                                   tripPageTriprecordRecord
-                                                      .startdate,
+                                                      .startdate
+                                                      .toString(),
                                                   style: FlutterFlowTheme
                                                       .bodyText1
                                                       .override(
@@ -486,7 +487,8 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                     5, 8, 0, 0),
                                                 child: Text(
                                                   tripPageTriprecordRecord
-                                                      .enddate,
+                                                      .enddate
+                                                      .toString(),
                                                   style: FlutterFlowTheme
                                                       .bodyText1
                                                       .override(
