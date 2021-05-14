@@ -604,7 +604,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                       ),
                       child: FutureBuilder<dynamic>(
                         future: weatherCall(
-                          locationquery: tripPageTriprecordRecord.destination,
+                          query: tripPageTriprecordRecord.destination,
                         ),
                         builder: (context, snapshot) {
                           // Customize what your widget looks like when it's loading.
@@ -620,6 +620,11 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                       [])
                                   .take(1)
                                   .toList();
+                              if (weatherResult.isEmpty) {
+                                return Image.asset(
+                                  'assets/images/no-trips-found.png',
+                                );
+                              }
                               return Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: List.generate(weatherResult.length,

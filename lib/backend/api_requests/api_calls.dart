@@ -19,7 +19,7 @@ Future<dynamic> unsplashCall({
 
 Future<dynamic> weatherCall({
   String accessKey = 'efcd6f28c63935375939edcf137a6bf0',
-  String locationquery = '',
+  String query = '',
 }) =>
     ApiManager.instance.makeApiCall(
       callName: 'Weather',
@@ -29,7 +29,7 @@ Future<dynamic> weatherCall({
       headers: {},
       params: {
         'access_key': accessKey,
-        'locationquery': locationquery,
+        'query': query,
       },
       returnResponse: true,
     );
