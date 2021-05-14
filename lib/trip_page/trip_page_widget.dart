@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 import '../auth/auth_util.dart';
 import '../backend/api_requests/api_calls.dart';
 import '../backend/backend.dart';
@@ -455,8 +457,10 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                 padding: EdgeInsets.fromLTRB(
                                                     5, 8, 0, 0),
                                                 child: Text(
-                                                  tripPageTriprecordRecord
-                                                      .startdate,
+                                                  DateFormat.yMMMd().format(
+                                                      tripPageTriprecordRecord
+                                                          .startdate
+                                                          .toDate()),
                                                   style: FlutterFlowTheme
                                                       .bodyText1
                                                       .override(
@@ -485,8 +489,10 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                 padding: EdgeInsets.fromLTRB(
                                                     5, 8, 0, 0),
                                                 child: Text(
-                                                  tripPageTriprecordRecord
-                                                      .enddate,
+                                                  DateFormat.yMMMd().format(
+                                                      tripPageTriprecordRecord
+                                                          .enddate
+                                                          .toDate()),
                                                   style: FlutterFlowTheme
                                                       .bodyText1
                                                       .override(
