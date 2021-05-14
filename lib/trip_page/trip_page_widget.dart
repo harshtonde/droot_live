@@ -608,7 +608,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                       ),
                       child: FutureBuilder<dynamic>(
                         future: weatherCall(
-                          query: tripPageTriprecordRecord.destination,
+                          locationquery: tripPageTriprecordRecord.destination,
                         ),
                         builder: (context, snapshot) {
                           // Customize what your widget looks like when it's loading.
