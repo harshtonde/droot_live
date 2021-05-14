@@ -42,26 +42,33 @@ class _$TriprecordRecordSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.startdate;
-    if (value != null) {
-      result
-        ..add('startdate')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.enddate;
-    if (value != null) {
-      result
-        ..add('enddate')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
     value = object.userref;
     if (value != null) {
       result
         ..add('userref')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(DocumentReference)));
+    }
+    value = object.createdAt;
+    if (value != null) {
+      result
+        ..add('created_at')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(Timestamp)));
+    }
+    value = object.startdate;
+    if (value != null) {
+      result
+        ..add('startdate')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(Timestamp)));
+    }
+    value = object.enddate;
+    if (value != null) {
+      result
+        ..add('enddate')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(Timestamp)));
     }
     value = object.reference;
     if (value != null) {
@@ -97,18 +104,22 @@ class _$TriprecordRecordSerializer
           result.origin = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'startdate':
-          result.startdate = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
-          break;
-        case 'enddate':
-          result.enddate = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
-          break;
         case 'userref':
           result.userref = serializers.deserialize(value,
                   specifiedType: const FullType(DocumentReference))
               as DocumentReference;
+          break;
+        case 'created_at':
+          result.createdAt = serializers.deserialize(value,
+              specifiedType: const FullType(Timestamp)) as Timestamp;
+          break;
+        case 'startdate':
+          result.startdate = serializers.deserialize(value,
+              specifiedType: const FullType(Timestamp)) as Timestamp;
+          break;
+        case 'enddate':
+          result.enddate = serializers.deserialize(value,
+              specifiedType: const FullType(Timestamp)) as Timestamp;
           break;
         case 'Document__Reference__Field':
           result.reference = serializers.deserialize(value,
@@ -130,11 +141,13 @@ class _$TriprecordRecord extends TriprecordRecord {
   @override
   final String origin;
   @override
-  final String startdate;
-  @override
-  final String enddate;
-  @override
   final DocumentReference userref;
+  @override
+  final Timestamp createdAt;
+  @override
+  final Timestamp startdate;
+  @override
+  final Timestamp enddate;
   @override
   final DocumentReference reference;
 
@@ -146,9 +159,10 @@ class _$TriprecordRecord extends TriprecordRecord {
       {this.tripname,
       this.destination,
       this.origin,
+      this.userref,
+      this.createdAt,
       this.startdate,
       this.enddate,
-      this.userref,
       this.reference})
       : super._();
 
@@ -167,9 +181,10 @@ class _$TriprecordRecord extends TriprecordRecord {
         tripname == other.tripname &&
         destination == other.destination &&
         origin == other.origin &&
+        userref == other.userref &&
+        createdAt == other.createdAt &&
         startdate == other.startdate &&
         enddate == other.enddate &&
-        userref == other.userref &&
         reference == other.reference;
   }
 
@@ -179,11 +194,15 @@ class _$TriprecordRecord extends TriprecordRecord {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, tripname.hashCode), destination.hashCode),
-                        origin.hashCode),
-                    startdate.hashCode),
-                enddate.hashCode),
-            userref.hashCode),
+                    $jc(
+                        $jc(
+                            $jc($jc(0, tripname.hashCode),
+                                destination.hashCode),
+                            origin.hashCode),
+                        userref.hashCode),
+                    createdAt.hashCode),
+                startdate.hashCode),
+            enddate.hashCode),
         reference.hashCode));
   }
 
@@ -193,9 +212,10 @@ class _$TriprecordRecord extends TriprecordRecord {
           ..add('tripname', tripname)
           ..add('destination', destination)
           ..add('origin', origin)
+          ..add('userref', userref)
+          ..add('createdAt', createdAt)
           ..add('startdate', startdate)
           ..add('enddate', enddate)
-          ..add('userref', userref)
           ..add('reference', reference))
         .toString();
   }
@@ -217,17 +237,21 @@ class TriprecordRecordBuilder
   String get origin => _$this._origin;
   set origin(String origin) => _$this._origin = origin;
 
-  String _startdate;
-  String get startdate => _$this._startdate;
-  set startdate(String startdate) => _$this._startdate = startdate;
-
-  String _enddate;
-  String get enddate => _$this._enddate;
-  set enddate(String enddate) => _$this._enddate = enddate;
-
   DocumentReference _userref;
   DocumentReference get userref => _$this._userref;
   set userref(DocumentReference userref) => _$this._userref = userref;
+
+  Timestamp _createdAt;
+  Timestamp get createdAt => _$this._createdAt;
+  set createdAt(Timestamp createdAt) => _$this._createdAt = createdAt;
+
+  Timestamp _startdate;
+  Timestamp get startdate => _$this._startdate;
+  set startdate(Timestamp startdate) => _$this._startdate = startdate;
+
+  Timestamp _enddate;
+  Timestamp get enddate => _$this._enddate;
+  set enddate(Timestamp enddate) => _$this._enddate = enddate;
 
   DocumentReference _reference;
   DocumentReference get reference => _$this._reference;
@@ -243,9 +267,10 @@ class TriprecordRecordBuilder
       _tripname = $v.tripname;
       _destination = $v.destination;
       _origin = $v.origin;
+      _userref = $v.userref;
+      _createdAt = $v.createdAt;
       _startdate = $v.startdate;
       _enddate = $v.enddate;
-      _userref = $v.userref;
       _reference = $v.reference;
       _$v = null;
     }
@@ -270,9 +295,10 @@ class TriprecordRecordBuilder
             tripname: tripname,
             destination: destination,
             origin: origin,
+            userref: userref,
+            createdAt: createdAt,
             startdate: startdate,
             enddate: enddate,
-            userref: userref,
             reference: reference);
     replace(_$result);
     return _$result;

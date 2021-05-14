@@ -54,6 +54,13 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(Timestamp)));
     }
+    value = object.userreference;
+    if (value != null) {
+      result
+        ..add('userreference')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(DocumentReference)));
+    }
     value = object.reference;
     if (value != null) {
       result
@@ -95,6 +102,11 @@ class _$UsersRecordSerializer implements StructuredSerializer<UsersRecord> {
           result.createdTime = serializers.deserialize(value,
               specifiedType: const FullType(Timestamp)) as Timestamp;
           break;
+        case 'userreference':
+          result.userreference = serializers.deserialize(value,
+                  specifiedType: const FullType(DocumentReference))
+              as DocumentReference;
+          break;
         case 'Document__Reference__Field':
           result.reference = serializers.deserialize(value,
                   specifiedType: const FullType(DocumentReference))
@@ -119,6 +131,8 @@ class _$UsersRecord extends UsersRecord {
   @override
   final Timestamp createdTime;
   @override
+  final DocumentReference userreference;
+  @override
   final DocumentReference reference;
 
   factory _$UsersRecord([void Function(UsersRecordBuilder) updates]) =>
@@ -130,6 +144,7 @@ class _$UsersRecord extends UsersRecord {
       this.photoUrl,
       this.uid,
       this.createdTime,
+      this.userreference,
       this.reference})
       : super._();
 
@@ -149,6 +164,7 @@ class _$UsersRecord extends UsersRecord {
         photoUrl == other.photoUrl &&
         uid == other.uid &&
         createdTime == other.createdTime &&
+        userreference == other.userreference &&
         reference == other.reference;
   }
 
@@ -157,10 +173,12 @@ class _$UsersRecord extends UsersRecord {
     return $jf($jc(
         $jc(
             $jc(
-                $jc($jc($jc(0, email.hashCode), displayName.hashCode),
-                    photoUrl.hashCode),
-                uid.hashCode),
-            createdTime.hashCode),
+                $jc(
+                    $jc($jc($jc(0, email.hashCode), displayName.hashCode),
+                        photoUrl.hashCode),
+                    uid.hashCode),
+                createdTime.hashCode),
+            userreference.hashCode),
         reference.hashCode));
   }
 
@@ -172,6 +190,7 @@ class _$UsersRecord extends UsersRecord {
           ..add('photoUrl', photoUrl)
           ..add('uid', uid)
           ..add('createdTime', createdTime)
+          ..add('userreference', userreference)
           ..add('reference', reference))
         .toString();
   }
@@ -200,6 +219,11 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
   Timestamp get createdTime => _$this._createdTime;
   set createdTime(Timestamp createdTime) => _$this._createdTime = createdTime;
 
+  DocumentReference _userreference;
+  DocumentReference get userreference => _$this._userreference;
+  set userreference(DocumentReference userreference) =>
+      _$this._userreference = userreference;
+
   DocumentReference _reference;
   DocumentReference get reference => _$this._reference;
   set reference(DocumentReference reference) => _$this._reference = reference;
@@ -216,6 +240,7 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
       _photoUrl = $v.photoUrl;
       _uid = $v.uid;
       _createdTime = $v.createdTime;
+      _userreference = $v.userreference;
       _reference = $v.reference;
       _$v = null;
     }
@@ -242,6 +267,7 @@ class UsersRecordBuilder implements Builder<UsersRecord, UsersRecordBuilder> {
             photoUrl: photoUrl,
             uid: uid,
             createdTime: createdTime,
+            userreference: userreference,
             reference: reference);
     replace(_$result);
     return _$result;

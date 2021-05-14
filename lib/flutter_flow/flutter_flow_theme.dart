@@ -6,6 +6,7 @@ class FlutterFlowTheme {
   static const Color primaryColor = Color(0xFF000022);
   static const Color secondaryColor = Color(0xFFF40000);
   static const Color tertiaryColor = Color(0xFFFFFFFF);
+  static const Color appBarColor = Color(0xFF191938);
 
   String primaryFontFamily = 'Poppins';
   String secondaryFontFamily = 'Roboto';
