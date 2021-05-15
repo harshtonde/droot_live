@@ -719,8 +719,8 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                           }
                                           final imageWeatherAPIResponse =
                                               snapshot.data;
-                                          return Image.network(
-                                            getJsonField(
+                                          return CachedNetworkImage(
+                                            imageUrl: getJsonField(
                                                 imageWeatherAPIResponse,
                                                 r'$.current.condition.icon'),
                                             height: MediaQuery.of(context)
