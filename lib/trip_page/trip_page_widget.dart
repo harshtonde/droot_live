@@ -720,7 +720,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                               .destination,
                                         ),
                                         builder: (context, snapshot) {
-                                          // Customize what your widget looks like when it's loading.
+                                          // Customize what your widget looks like when it's loading
                                           if (!snapshot.hasData) {
                                             return Center(
                                                 child:
