@@ -619,7 +619,8 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                           return Builder(
                             builder: (context) {
                               final weatherResult = (getJsonField(
-                                          columnOpenWeatherResponse, r'$.') ??
+                                          columnOpenWeatherResponse,
+                                          r'$.main') ??
                                       [])
                                   .take(1)
                                   .toList();
@@ -663,7 +664,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                 child: Text(
                                                   getJsonField(
                                                           weatherResultItem,
-                                                          r'$.main.temp')
+                                                          r'$.temp')
                                                       .toString(),
                                                   style: FlutterFlowTheme
                                                       .subtitle2
@@ -700,7 +701,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                 child: Text(
                                                   getJsonField(
                                                           weatherResultItem,
-                                                          r'$..weather[0].description')
+                                                          r'$.weather[0].description')
                                                       .toString(),
                                                   style: FlutterFlowTheme
                                                       .subtitle2
