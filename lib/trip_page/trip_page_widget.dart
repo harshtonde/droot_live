@@ -27,6 +27,8 @@ class _TripPageWidgetState extends State<TripPageWidget> {
   Widget build(BuildContext context) {
     return StreamBuilder<List<TriprecordRecord>>(
       stream: queryTriprecordRecord(
+        queryBuilder: (triprecordRecord) =>
+            triprecordRecord.where('userref', isEqualTo: currentUserReference),
         singleRecord: true,
       ),
       builder: (context, snapshot) {
