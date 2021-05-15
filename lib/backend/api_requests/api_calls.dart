@@ -33,3 +33,22 @@ Future<dynamic> unsplashCall({
       },
       returnResponse: true,
     );
+
+Future<dynamic> openWeatherCall({
+  String appid = 'becb2ae818af0ca4c2285e1099f4d121',
+  String q = '',
+  String units = 'metric',
+}) =>
+    ApiManager.instance.makeApiCall(
+      callName: 'OpenWeather',
+      apiDomain: 'api.openweathermap.org',
+      apiEndpoint: 'data/2.5/weather',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {
+        'appid': appid,
+        'q': q,
+        'units': units,
+      },
+      returnResponse: true,
+    );

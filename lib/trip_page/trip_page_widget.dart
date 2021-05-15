@@ -603,20 +603,19 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: FutureBuilder<dynamic>(
-                        future: weatherCall(
-                          query: tripPageTriprecordRecord.destination,
+                        future: openWeatherCall(
+                          q: tripPageTriprecordRecord.destination,
                         ),
                         builder: (context, snapshot) {
                           // Customize what your widget looks like when it's loading.
                           if (!snapshot.hasData) {
                             return Center(child: CircularProgressIndicator());
                           }
-                          final columnWeatherResponse = snapshot.data;
+                          final columnOpenWeatherResponse = snapshot.data;
                           return Builder(
                             builder: (context) {
                               final weatherResult = (getJsonField(
-                                          columnWeatherResponse,
-                                          r'$.current') ??
+                                          columnOpenWeatherResponse, r'$.') ??
                                       [])
                                   .take(1)
                                   .toList();
@@ -660,7 +659,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                 child: Text(
                                                   getJsonField(
                                                           weatherResultItem,
-                                                          r'$.temperature')
+                                                          r'$.main.temp')
                                                       .toString(),
                                                   style: FlutterFlowTheme
                                                       .subtitle2
@@ -697,7 +696,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                 child: Text(
                                                   getJsonField(
                                                           weatherResultItem,
-                                                          r'$.weather_descriptions')
+                                                          r'$..weather[0].description')
                                                       .toString(),
                                                   style: FlutterFlowTheme
                                                       .subtitle2
