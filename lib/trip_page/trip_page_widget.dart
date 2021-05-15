@@ -4,6 +4,7 @@ import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../item_list/item_list_widget.dart';
 import '../new_trip/new_trip_widget.dart';
 import '../profile/profile_widget.dart';
 import '../start_page/start_page_widget.dart';
@@ -542,8 +543,13 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
+                            onPressed: () async {
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ItemListWidget(),
+                                ),
+                              );
                             },
                             text: 'Edit',
                             options: FFButtonOptions(
