@@ -670,7 +670,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Description:',
+                                        'Weather:',
                                         style:
                                             FlutterFlowTheme.bodyText1.override(
                                           fontFamily: 'Poppins',
@@ -727,15 +727,11 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                             getJsonField(
                                                 imageWeatherAPIResponse,
                                                 r'$.current.condition.icon'),
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.05,
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
                                                 0.05,
-                                            fit: BoxFit.scaleDown,
+                                            fit: BoxFit.fill,
                                           );
                                         },
                                       )
