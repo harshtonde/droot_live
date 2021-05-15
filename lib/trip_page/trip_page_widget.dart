@@ -694,7 +694,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                               snapshot.data;
                                           return Padding(
                                             padding:
-                                                EdgeInsets.fromLTRB(2, 0, 0, 0),
+                                                EdgeInsets.fromLTRB(5, 0, 0, 0),
                                             child: Text(
                                               getJsonField(
                                                       textWeatherAPIResponse,
@@ -723,10 +723,13 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                           }
                                           final imageWeatherAPIResponse =
                                               snapshot.data;
+                                          var urlStart = "https:";
+                                          var imageUrlPath = urlStart +
+                                              getJsonField(
+                                                  imageWeatherAPIResponse,
+                                                  r'$.current.condition.icon');
                                           return CachedNetworkImage(
-                                            imageUrl: getJsonField(
-                                                imageWeatherAPIResponse,
-                                                r'$.current.condition.icon'),
+                                            imageUrl: imageUrlPath,
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
