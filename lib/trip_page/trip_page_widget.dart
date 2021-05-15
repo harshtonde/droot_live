@@ -26,6 +26,8 @@ class _TripPageWidgetState extends State<TripPageWidget> {
   Widget build(BuildContext context) {
     return StreamBuilder<List<TriprecordRecord>>(
       stream: queryTriprecordRecord(
+        queryBuilder: (triprecordRecord) =>
+            triprecordRecord.where('userref', isEqualTo: currentUserReference),
         singleRecord: true,
       ),
       builder: (context, snapshot) {
@@ -472,7 +474,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                 padding: EdgeInsets.fromLTRB(
                                                     0, 8, 0, 0),
                                                 child: Text(
-                                                  'End  Date:',
+                                                  'End Date:',
                                                   style: FlutterFlowTheme
                                                       .bodyText1
                                                       .override(
@@ -688,7 +690,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                               snapshot.data;
                                           return Padding(
                                             padding:
-                                                EdgeInsets.fromLTRB(2, 0, 0, 0),
+                                                EdgeInsets.fromLTRB(5, 0, 0, 0),
                                             child: Text(
                                               getJsonField(
                                                       textWeatherAPIResponse,
