@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 import '../auth/auth_util.dart';
 import '../backend/api_requests/api_calls.dart';
 import '../backend/backend.dart';
@@ -28,8 +26,6 @@ class _TripPageWidgetState extends State<TripPageWidget> {
   Widget build(BuildContext context) {
     return StreamBuilder<List<TriprecordRecord>>(
       stream: queryTriprecordRecord(
-        queryBuilder: (triprecordRecord) =>
-            triprecordRecord.where('userref', isEqualTo: currentUserReference),
         singleRecord: true,
       ),
       builder: (context, snapshot) {
@@ -457,10 +453,9 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                 padding: EdgeInsets.fromLTRB(
                                                     5, 8, 0, 0),
                                                 child: Text(
-                                                  DateFormat.yMMMd().format(
-                                                      tripPageTriprecordRecord
-                                                          .startdate
-                                                          .toDate()),
+                                                  tripPageTriprecordRecord
+                                                      .startdate
+                                                      .toString(),
                                                   style: FlutterFlowTheme
                                                       .bodyText1
                                                       .override(
@@ -489,10 +484,9 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                 padding: EdgeInsets.fromLTRB(
                                                     5, 8, 0, 0),
                                                 child: Text(
-                                                  DateFormat.yMMMd().format(
-                                                      tripPageTriprecordRecord
-                                                          .enddate
-                                                          .toDate()),
+                                                  tripPageTriprecordRecord
+                                                      .enddate
+                                                      .toString(),
                                                   style: FlutterFlowTheme
                                                       .bodyText1
                                                       .override(
@@ -694,7 +688,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                               snapshot.data;
                                           return Padding(
                                             padding:
-                                                EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                                EdgeInsets.fromLTRB(2, 0, 0, 0),
                                             child: Text(
                                               getJsonField(
                                                       textWeatherAPIResponse,
@@ -723,13 +717,10 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                           }
                                           final imageWeatherAPIResponse =
                                               snapshot.data;
-                                          var urlStart = "https:";
-                                          var imageUrlPath = urlStart +
-                                              getJsonField(
-                                                  imageWeatherAPIResponse,
-                                                  r'$.current.condition.icon');
                                           return CachedNetworkImage(
-                                            imageUrl: imageUrlPath,
+                                            imageUrl: getJsonField(
+                                                imageWeatherAPIResponse,
+                                                r'$.current.condition.icon'),
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *

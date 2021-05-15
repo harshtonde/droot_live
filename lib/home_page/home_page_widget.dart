@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -392,10 +390,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     alignment:
                                                         Alignment(-0.48, 0.76),
                                                     child: Text(
-                                                      DateFormat.yMMMd().format(
-                                                          listViewTriprecordRecord
-                                                              .startdate
-                                                              .toDate()),
+                                                      listViewTriprecordRecord
+                                                          .startdate
+                                                          .toString(),
                                                       style: FlutterFlowTheme
                                                           .bodyText2
                                                           .override(
@@ -448,7 +445,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     alignment:
                                                         Alignment(-0.95, 0.76),
                                                     child: Text(
-                                                      ' On:',
+                                                      'On:',
                                                       style: FlutterFlowTheme
                                                           .bodyText2
                                                           .override(
