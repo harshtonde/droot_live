@@ -607,7 +607,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: FutureBuilder<dynamic>(
-                        future: openWeatherCall(
+                        future: weatherAPICall(
                           q: tripPageTriprecordRecord.destination,
                         ),
                         builder: (context, snapshot) {
@@ -615,11 +615,12 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                           if (!snapshot.hasData) {
                             return Center(child: CircularProgressIndicator());
                           }
-                          final columnOpenWeatherResponse = snapshot.data;
+                          final columnWeatherAPIResponse = snapshot.data;
                           return Builder(
                             builder: (context) {
                               final weatherResult = (getJsonField(
-                                          columnOpenWeatherResponse, r'$.') ??
+                                          columnWeatherAPIResponse,
+                                          r'$.current') ??
                                       [])
                                   .take(1)
                                   .toList();
@@ -662,8 +663,8 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                     5, 0, 0, 0),
                                                 child: Text(
                                                   getJsonField(
-                                                          columnOpenWeatherResponse,
-                                                          r'$.main.temp')
+                                                          columnWeatherAPIResponse,
+                                                          r'$.current.temp_c')
                                                       .toString(),
                                                   style: FlutterFlowTheme
                                                       .subtitle2
@@ -699,8 +700,8 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                     2, 0, 0, 0),
                                                 child: Text(
                                                   getJsonField(
-                                                          columnOpenWeatherResponse,
-                                                          r'$.weather[0].description')
+                                                          columnWeatherAPIResponse,
+                                                          r'$.current.condition.text')
                                                       .toString(),
                                                   style: FlutterFlowTheme
                                                       .subtitle2
@@ -710,6 +711,20 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                         FontWeight.normal,
                                                   ),
                                                 ),
+                                              ),
+                                              Image.network(
+                                                getJsonField(
+                                                    columnWeatherAPIResponse,
+                                                    r'$.current.condition.icon'),
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.05,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.05,
+                                                fit: BoxFit.scaleDown,
                                               )
                                             ],
                                           ),
