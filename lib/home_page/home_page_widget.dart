@@ -8,7 +8,6 @@ import '../trip_page/trip_page_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
 class HomePageWidget extends StatefulWidget {
   HomePageWidget({Key key}) : super(key: key);
@@ -391,10 +390,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     alignment:
                                                         Alignment(-0.48, 0.76),
                                                     child: Text(
-                                                      DateFormat.yMMMd().format(
-                                                          listViewTriprecordRecord
-                                                              .startdate
-                                                              .toDate()),
+                                                      listViewTriprecordRecord
+                                                          .startdate
+                                                          .toString(),
                                                       style: FlutterFlowTheme
                                                           .bodyText2
                                                           .override(

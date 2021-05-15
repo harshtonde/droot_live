@@ -12,7 +12,6 @@ class ItemListWidget extends StatefulWidget {
 }
 
 class _ItemListWidgetState extends State<ItemListWidget> {
-  bool checkboxListTileValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -90,7 +89,11 @@ class _ItemListWidgetState extends State<ItemListWidget> {
           ),
           body: SafeArea(
             child: StreamBuilder<List<ItemlistRecord>>(
-              stream: queryItemlistRecord(),
+              stream: queryItemlistRecord(
+                queryBuilder: (itemlistRecord) => itemlistRecord.where(
+                    'userreference',
+                    isEqualTo: itemListTriprecordRecord.userref),
+              ),
               builder: (context, snapshot) {
                 // Customize what your widget looks like when it's loading.
                 if (!snapshot.hasData) {
@@ -113,22 +116,31 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                   itemBuilder: (context, listViewIndex) {
                     final listViewItemlistRecord =
                         listViewItemlistRecordList[listViewIndex];
-                    return Padding(
-                      padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                      child: CheckboxListTile(
-                        value: checkboxListTileValue ??
-                            listViewItemlistRecord.packedinbag,
-                        onChanged: (newValue) =>
-                            setState(() => checkboxListTileValue = newValue),
-                        title: Text(
-                          listViewItemlistRecord.itemname,
-                          style: FlutterFlowTheme.title3.override(
-                            fontFamily: 'Poppins',
+                    return Card(
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      color: Color(0xFFF5F5F5),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            listViewItemlistRecord.itemname,
+                            style: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Poppins',
+                            ),
                           ),
-                        ),
-                        tileColor: Color(0xFFF5F5F5),
-                        activeColor: FlutterFlowTheme.secondaryColor,
-                        dense: false,
+                          IconButton(
+                            onPressed: () async {
+                              await listViewItemlistRecord.reference.delete();
+                            },
+                            icon: Icon(
+                              Icons.delete,
+                              color: FlutterFlowTheme.primaryColor,
+                              size: 30,
+                            ),
+                            iconSize: 30,
+                          )
+                        ],
                       ),
                     );
                   },

@@ -12,7 +12,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
 class TripPageWidget extends StatefulWidget {
   TripPageWidget({Key key}) : super(key: key);
@@ -457,10 +456,9 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                 padding: EdgeInsets.fromLTRB(
                                                     5, 8, 0, 0),
                                                 child: Text(
-                                                  DateFormat.yMMMd().format(
-                                                      tripPageTriprecordRecord
-                                                          .startdate
-                                                          .toDate()),
+                                                  tripPageTriprecordRecord
+                                                      .startdate
+                                                      .toString(),
                                                   style: FlutterFlowTheme
                                                       .bodyText1
                                                       .override(
@@ -489,10 +487,9 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                 padding: EdgeInsets.fromLTRB(
                                                     5, 8, 0, 0),
                                                 child: Text(
-                                                  DateFormat.yMMMd().format(
-                                                      tripPageTriprecordRecord
-                                                          .enddate
-                                                          .toDate()),
+                                                  tripPageTriprecordRecord
+                                                      .enddate
+                                                      .toString(),
                                                   style: FlutterFlowTheme
                                                       .bodyText1
                                                       .override(
@@ -728,14 +725,10 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                           }
                                           final imageWeatherAPIResponse =
                                               snapshot.data;
-                                          var urlStart = "https:";
-                                          var imageUrlPath = urlStart +
-                                              getJsonField(
-                                                  imageWeatherAPIResponse,
-                                                  r'$.current.condition.icon');
-
                                           return CachedNetworkImage(
-                                            imageUrl: imageUrlPath,
+                                            imageUrl: getJsonField(
+                                                imageWeatherAPIResponse,
+                                                r'$.current.condition.icon'),
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
