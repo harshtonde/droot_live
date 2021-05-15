@@ -602,137 +602,146 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: FutureBuilder<dynamic>(
-                        future: weatherAPICall(
-                          q: tripPageTriprecordRecord.destination,
-                        ),
-                        builder: (context, snapshot) {
-                          // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
-                            return Center(child: CircularProgressIndicator());
-                          }
-                          final columnWeatherAPIResponse = snapshot.data;
-                          return Builder(
-                            builder: (context) {
-                              final weatherResult = (getJsonField(
-                                          columnWeatherAPIResponse,
-                                          r'$.current') ??
-                                      [])
-                                  .take(1)
-                                  .toList();
-                              if (weatherResult.isEmpty) {
-                                return Image.asset(
-                                  'assets/images/no-trips-found.png',
-                                );
-                              }
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: List.generate(weatherResult.length,
-                                    (weatherResultIndex) {
-                                  final weatherResultItem =
-                                      weatherResult[weatherResultIndex];
-                                  return Padding(
-                                    padding: EdgeInsets.fromLTRB(15, 1, 15, 25),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Temperature(in °C):',
-                                                style: FlutterFlowTheme
-                                                    .bodyText1
-                                                    .override(
-                                                  fontFamily: 'Poppins',
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    5, 0, 0, 0),
-                                                child: Text(
-                                                  getJsonField(
-                                                          columnWeatherAPIResponse,
-                                                          r'$.current.temp_c')
-                                                      .toString(),
-                                                  style: FlutterFlowTheme
-                                                      .subtitle2
-                                                      .override(
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(15, 1, 15, 25),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Temperature(in °C):',
+                                        style:
+                                            FlutterFlowTheme.bodyText1.override(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
                                         ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(0, 1, 0, 0),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Description:',
-                                                style: FlutterFlowTheme
-                                                    .bodyText1
-                                                    .override(
-                                                  fontFamily: 'Poppins',
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
+                                      ),
+                                      FutureBuilder<dynamic>(
+                                        future: weatherAPICall(
+                                          q: tripPageTriprecordRecord
+                                              .destination,
+                                        ),
+                                        builder: (context, snapshot) {
+                                          // Customize what your widget looks like when it's loading.
+                                          if (!snapshot.hasData) {
+                                            return Center(
+                                                child:
+                                                    CircularProgressIndicator());
+                                          }
+                                          final textWeatherAPIResponse =
+                                              snapshot.data;
+                                          return Padding(
+                                            padding:
+                                                EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                            child: Text(
+                                              getJsonField(
+                                                      textWeatherAPIResponse,
+                                                      r'$.current.temp_c')
+                                                  .toString(),
+                                              style: FlutterFlowTheme.subtitle2
+                                                  .override(
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.w600,
                                               ),
-                                              Padding(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    2, 0, 0, 0),
-                                                child: Text(
-                                                  getJsonField(
-                                                          columnWeatherAPIResponse,
-                                                          r'$.current.condition.text')
-                                                      .toString(),
-                                                  style: FlutterFlowTheme
-                                                      .subtitle2
-                                                      .override(
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                  ),
-                                                ),
+                                            ),
+                                          );
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 1, 0, 0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Description:',
+                                        style:
+                                            FlutterFlowTheme.bodyText1.override(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      FutureBuilder<dynamic>(
+                                        future: weatherAPICall(
+                                          q: tripPageTriprecordRecord
+                                              .destination,
+                                        ),
+                                        builder: (context, snapshot) {
+                                          // Customize what your widget looks like when it's loading.
+                                          if (!snapshot.hasData) {
+                                            return Center(
+                                                child:
+                                                    CircularProgressIndicator());
+                                          }
+                                          final textWeatherAPIResponse =
+                                              snapshot.data;
+                                          return Padding(
+                                            padding:
+                                                EdgeInsets.fromLTRB(2, 0, 0, 0),
+                                            child: Text(
+                                              getJsonField(
+                                                      textWeatherAPIResponse,
+                                                      r'$.current.condition.text')
+                                                  .toString(),
+                                              style: FlutterFlowTheme.subtitle2
+                                                  .override(
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.normal,
                                               ),
-                                              Image.network(
-                                                getJsonField(
-                                                    columnWeatherAPIResponse,
-                                                    r'$.current.condition.icon'),
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.05,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.05,
-                                                fit: BoxFit.scaleDown,
-                                              )
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                }),
-                              );
-                            },
-                          );
-                        },
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      FutureBuilder<dynamic>(
+                                        future: weatherAPICall(
+                                          q: tripPageTriprecordRecord
+                                              .destination,
+                                        ),
+                                        builder: (context, snapshot) {
+                                          // Customize what your widget looks like when it's loading.
+                                          if (!snapshot.hasData) {
+                                            return Center(
+                                                child:
+                                                    CircularProgressIndicator());
+                                          }
+                                          final imageWeatherAPIResponse =
+                                              snapshot.data;
+                                          return Image.network(
+                                            getJsonField(
+                                                imageWeatherAPIResponse,
+                                                r'$.current.condition.icon'),
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.05,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.05,
+                                            fit: BoxFit.scaleDown,
+                                          );
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
                       ),
                     )
                   ],
