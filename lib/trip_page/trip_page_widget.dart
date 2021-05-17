@@ -1,18 +1,16 @@
 import '../auth/auth_util.dart';
 import '../backend/api_requests/api_calls.dart';
 import '../backend/backend.dart';
+import '../documents/documents_widget.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../item_list/item_list_widget.dart';
-import '../new_trip/new_trip_widget.dart';
 import '../profile/profile_widget.dart';
 import '../start_page/start_page_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
 class TripPageWidget extends StatefulWidget {
   TripPageWidget({Key key}) : super(key: key);
@@ -457,10 +455,9 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                 padding: EdgeInsets.fromLTRB(
                                                     5, 8, 0, 0),
                                                 child: Text(
-                                                  DateFormat.yMMMd().format(
-                                                      tripPageTriprecordRecord
-                                                          .startdate
-                                                          .toDate()),
+                                                  tripPageTriprecordRecord
+                                                      .startdate
+                                                      .toString(),
                                                   style: FlutterFlowTheme
                                                       .bodyText1
                                                       .override(
@@ -489,10 +486,9 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                 padding: EdgeInsets.fromLTRB(
                                                     5, 8, 0, 0),
                                                 child: Text(
-                                                  DateFormat.yMMMd().format(
-                                                      tripPageTriprecordRecord
-                                                          .enddate
-                                                          .toDate()),
+                                                  tripPageTriprecordRecord
+                                                      .enddate
+                                                      .toString(),
                                                   style: FlutterFlowTheme
                                                       .bodyText1
                                                       .override(
@@ -506,32 +502,6 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                       ),
                                     )
                                   ],
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment(0.92, 0.85),
-                                child: FloatingActionButton(
-                                  onPressed: () async {
-                                    await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => NewTripWidget(),
-                                      ),
-                                    );
-                                  },
-                                  backgroundColor: Color(0xFFF40000),
-                                  elevation: 25,
-                                  child: IconButton(
-                                    onPressed: () {
-                                      print('IconButton pressed ...');
-                                    },
-                                    icon: FaIcon(
-                                      FontAwesomeIcons.flagCheckered,
-                                      color: FlutterFlowTheme.tertiaryColor,
-                                      size: 25,
-                                    ),
-                                    iconSize: 25,
-                                  ),
                                 ),
                               )
                             ],
@@ -705,10 +675,11 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                       textWeatherAPIResponse,
                                                       r'$.current.condition.text')
                                                   .toString(),
-                                              style: FlutterFlowTheme.subtitle2
+                                              style: FlutterFlowTheme.bodyText1
                                                   .override(
                                                 fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.normal,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w300,
                                               ),
                                             ),
                                           );
@@ -728,14 +699,10 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                           }
                                           final imageWeatherAPIResponse =
                                               snapshot.data;
-                                          var urlStart = "https:";
-                                          var imageUrlPath = urlStart +
-                                              getJsonField(
-                                                      imageWeatherAPIResponse,
-                                                      r'$.current.condition.icon')
-                                                  .toString();
                                           return CachedNetworkImage(
-                                            imageUrl: imageUrlPath,
+                                            imageUrl: getJsonField(
+                                                imageWeatherAPIResponse,
+                                                r'$.current.condition.icon'),
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
@@ -751,6 +718,31 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                             ),
                           )
                         ],
+                      ),
+                    ),
+                    FFButtonWidget(
+                      onPressed: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DocumentsWidget(),
+                          ),
+                        );
+                      },
+                      text: 'Documents',
+                      options: FFButtonOptions(
+                        width: 130,
+                        height: 40,
+                        color: Color(0x27FFFFFF),
+                        textStyle: FlutterFlowTheme.subtitle2.override(
+                          fontFamily: 'Poppins',
+                          color: Colors.white,
+                        ),
+                        borderSide: BorderSide(
+                          color: Colors.transparent,
+                          width: 1,
+                        ),
+                        borderRadius: 12,
                       ),
                     )
                   ],

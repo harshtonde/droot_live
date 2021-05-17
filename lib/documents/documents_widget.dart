@@ -2,8 +2,10 @@ import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../new_document_page/new_document_page_widget.dart';
 import '../profile/profile_widget.dart';
 import '../start_page/start_page_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -62,6 +64,33 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
             elevation: 100,
           ),
           backgroundColor: FlutterFlowTheme.primaryColor,
+          floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NewDocumentPageWidget(),
+                ),
+              );
+            },
+            backgroundColor: FlutterFlowTheme.secondaryColor,
+            elevation: 8,
+            child: InkWell(
+              onTap: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NewDocumentPageWidget(),
+                  ),
+                );
+              },
+              child: Icon(
+                Icons.add,
+                color: FlutterFlowTheme.tertiaryColor,
+                size: 24,
+              ),
+            ),
+          ),
           drawer: Drawer(
             elevation: 100,
             child: Container(
@@ -277,61 +306,173 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Align(
-                    alignment: Alignment(0, 0),
-                    child: Container(
-                      width: 230,
-                      height: 44,
-                      child: Stack(
-                        children: [
-                          Align(
-                            alignment: Alignment(0, 0),
-                            child: FFButtonWidget(
-                              onPressed: () {
-                                print('Button pressed ...');
-                              },
-                              text: 'Upload Documents to Drive',
-                              icon: Icon(
-                                Icons.add,
-                                color: Colors.transparent,
-                                size: 20,
-                              ),
-                              options: FFButtonOptions(
-                                width: 230,
-                                height: 44,
-                                color: Colors.white,
-                                textStyle: GoogleFonts.getFont(
-                                  'Roboto',
-                                  color: Color(0xFF606060),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 13,
-                                ),
-                                elevation: 4,
-                                borderSide: BorderSide(
-                                  color: Colors.transparent,
-                                  width: 0,
-                                ),
-                                borderRadius: 12,
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment(-0.83, 0),
-                            child: Container(
-                              width: 22,
-                              height: 22,
-                              clipBehavior: Clip.antiAlias,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                              ),
-                              child: Image.network(
-                                'https://i0.wp.com/nanophorm.com/wp-content/uploads/2018/04/google-logo-icon-PNG-Transparent-Background.png?w=1000&ssl=1',
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                          )
-                        ],
+                  Expanded(
+                    child: StreamBuilder<List<DocumentrecordRecord>>(
+                      stream: queryDocumentrecordRecord(
+                        queryBuilder: (documentrecordRecord) =>
+                            documentrecordRecord.orderBy('createdAt',
+                                descending: true),
                       ),
+                      builder: (context, snapshot) {
+                        // Customize what your widget looks like when it's loading.
+                        if (!snapshot.hasData) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        List<DocumentrecordRecord>
+                            listViewDocumentrecordRecordList = snapshot.data;
+                        // Customize what your widget looks like with no query results.
+                        if (listViewDocumentrecordRecordList.isEmpty) {
+                          return Image.asset(
+                            'assets/images/no-document-found.png',
+                          );
+                        }
+                        return ListView.builder(
+                          padding: EdgeInsets.zero,
+                          scrollDirection: Axis.vertical,
+                          itemCount: listViewDocumentrecordRecordList.length,
+                          itemBuilder: (context, listViewIndex) {
+                            final listViewDocumentrecordRecord =
+                                listViewDocumentrecordRecordList[listViewIndex];
+                            return Card(
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              color: Color(0xFFF5F5F5),
+                              elevation: 3,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Stack(
+                                alignment:
+                                    Alignment(-0.09999999999999998, 0.95),
+                                children: [
+                                  Align(
+                                    alignment: Alignment(0, 0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            CachedNetworkImage(
+                                              imageUrl:
+                                                  listViewDocumentrecordRecord
+                                                      .imageDoc,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.5,
+                                              fit: BoxFit.cover,
+                                            )
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.fromLTRB(
+                                              15, 15, 15, 25),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    0, 10, 0, 0),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      'Document',
+                                                      style: FlutterFlowTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily: 'Poppins',
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            0, 8, 0, 0),
+                                                    child: Text(
+                                                      'Type:',
+                                                      style: FlutterFlowTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily: 'Poppins',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            5, 8, 0, 0),
+                                                    child: Text(
+                                                      listViewDocumentrecordRecord
+                                                          .documentType,
+                                                      style: FlutterFlowTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily: 'Poppins',
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            0, 8, 0, 0),
+                                                    child: Text(
+                                                      'Description:',
+                                                      style: FlutterFlowTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily: 'Poppins',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            5, 8, 0, 0),
+                                                    child: Text(
+                                                      listViewDocumentrecordRecord
+                                                          .description,
+                                                      style: FlutterFlowTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily: 'Poppins',
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
                     ),
                   )
                 ],

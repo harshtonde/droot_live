@@ -1,5 +1,3 @@
-import 'package:droot/flutter_flow/flutter_flow_toggle_icon.dart';
-
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../new_item/new_item_widget.dart';
@@ -106,7 +104,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                 if (listViewItemlistRecordList.isEmpty) {
                   return Center(
                     child: Image.asset(
-                      'assets/images/no-trips-found.png',
+                      'assets/images/no-item-found.png',
                       width: MediaQuery.of(context).size.width * 0.7,
                     ),
                   );
@@ -118,7 +116,6 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                   itemBuilder: (context, listViewIndex) {
                     final listViewItemlistRecord =
                         listViewItemlistRecordList[listViewIndex];
-                    bool packedinbag = false;
                     return Card(
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       color: Color(0xFFF5F5F5),
@@ -142,14 +139,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                               size: 30,
                             ),
                             iconSize: 30,
-                          ),
-                          ToggleIcon(
-                              value: packedinbag,
-                              onPressed: () {
-                                packedinbag = true;
-                              },
-                              onIcon: Icon(Icons.check_box),
-                              offIcon: Icon(Icons.check_box_outline_blank))
+                          )
                         ],
                       ),
                     );

@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'users_record.dart';
 import 'triprecord_record.dart';
 import 'itemlist_record.dart';
+import 'documentrecord_record.dart';
 
 part 'serializers.g.dart';
 
@@ -15,6 +16,7 @@ const kDocumentReferenceField = 'Document__Reference__Field';
   UsersRecord,
   TriprecordRecord,
   ItemlistRecord,
+  DocumentrecordRecord,
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..add(DocumentReferenceSerializer())
