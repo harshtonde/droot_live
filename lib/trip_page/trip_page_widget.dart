@@ -8,6 +8,7 @@ import '../flutter_flow/flutter_flow_widgets.dart';
 import '../item_list/item_list_widget.dart';
 import '../profile/profile_widget.dart';
 import '../start_page/start_page_widget.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -66,7 +67,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
             ),
             actions: [],
             centerTitle: true,
-            elevation: 100,
+            elevation: 25,
           ),
           backgroundColor: FlutterFlowTheme.primaryColor,
           drawer: Drawer(
@@ -670,7 +671,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                           return Padding(
                                             padding:
                                                 EdgeInsets.fromLTRB(5, 0, 0, 0),
-                                            child: Text(
+                                            child: AutoSizeText(
                                               getJsonField(
                                                       textWeatherAPIResponse,
                                                       r'$.current.condition.text')

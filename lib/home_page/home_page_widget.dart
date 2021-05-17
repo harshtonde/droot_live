@@ -1,8 +1,10 @@
+import '../about/about_widget.dart';
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../new_trip/new_trip_widget.dart';
+import '../profile/profile_widget.dart';
 import '../start_page/start_page_widget.dart';
 import '../trip_page/trip_page_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -52,7 +54,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             ),
             actions: [],
             centerTitle: true,
-            elevation: 100,
+            elevation: 25,
           ),
           backgroundColor: FlutterFlowTheme.primaryColor,
           floatingActionButton: FloatingActionButton(
@@ -142,8 +144,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
+                            onPressed: () async {
+                              await Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomePageWidget(),
+                                ),
+                                (r) => false,
+                              );
                             },
                             text: 'Home',
                             icon: Icon(
@@ -168,14 +176,18 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           ),
                           Divider(),
                           FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
+                            onPressed: () async {
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProfileWidget(),
+                                ),
+                              );
                             },
-                            text: 'Profile',
+                            text: 'Settings',
                             icon: Icon(
-                              Icons.person,
-                              color: FlutterFlowTheme.tertiaryColor,
-                              size: 20,
+                              Icons.settings,
+                              size: 15,
                             ),
                             options: FFButtonOptions(
                               width: 130,
@@ -194,14 +206,18 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           ),
                           Divider(),
                           FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
+                            onPressed: () async {
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AboutWidget(),
+                                ),
+                              );
                             },
-                            text: 'Settings',
+                            text: 'About',
                             icon: Icon(
-                              Icons.settings,
-                              color: FlutterFlowTheme.tertiaryColor,
-                              size: 20,
+                              Icons.info_outline,
+                              size: 15,
                             ),
                             options: FFButtonOptions(
                               width: 130,
@@ -255,20 +271,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             ),
                           )
                         ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(2, 0, 0, 0),
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          border: Border.all(
-                            color: Colors.transparent,
-                            width: 0,
-                          ),
-                        ),
                       ),
                     )
                   ],

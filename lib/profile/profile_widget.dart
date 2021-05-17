@@ -42,7 +42,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
         return Scaffold(
           key: scaffoldKey,
           appBar: AppBar(
-            backgroundColor: FlutterFlowTheme.primaryColor,
+            backgroundColor: Color(0xFF191938),
             automaticallyImplyLeading: true,
             leading: Icon(
               Icons.arrow_back_ios,
@@ -57,7 +57,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             ),
             actions: [],
             centerTitle: true,
-            elevation: 4,
+            elevation: 25,
           ),
           body: SafeArea(
             child: Container(

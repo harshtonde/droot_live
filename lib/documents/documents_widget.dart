@@ -64,7 +64,7 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
             ),
             actions: [],
             centerTitle: true,
-            elevation: 100,
+            elevation: 25,
           ),
           backgroundColor: FlutterFlowTheme.primaryColor,
           floatingActionButton: FloatingActionButton(

@@ -56,7 +56,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
             ),
             actions: [],
             centerTitle: true,
-            elevation: 100,
+            elevation: 25,
           ),
           backgroundColor: FlutterFlowTheme.primaryColor,
           floatingActionButton: FloatingActionButton(
@@ -109,41 +109,44 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                     ),
                   );
                 }
-                return ListView.builder(
-                  padding: EdgeInsets.zero,
-                  scrollDirection: Axis.vertical,
-                  itemCount: listViewItemlistRecordList.length,
-                  itemBuilder: (context, listViewIndex) {
-                    final listViewItemlistRecord =
-                        listViewItemlistRecordList[listViewIndex];
-                    return Card(
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      color: Color(0xFFF5F5F5),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            listViewItemlistRecord.itemname,
-                            style: FlutterFlowTheme.bodyText1.override(
-                              fontFamily: 'Poppins',
+                return Padding(
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    scrollDirection: Axis.vertical,
+                    itemCount: listViewItemlistRecordList.length,
+                    itemBuilder: (context, listViewIndex) {
+                      final listViewItemlistRecord =
+                          listViewItemlistRecordList[listViewIndex];
+                      return Card(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        color: Color(0xFFF5F5F5),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              listViewItemlistRecord.itemname,
+                              style: FlutterFlowTheme.bodyText1.override(
+                                fontFamily: 'Poppins',
+                              ),
                             ),
-                          ),
-                          IconButton(
-                            onPressed: () async {
-                              await listViewItemlistRecord.reference.delete();
-                            },
-                            icon: Icon(
-                              Icons.delete,
-                              color: FlutterFlowTheme.primaryColor,
-                              size: 30,
-                            ),
-                            iconSize: 30,
-                          )
-                        ],
-                      ),
-                    );
-                  },
+                            IconButton(
+                              onPressed: () async {
+                                await listViewItemlistRecord.reference.delete();
+                              },
+                              icon: Icon(
+                                Icons.delete,
+                                color: FlutterFlowTheme.primaryColor,
+                                size: 30,
+                              ),
+                              iconSize: 30,
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 );
               },
             ),
