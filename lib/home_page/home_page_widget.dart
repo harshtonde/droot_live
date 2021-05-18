@@ -364,124 +364,85 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           ),
                                           Padding(
                                             padding:
-                                                EdgeInsets.fromLTRB(1, 0, 0, 0),
-                                            child: Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.5,
-                                              child: Stack(
-                                                children: [
-                                                  Align(
-                                                    alignment:
-                                                        Alignment(-0.88, -0.78),
-                                                    child: Text(
+                                                EdgeInsets.fromLTRB(1, 1, 0, 1),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Text(
                                                       listViewTriprecordRecord
                                                           .tripname,
                                                       style: FlutterFlowTheme
-                                                          .subtitle2
+                                                          .title3
                                                           .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color: FlutterFlowTheme
-                                                            .primaryColor,
+                                                        fontFamily: 'Poppins',
                                                         fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w500,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Text(
+                                                      listViewTriprecordRecord
+                                                          .origin,
+                                                      style: FlutterFlowTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily: 'Poppins',
                                                       ),
                                                     ),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment(-0.48, 0.76),
-                                                    child: Text(
+                                                    Text(
+                                                      ' - ',
+                                                      style: FlutterFlowTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily: 'Poppins',
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      listViewTriprecordRecord
+                                                          .destination,
+                                                      style: FlutterFlowTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily: 'Poppins',
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Text(
+                                                      'On : ',
+                                                      style: FlutterFlowTheme
+                                                          .bodyText1
+                                                          .override(
+                                                        fontFamily: 'Poppins',
+                                                      ),
+                                                    ),
+                                                    Text(
                                                       listViewTriprecordRecord
                                                           .startdate
                                                           .toString(),
                                                       style: FlutterFlowTheme
-                                                          .bodyText2
+                                                          .bodyText1
                                                           .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color:
-                                                            Color(0xFF8B97A2),
-                                                        fontWeight:
-                                                            FontWeight.w500,
+                                                        fontFamily: 'Poppins',
                                                       ),
-                                                    ),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment(0.79, 0.05),
-                                                    child: Text(
-                                                      listViewTriprecordRecord
-                                                          .destination,
-                                                      style: FlutterFlowTheme
-                                                          .bodyText2
-                                                          .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color:
-                                                            Color(0xFF8B97A2),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment(-0.91, 0.05),
-                                                    child: Text(
-                                                      listViewTriprecordRecord
-                                                          .origin,
-                                                      style: FlutterFlowTheme
-                                                          .bodyText2
-                                                          .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color:
-                                                            Color(0xFF8B97A2),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment(-0.95, 0.76),
-                                                    child: Text(
-                                                      'On:',
-                                                      style: FlutterFlowTheme
-                                                          .bodyText2
-                                                          .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color:
-                                                            Color(0xFF8B97A2),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment(-0.24, 0.09),
-                                                    child: Text(
-                                                      '-',
-                                                      style: FlutterFlowTheme
-                                                          .bodyText2
-                                                          .override(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        color:
-                                                            Color(0xFF8B97A2),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
+                                                    )
+                                                  ],
+                                                )
+                                              ],
                                             ),
                                           ),
                                           Expanded(
