@@ -48,7 +48,20 @@ class _TripPageWidgetState extends State<TripPageWidget> {
             color: Colors.white,
           ),
         ),
-        actions: [],
+        actions: [
+          IconButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              await widget.tripRecord.reference.delete();
+            },
+            icon: Icon(
+              Icons.delete_outlined,
+              color: FlutterFlowTheme.secondaryColor,
+              size: 30,
+            ),
+            iconSize: 30,
+          )
+        ],
         centerTitle: true,
         elevation: 25,
       ),
@@ -473,61 +486,6 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                     );
                   },
                 ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      FFButtonWidget(
-                        onPressed: () async {
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ItemListWidget(),
-                            ),
-                          );
-                        },
-                        text: 'List',
-                        options: FFButtonOptions(
-                          width: 130,
-                          height: 40,
-                          color: Color(0x27FFFFFF),
-                          textStyle: FlutterFlowTheme.subtitle2.override(
-                            fontFamily: 'Poppins',
-                            color: Colors.white,
-                          ),
-                          borderSide: BorderSide(
-                            color: Colors.transparent,
-                            width: 1,
-                          ),
-                          borderRadius: 12,
-                        ),
-                      ),
-                      FFButtonWidget(
-                        onPressed: () async {
-                          Navigator.pop(context);
-                          await widget.tripRecord.userref.delete();
-                        },
-                        text: 'Delete',
-                        options: FFButtonOptions(
-                          width: 130,
-                          height: 40,
-                          color: FlutterFlowTheme.secondaryColor,
-                          textStyle: FlutterFlowTheme.subtitle2.override(
-                            fontFamily: 'Poppins',
-                            color: Colors.white,
-                          ),
-                          borderSide: BorderSide(
-                            color: Colors.transparent,
-                            width: 1,
-                          ),
-                          borderRadius: 12,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
                 Divider(),
                 Text(
                   'Weather ☁',
@@ -683,6 +641,31 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                     );
                   },
                   text: 'Documents',
+                  options: FFButtonOptions(
+                    width: 130,
+                    height: 40,
+                    color: Color(0x27FFFFFF),
+                    textStyle: FlutterFlowTheme.subtitle2.override(
+                      fontFamily: 'Poppins',
+                      color: Colors.white,
+                    ),
+                    borderSide: BorderSide(
+                      color: Colors.transparent,
+                      width: 1,
+                    ),
+                    borderRadius: 12,
+                  ),
+                ),
+                FFButtonWidget(
+                  onPressed: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ItemListWidget(),
+                      ),
+                    );
+                  },
+                  text: 'List',
                   options: FFButtonOptions(
                     width: 130,
                     height: 40,

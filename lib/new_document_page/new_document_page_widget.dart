@@ -139,7 +139,8 @@ class _NewDocumentPageWidgetState extends State<NewDocumentPageWidget> {
                 Divider(),
                 Row(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     FFButtonWidget(
                       onPressed: () async {

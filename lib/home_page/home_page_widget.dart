@@ -339,10 +339,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                TripPageWidget(
-                                              tripRecord:
-                                                  listViewTriprecordRecord,
-                                            ),
+                                                TripPageWidget(),
                                           ),
                                         );
                                       },
