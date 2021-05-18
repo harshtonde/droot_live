@@ -1,3 +1,4 @@
+import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../new_item/new_item_widget.dart';
@@ -90,9 +91,8 @@ class _ItemListWidgetState extends State<ItemListWidget> {
           body: SafeArea(
             child: StreamBuilder<List<ItemlistRecord>>(
               stream: queryItemlistRecord(
-                queryBuilder: (itemlistRecord) => itemlistRecord.where(
-                    'userreference',
-                    isEqualTo: itemListTriprecordRecord.userref),
+                queryBuilder: (itemlistRecord) => itemlistRecord
+                    .where('userreference', isEqualTo: currentUserReference),
               ),
               builder: (context, snapshot) {
                 // Customize what your widget looks like when it's loading.

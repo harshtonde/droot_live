@@ -311,7 +311,11 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                 children: [
                   Expanded(
                     child: StreamBuilder<List<DocumentrecordRecord>>(
-                      stream: queryDocumentrecordRecord(),
+                      stream: queryDocumentrecordRecord(
+                        queryBuilder: (documentrecordRecord) =>
+                            documentrecordRecord.where('userRef',
+                                isEqualTo: currentUserReference),
+                      ),
                       builder: (context, snapshot) {
                         // Customize what your widget looks like when it's loading.
                         if (!snapshot.hasData) {
@@ -463,6 +467,41 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                                                 ],
                                               )
                                             ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.fromLTRB(
+                                              10, 0, 10, 10),
+                                          child: FFButtonWidget(
+                                            onPressed: () async {
+                                              await listViewDocumentrecordRecord
+                                                  .reference
+                                                  .delete();
+                                            },
+                                            text: 'Delete Document',
+                                            icon: Icon(
+                                              Icons.delete,
+                                              color: FlutterFlowTheme
+                                                  .tertiaryColor,
+                                              size: 15,
+                                            ),
+                                            options: FFButtonOptions(
+                                              width: double.infinity,
+                                              height: 40,
+                                              color: FlutterFlowTheme
+                                                  .secondaryColor,
+                                              textStyle: FlutterFlowTheme
+                                                  .subtitle2
+                                                  .override(
+                                                fontFamily: 'Poppins',
+                                                color: Colors.white,
+                                              ),
+                                              borderSide: BorderSide(
+                                                color: Colors.transparent,
+                                                width: 1,
+                                              ),
+                                              borderRadius: 12,
+                                            ),
                                           ),
                                         )
                                       ],

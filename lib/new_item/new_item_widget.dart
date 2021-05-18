@@ -128,7 +128,7 @@ class _NewItemWidgetState extends State<NewItemWidget> {
                           Padding(
                             padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
                             child: CheckboxListTile(
-                              value: checkboxListTileValue ?? true,
+                              value: checkboxListTileValue ?? false,
                               onChanged: (newValue) => setState(
                                   () => checkboxListTileValue = newValue),
                               title: Text(

@@ -26,6 +26,9 @@ abstract class DocumentrecordRecord
   Timestamp get createdAt;
 
   @nullable
+  DocumentReference get userRef;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
@@ -52,6 +55,7 @@ Map<String, dynamic> createDocumentrecordRecordData({
   String imageDoc,
   String description,
   Timestamp createdAt,
+  DocumentReference userRef,
 }) =>
     serializers.serializeWith(
         DocumentrecordRecord.serializer,
@@ -59,7 +63,8 @@ Map<String, dynamic> createDocumentrecordRecordData({
           ..documentType = documentType
           ..imageDoc = imageDoc
           ..description = description
-          ..createdAt = createdAt));
+          ..createdAt = createdAt
+          ..userRef = userRef));
 
 DocumentrecordRecord get dummyDocumentrecordRecord {
   final builder = DocumentrecordRecordBuilder()
