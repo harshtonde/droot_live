@@ -8,19 +8,28 @@ import 'package:equatable/equatable.dart';
 enum ApiCallType {
   GET,
   POST,
+  DELETE,
+}
+
+enum BodyType {
+  NONE,
+  JSON,
+  TEXT,
+  X_WWW_FORM_URL_ENCODED,
 }
 
 class ApiCallRecord extends Equatable {
-  ApiCallRecord(
-      this.callName, this.domain, this.endpoint, this.headers, this.params);
+  ApiCallRecord(this.callName, this.apiUrl, this.headers, this.params,
+      this.body, this.bodyType);
   final String callName;
-  final String domain;
-  final String endpoint;
+  final String apiUrl;
   final Map<String, dynamic> headers;
   final Map<String, dynamic> params;
+  final String body;
+  final BodyType bodyType;
 
   @override
-  List<Object> get props => [callName, domain, endpoint, headers, params];
+  List<Object> get props => [callName, apiUrl, headers, params, body, bodyType];
 }
 
 class ApiManager {
@@ -46,62 +55,124 @@ class ApiManager {
   static Map<String, String> toStringMap(Map<String, dynamic> map) =>
       map.map((key, value) => MapEntry(key, value.toString()));
 
-  static Future<dynamic> getRequest(
-      String apiDomain,
-      String endpoint,
-      Map<String, dynamic> headers,
-      Map<String, dynamic> params,
-      bool returnResponse) async {
-    final uri = Uri.https(apiDomain, endpoint, toStringMap(params));
-    final response = await http.get(uri, headers: toStringMap(headers));
-    return returnResponse ? json.decode(response.body) : null;
+  static String asQueryParams(Map<String, dynamic> map) =>
+      map.entries.map((e) => "${e.key}=${e.value}").join('&');
+
+  static Future<dynamic> urlRequest(
+    ApiCallType callType,
+    String apiUrl,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> params,
+    bool returnResponse,
+  ) async {
+    if (params.isNotEmpty) {
+      final lastUriPart = apiUrl.split('/').last;
+      final needsParamSpecifier = !lastUriPart.contains('?');
+      apiUrl =
+          '$apiUrl${needsParamSpecifier ? '?' : ''}${asQueryParams(params)}';
+    }
+    final makeRequest = callType == ApiCallType.GET ? http.get : http.delete;
+    final response =
+        await makeRequest(Uri.parse(apiUrl), headers: toStringMap(headers));
+    var jsonResponse;
+    try {
+      jsonResponse = json.decode(response.body);
+    } catch (_) {
+      // response may be empty, or invalid JSON.
+    }
+    return returnResponse ? jsonResponse ?? {} : null;
   }
 
   static Future<dynamic> postRequest(
-      String apiDomain,
-      String endpoint,
-      Map<String, dynamic> headers,
-      Map<String, dynamic> params,
-      bool returnResponse) async {
-    final uri = Uri.https(apiDomain, endpoint);
-    final response = await http.post(uri,
-        headers: toStringMap(headers), body: json.encode(params));
-    return returnResponse ? json.decode(response.body) : null;
+    String apiUrl,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> params,
+    String body,
+    BodyType bodyType,
+    bool returnResponse,
+  ) async {
+    final postBody = createPostBody(headers, params, body, bodyType);
+    final response = await http.post(Uri.parse(apiUrl),
+        headers: toStringMap(headers), body: postBody);
+    var jsonResponse;
+    try {
+      jsonResponse = json.decode(response.body);
+    } catch (_) {
+      // response may be empty, or invalid JSON.
+    }
+    return returnResponse ? jsonResponse ?? {} : null;
+  }
+
+  static dynamic createPostBody(
+    Map<String, dynamic> headers,
+    Map<String, dynamic> params,
+    String body,
+    BodyType bodyType,
+  ) {
+    String contentType;
+    dynamic postBody;
+    switch (bodyType) {
+      case BodyType.NONE:
+        break;
+      case BodyType.JSON:
+        contentType = 'application/json';
+        postBody = body ?? json.encode(params ?? {});
+        break;
+      case BodyType.TEXT:
+        contentType = 'text/plain';
+        postBody = body ?? json.encode(params ?? {});
+        break;
+      case BodyType.X_WWW_FORM_URL_ENCODED:
+        contentType = 'application/x-www-form-urlencoded';
+        postBody = toStringMap(params);
+    }
+    if (contentType != null) {
+      headers['Content-Type'] = contentType;
+    }
+    return postBody;
   }
 
   Future<dynamic> makeApiCall(
       {String callName,
-      String apiDomain,
-      String apiEndpoint,
+      String apiUrl,
       ApiCallType callType,
       Map<String, dynamic> headers = const {},
       Map<String, dynamic> params = const {},
-      bool returnResponse}) async {
+      String body,
+      BodyType bodyType,
+      bool returnResponse,
+      bool cache = false}) async {
     final callRecord =
-        ApiCallRecord(callName, apiDomain, apiEndpoint, headers, params);
+        ApiCallRecord(callName, apiUrl, headers, params, body, bodyType);
     // Modify for your specific needs if this differs from your API.
     if (_accessToken != null) {
       headers[HttpHeaders.authorizationHeader] = 'Token $_accessToken';
     }
+    if (!apiUrl.startsWith('http')) {
+      apiUrl = 'https://$apiUrl';
+    }
 
-    // If we've already made this exact call before, return the cached result.
-    if (_apiCache.containsKey(callRecord)) {
+    // If we've already made this exact call before and caching is on,
+    // return the cached result.
+    if (cache && _apiCache.containsKey(callRecord)) {
       return _apiCache[callRecord];
     }
 
     var result;
     switch (callType) {
       case ApiCallType.GET:
-        result = await getRequest(
-            apiDomain, apiEndpoint, headers, params, returnResponse);
+      case ApiCallType.DELETE:
+        result =
+            await urlRequest(callType, apiUrl, headers, params, returnResponse);
         break;
       case ApiCallType.POST:
         result = await postRequest(
-            apiDomain, apiEndpoint, headers, params, returnResponse);
+            apiUrl, headers, params, body, bodyType, returnResponse);
         break;
     }
 
-    if (result != null) {
+    // If caching is on, cache the result (if present).
+    if (cache && result != null) {
       _apiCache[callRecord] = result;
     }
 

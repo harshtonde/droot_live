@@ -1,6 +1,7 @@
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_toggle_icon.dart';
+import '../flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -41,7 +42,8 @@ class _TestWidgetState extends State<TestWidget> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Padding(
-                              padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
                               child: Container(
                                 height: 80,
                                 decoration: BoxDecoration(
@@ -63,35 +65,38 @@ class _TestWidgetState extends State<TestWidget> {
                                       // Customize what your widget looks like when it's loading.
                                       if (!snapshot.hasData) {
                                         return Center(
-                                            child: CircularProgressIndicator());
+                                          child: SizedBox(
+                                            width: 50,
+                                            height: 50,
+                                            child: CircularProgressIndicator(
+                                              color:
+                                                  FlutterFlowTheme.primaryColor,
+                                            ),
+                                          ),
+                                        );
                                       }
                                       List<ItemlistRecord>
                                           rowItemlistRecordList = snapshot.data;
-                                      // Customize what your widget looks like with no query results.
+                                      // Return an empty Container when the document does not exist.
                                       if (snapshot.data.isEmpty) {
-                                        // return Container();
-                                        // For now, we'll just include some dummy data.
-                                        rowItemlistRecordList =
-                                            createDummyItemlistRecord(count: 1);
+                                        return Container();
                                       }
                                       final rowItemlistRecord =
-                                          rowItemlistRecordList.first;
+                                          rowItemlistRecordList.isNotEmpty
+                                              ? rowItemlistRecordList.first
+                                              : null;
                                       return Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
                                           ToggleIcon(
                                             onPressed: () async {
-                                              final packedinbag =
-                                                  !rowItemlistRecord
-                                                      .packedinbag;
-
-                                              final itemlistRecordData =
+                                              final itemlistUpdateData =
                                                   createItemlistRecordData(
-                                                packedinbag: packedinbag,
+                                                packedinbag: !rowItemlistRecord
+                                                    .packedinbag,
                                               );
-
                                               await rowItemlistRecord.reference
-                                                  .update(itemlistRecordData);
+                                                  .update(itemlistUpdateData);
                                             },
                                             value:
                                                 rowItemlistRecord.packedinbag,

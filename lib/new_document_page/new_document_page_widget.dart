@@ -18,9 +18,12 @@ class NewDocumentPageWidget extends StatefulWidget {
 }
 
 class _NewDocumentPageWidgetState extends State<NewDocumentPageWidget> {
-  String uploadedFileUrl;
+  String uploadedFileUrl = '';
+  bool _loadingButton1 = false;
   TextEditingController textController1;
   TextEditingController textController2;
+  bool _loadingButton2 = false;
+  bool _loadingButton3 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -60,7 +63,7 @@ class _NewDocumentPageWidgetState extends State<NewDocumentPageWidget> {
             color: FlutterFlowTheme.primaryColor,
           ),
           child: Padding(
-            padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+            padding: EdgeInsetsDirectional.fromSTEB(25, 0, 25, 0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -144,22 +147,30 @@ class _NewDocumentPageWidgetState extends State<NewDocumentPageWidget> {
                   children: [
                     FFButtonWidget(
                       onPressed: () async {
-                        final selectedMedia = await selectMedia();
-                        if (selectedMedia != null &&
-                            validateFileFormat(
-                                selectedMedia.storagePath, context)) {
-                          showUploadMessage(context, 'Uploading file...',
-                              showLoading: true);
-                          final downloadUrl = await uploadData(
-                              selectedMedia.storagePath, selectedMedia.bytes);
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                          if (downloadUrl != null) {
-                            setState(() => uploadedFileUrl = downloadUrl);
-                            showUploadMessage(context, 'Success!');
-                          } else {
-                            showUploadMessage(
-                                context, 'Failed to upload media');
+                        setState(() => _loadingButton1 = true);
+                        try {
+                          final selectedMedia = await selectMedia(
+                            mediaSource: MediaSource.photoGallery,
+                          );
+                          if (selectedMedia != null &&
+                              validateFileFormat(
+                                  selectedMedia.storagePath, context)) {
+                            showUploadMessage(context, 'Uploading file...',
+                                showLoading: true);
+                            final downloadUrl = await uploadData(
+                                selectedMedia.storagePath, selectedMedia.bytes);
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                            if (downloadUrl != null) {
+                              setState(() => uploadedFileUrl = downloadUrl);
+                              showUploadMessage(context, 'Success!');
+                            } else {
+                              showUploadMessage(
+                                  context, 'Failed to upload media');
+                              return;
+                            }
                           }
+                        } finally {
+                          setState(() => _loadingButton1 = false);
                         }
                       },
                       text: 'Upload Image',
@@ -177,6 +188,7 @@ class _NewDocumentPageWidgetState extends State<NewDocumentPageWidget> {
                         ),
                         borderRadius: 5,
                       ),
+                      loading: _loadingButton1,
                     )
                   ],
                 ),
@@ -187,7 +199,12 @@ class _NewDocumentPageWidgetState extends State<NewDocumentPageWidget> {
                   children: [
                     FFButtonWidget(
                       onPressed: () async {
-                        Navigator.pop(context);
+                        setState(() => _loadingButton2 = true);
+                        try {
+                          Navigator.pop(context);
+                        } finally {
+                          setState(() => _loadingButton2 = false);
+                        }
                       },
                       text: 'Cancel',
                       options: FFButtonOptions(
@@ -204,32 +221,32 @@ class _NewDocumentPageWidgetState extends State<NewDocumentPageWidget> {
                         ),
                         borderRadius: 5,
                       ),
+                      loading: _loadingButton2,
                     ),
                     FFButtonWidget(
                       onPressed: () async {
-                        final documentType = textController1.text;
-                        final imageDoc = uploadedFileUrl;
-                        final description = textController2.text;
-                        final createdAt = getCurrentTimestamp;
-
-                        final documentrecordRecordData =
-                            createDocumentrecordRecordData(
-                          documentType: documentType,
-                          imageDoc: imageDoc,
-                          description: description,
-                          createdAt: createdAt,
-                        );
-
-                        await DocumentrecordRecord.collection
-                            .doc()
-                            .set(documentrecordRecordData);
-                        await Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DocumentsWidget(),
-                          ),
-                          (r) => false,
-                        );
+                        setState(() => _loadingButton3 = true);
+                        try {
+                          final documentrecordCreateData =
+                              createDocumentrecordRecordData(
+                            documentType: textController1.text,
+                            imageDoc: uploadedFileUrl,
+                            description: textController2.text,
+                            createdAt: getCurrentTimestamp,
+                          );
+                          await DocumentrecordRecord.collection
+                              .doc()
+                              .set(documentrecordCreateData);
+                          await Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DocumentsWidget(),
+                            ),
+                            (r) => false,
+                          );
+                        } finally {
+                          setState(() => _loadingButton3 = false);
+                        }
                       },
                       text: 'Save',
                       options: FFButtonOptions(
@@ -246,6 +263,7 @@ class _NewDocumentPageWidgetState extends State<NewDocumentPageWidget> {
                         ),
                         borderRadius: 5,
                       ),
+                      loading: _loadingButton3,
                     )
                   ],
                 )

@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -26,6 +27,14 @@ String sha256ofString(String input) {
 }
 
 Future<UserCredential> appleSignIn() async {
+  if (kIsWeb) {
+    final provider = OAuthProvider("apple.com")
+      ..addScope('email')
+      ..addScope('name');
+
+    // Sign in the user with Firebase.
+    return await FirebaseAuth.instance.signInWithPopup(provider);
+  }
   // To prevent replay attacks with the credential returned from Apple, we
   // include a nonce in the credential request. When signing in in with
   // Firebase, the nonce in the id token returned by Apple, is expected to

@@ -44,6 +44,7 @@ class FFButtonWidget extends StatelessWidget {
     this.icon,
     this.iconData,
     @required this.options,
+    this.loading = false,
   }) : super(key: key);
 
   final String text;
@@ -51,15 +52,30 @@ class FFButtonWidget extends StatelessWidget {
   final IconData iconData;
   final VoidCallback onPressed;
   final FFButtonOptions options;
+  final bool loading;
 
   @override
   Widget build(BuildContext context) {
-    final textWidget = AutoSizeText(
-      text,
-      style: options.textStyle,
-      maxLines: 1,
-    );
+    Widget textWidget = loading
+        ? Center(
+            child: Container(
+              width: 23,
+              height: 23,
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  options.textStyle.color ?? Colors.white,
+                ),
+              ),
+            ),
+          )
+        : AutoSizeText(
+            text,
+            style: options.textStyle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          );
     if (icon != null || iconData != null) {
+      textWidget = Flexible(child: textWidget);
       return Container(
         height: options.height,
         width: options.width,
@@ -74,7 +90,7 @@ class FFButtonWidget extends StatelessWidget {
                 ),
           ),
           label: textWidget,
-          onPressed: onPressed,
+          onPressed: loading ? () {} : onPressed,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(options.borderRadius),
             side: options.borderSide ?? BorderSide.none,

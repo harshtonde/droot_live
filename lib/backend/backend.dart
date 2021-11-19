@@ -10,6 +10,10 @@ import 'schema/itemlist_record.dart';
 import 'schema/documentrecord_record.dart';
 import 'schema/serializers.dart';
 
+export 'package:cloud_firestore/cloud_firestore.dart';
+export 'schema/index.dart';
+export 'schema/serializers.dart';
+
 export 'schema/users_record.dart';
 export 'schema/triprecord_record.dart';
 export 'schema/itemlist_record.dart';
@@ -55,7 +59,13 @@ Stream<List<T>> queryCollection<T>(
     query = query.limit(singleRecord ? 1 : limit);
   }
   return query.snapshots().map((s) => s.docs
-      .map((d) => serializers.deserializeWith(serializer, serializedData(d)))
+      .map(
+        (d) => safeGet(
+          () => serializers.deserializeWith(serializer, serializedData(d)),
+          (e) => print('Error serializing doc ${d.reference.path}:\n$e'),
+        ),
+      )
+      .where((d) => d != null)
       .toList());
 }
 
@@ -72,6 +82,7 @@ Future maybeCreateUser(User user) async {
     displayName: user.displayName,
     photoUrl: user.photoURL,
     uid: user.uid,
+    phoneNumber: user.phoneNumber,
     createdTime: getCurrentTimestamp,
   );
 

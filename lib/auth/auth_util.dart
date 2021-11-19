@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../backend/backend.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:stream_transform/stream_transform.dart';
 import 'firebase_user_provider.dart';
 
 export 'anonymous_auth.dart';
@@ -44,14 +46,112 @@ Future resetPassword({String email, BuildContext context}) async {
   );
 }
 
-String get currentUserEmail => currentUser?.user?.email ?? '';
+Future sendEmailVerification() async =>
+    currentUser?.user?.sendEmailVerification();
 
-String get currentUserUid => currentUser?.user?.uid ?? '';
+String get currentUserEmail =>
+    currentUserDocument?.email ?? currentUser?.user?.email ?? '';
 
-String get currentUserDisplayName => currentUser?.user?.displayName ?? '';
+String get currentUserUid =>
+    currentUserDocument?.uid ?? currentUser?.user?.uid ?? '';
 
-String get currentUserPhoto => currentUser?.user?.photoURL ?? '';
+String get currentUserDisplayName =>
+    currentUserDocument?.displayName ?? currentUser?.user?.displayName ?? '';
+
+String get currentUserPhoto =>
+    currentUserDocument?.photoUrl ?? currentUser?.user?.photoURL ?? '';
+
+String get currentPhoneNumber =>
+    currentUserDocument?.phoneNumber ?? currentUser?.user?.phoneNumber ?? '';
+
+bool get currentUserEmailVerified => currentUser?.user?.emailVerified ?? false;
+
+// Set when using phone verification (after phone number is provided).
+String _phoneAuthVerificationCode;
+// Set when using phone sign in in web mode (ignored otherwise).
+ConfirmationResult _webPhoneAuthConfirmationResult;
+
+Future beginPhoneAuth({
+  BuildContext context,
+  String phoneNumber,
+  VoidCallback onCodeSent,
+}) async {
+  if (kIsWeb) {
+    _webPhoneAuthConfirmationResult =
+        await FirebaseAuth.instance.signInWithPhoneNumber(phoneNumber);
+    onCodeSent();
+    return;
+  }
+  // If you'd like auto-verification, without the user having to enter the SMS
+  // code manually. Follow these instructions:
+  // * For Android: https://firebase.google.com/docs/auth/android/phone-auth?authuser=0#enable-app-verification (SafetyNet set up)
+  // * For iOS: https://firebase.google.com/docs/auth/ios/phone-auth?authuser=0#start-receiving-silent-notifications
+  // * Finally modify verificationCompleted below as instructed.
+  await FirebaseAuth.instance.verifyPhoneNumber(
+    phoneNumber: phoneNumber,
+    timeout: Duration(seconds: 5),
+    verificationCompleted: (phoneAuthCredential) async {
+      await FirebaseAuth.instance.signInWithCredential(phoneAuthCredential);
+      // If you've implemented auto-verification, navigate to home page or
+      // onboarding page here manually. Uncomment the lines below and replace
+      // DestinationPage() with the desired widget.
+      // await Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (_) => DestinationPage()),
+      // );
+    },
+    verificationFailed: (exception) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Error with phone verification: ${exception.message}'),
+      ));
+    },
+    codeSent: (verificationId, _) {
+      _phoneAuthVerificationCode = verificationId;
+      onCodeSent();
+    },
+    codeAutoRetrievalTimeout: (_) {},
+  );
+}
+
+Future verifySmsCode({
+  BuildContext context,
+  String smsCode,
+}) async {
+  if (kIsWeb) {
+    return signInOrCreateAccount(
+        context, () => _webPhoneAuthConfirmationResult.confirm(smsCode));
+  } else {
+    final authCredential = PhoneAuthProvider.credential(
+        verificationId: _phoneAuthVerificationCode, smsCode: smsCode);
+    return signInOrCreateAccount(
+      context,
+      () => FirebaseAuth.instance.signInWithCredential(authCredential),
+    );
+  }
+}
 
 DocumentReference get currentUserReference => currentUser?.user != null
     ? UsersRecord.collection.doc(currentUser.user.uid)
     : null;
+
+UsersRecord currentUserDocument;
+final authenticatedUserStream = FirebaseAuth.instance
+    .authStateChanges()
+    .map<String>((user) => user?.uid ?? '')
+    .switchMap((uid) => queryUsersRecord(
+        queryBuilder: (user) => user.where('uid', isEqualTo: uid),
+        singleRecord: true))
+    .map((users) => currentUserDocument = users.isNotEmpty ? users.first : null)
+    .asBroadcastStream();
+
+class AuthUserStreamWidget extends StatelessWidget {
+  const AuthUserStreamWidget({Key key, this.child}) : super(key: key);
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => StreamBuilder(
+        stream: authenticatedUserStream,
+        builder: (context, _) => child,
+      );
+}

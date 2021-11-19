@@ -1,7 +1,9 @@
 import '../about/about_widget.dart';
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
+import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
+import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../new_trip/new_trip_widget.dart';
 import '../profile/profile_widget.dart';
@@ -19,6 +21,10 @@ class HomePageWidget extends StatefulWidget {
 }
 
 class _HomePageWidgetState extends State<HomePageWidget> {
+  bool _loadingButton1 = false;
+  bool _loadingButton2 = false;
+  bool _loadingButton3 = false;
+  bool _loadingButton4 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -28,7 +34,15 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
+          return Center(
+            child: SizedBox(
+              width: 50,
+              height: 50,
+              child: CircularProgressIndicator(
+                color: FlutterFlowTheme.primaryColor,
+              ),
+            ),
+          );
         }
         final homePageUsersRecord = snapshot.data;
         return Scaffold(
@@ -68,7 +82,15 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             },
             backgroundColor: Color(0xFFF40000),
             elevation: 25,
-            child: IconButton(
+            child: FlutterFlowIconButton(
+              borderColor: Colors.transparent,
+              borderRadius: 30,
+              buttonSize: 48,
+              icon: Icon(
+                Icons.add,
+                color: FlutterFlowTheme.tertiaryColor,
+                size: 30,
+              ),
               onPressed: () async {
                 await Navigator.push(
                   context,
@@ -77,12 +99,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   ),
                 );
               },
-              icon: Icon(
-                Icons.add,
-                color: FlutterFlowTheme.tertiaryColor,
-                size: 30,
-              ),
-              iconSize: 30,
             ),
           ),
           drawer: Drawer(
@@ -94,32 +110,36 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 color: FlutterFlowTheme.primaryColor,
               ),
               child: Padding(
-                padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+                padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Divider(),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.25,
-                      height: MediaQuery.of(context).size.width * 0.25,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: CachedNetworkImage(
-                        imageUrl: currentUserPhoto,
-                        fit: BoxFit.cover,
+                    AuthUserStreamWidget(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.25,
+                        height: MediaQuery.of(context).size.width * 0.25,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                        child: CachedNetworkImage(
+                          imageUrl: currentUserPhoto,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     Divider(),
-                    Text(
-                      currentUserDisplayName,
-                      textAlign: TextAlign.start,
-                      style: FlutterFlowTheme.bodyText1.override(
-                        fontFamily: 'Poppins',
-                        color: FlutterFlowTheme.tertiaryColor,
+                    AuthUserStreamWidget(
+                      child: Text(
+                        currentUserDisplayName,
+                        textAlign: TextAlign.start,
+                        style: FlutterFlowTheme.bodyText1.override(
+                          fontFamily: 'Poppins',
+                          color: FlutterFlowTheme.tertiaryColor,
+                        ),
                       ),
                     ),
                     Text(
@@ -137,7 +157,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       color: Color(0x5C9E9E9E),
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -145,13 +165,18 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         children: [
                           FFButtonWidget(
                             onPressed: () async {
-                              await Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => HomePageWidget(),
-                                ),
-                                (r) => false,
-                              );
+                              setState(() => _loadingButton1 = true);
+                              try {
+                                await Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HomePageWidget(),
+                                  ),
+                                  (r) => false,
+                                );
+                              } finally {
+                                setState(() => _loadingButton1 = false);
+                              }
                             },
                             text: 'Home',
                             icon: Icon(
@@ -173,16 +198,22 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               ),
                               borderRadius: 12,
                             ),
+                            loading: _loadingButton1,
                           ),
                           Divider(),
                           FFButtonWidget(
                             onPressed: () async {
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ProfileWidget(),
-                                ),
-                              );
+                              setState(() => _loadingButton2 = true);
+                              try {
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProfileWidget(),
+                                  ),
+                                );
+                              } finally {
+                                setState(() => _loadingButton2 = false);
+                              }
                             },
                             text: 'Settings',
                             icon: Icon(
@@ -203,16 +234,22 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               ),
                               borderRadius: 12,
                             ),
+                            loading: _loadingButton2,
                           ),
                           Divider(),
                           FFButtonWidget(
                             onPressed: () async {
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AboutWidget(),
-                                ),
-                              );
+                              setState(() => _loadingButton3 = true);
+                              try {
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AboutWidget(),
+                                  ),
+                                );
+                              } finally {
+                                setState(() => _loadingButton3 = false);
+                              }
                             },
                             text: 'About',
                             icon: Icon(
@@ -233,6 +270,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               ),
                               borderRadius: 12,
                             ),
+                            loading: _loadingButton3,
                           ),
                           Divider(
                             thickness: 1,
@@ -240,14 +278,19 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           ),
                           FFButtonWidget(
                             onPressed: () async {
-                              await signOut();
-                              await Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => StartPageWidget(),
-                                ),
-                                (r) => false,
-                              );
+                              setState(() => _loadingButton4 = true);
+                              try {
+                                await signOut();
+                                await Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => StartPageWidget(),
+                                  ),
+                                  (r) => false,
+                                );
+                              } finally {
+                                setState(() => _loadingButton4 = false);
+                              }
                             },
                             text: 'Sign Out',
                             icon: Icon(
@@ -269,6 +312,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               ),
                               borderRadius: 12,
                             ),
+                            loading: _loadingButton4,
                           )
                         ],
                       ),
@@ -298,11 +342,18 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       builder: (context, snapshot) {
                         // Customize what your widget looks like when it's loading.
                         if (!snapshot.hasData) {
-                          return Center(child: CircularProgressIndicator());
+                          return Center(
+                            child: SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: CircularProgressIndicator(
+                                color: FlutterFlowTheme.primaryColor,
+                              ),
+                            ),
+                          );
                         }
                         List<TriprecordRecord> listViewTriprecordRecordList =
                             snapshot.data;
-                        // Customize what your widget looks like with no query results.
                         if (listViewTriprecordRecordList.isEmpty) {
                           return Image.asset(
                             'assets/images/no-trips-found.png',
@@ -317,7 +368,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             final listViewTriprecordRecord =
                                 listViewTriprecordRecordList[listViewIndex];
                             return Padding(
-                              padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(8, 8, 8, 0),
                               child: Container(
                                 height: 80,
                                 decoration: BoxDecoration(
@@ -332,7 +384,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     borderRadius: BorderRadius.circular(16),
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        25, 0, 25, 0),
                                     child: InkWell(
                                       onTap: () async {
                                         await Navigator.push(
@@ -351,7 +404,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                         children: [
                                           Padding(
                                             padding:
-                                                EdgeInsets.fromLTRB(3, 0, 0, 0),
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    3, 0, 0, 0),
                                             child: Container(
                                               clipBehavior: Clip.antiAlias,
                                               decoration: BoxDecoration(
@@ -364,7 +418,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           ),
                                           Padding(
                                             padding:
-                                                EdgeInsets.fromLTRB(1, 1, 0, 1),
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    1, 1, 0, 1),
                                             child: Column(
                                               mainAxisSize: MainAxisSize.max,
                                               crossAxisAlignment:
@@ -394,27 +449,18 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                       listViewTriprecordRecord
                                                           .origin,
                                                       style: FlutterFlowTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily: 'Poppins',
-                                                      ),
+                                                          .bodyText1,
                                                     ),
                                                     Text(
                                                       ' - ',
                                                       style: FlutterFlowTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily: 'Poppins',
-                                                      ),
+                                                          .bodyText1,
                                                     ),
                                                     Text(
                                                       listViewTriprecordRecord
                                                           .destination,
                                                       style: FlutterFlowTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily: 'Poppins',
-                                                      ),
+                                                          .bodyText1,
                                                     )
                                                   ],
                                                 ),
@@ -425,20 +471,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     Text(
                                                       'On : ',
                                                       style: FlutterFlowTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily: 'Poppins',
-                                                      ),
+                                                          .bodyText1,
                                                     ),
                                                     Text(
                                                       listViewTriprecordRecord
                                                           .startdate
                                                           .toString(),
                                                       style: FlutterFlowTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily: 'Poppins',
-                                                      ),
+                                                          .bodyText1,
                                                     )
                                                   ],
                                                 )
@@ -448,7 +488,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           Expanded(
                                             flex: 1,
                                             child: Align(
-                                              alignment: Alignment(1, 0),
+                                              alignment:
+                                                  AlignmentDirectional(1, 0),
                                               child: Icon(
                                                 Icons.arrow_right,
                                                 color: FlutterFlowTheme

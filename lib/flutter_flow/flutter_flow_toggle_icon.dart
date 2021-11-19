@@ -10,8 +10,8 @@ class ToggleIcon extends StatelessWidget {
 
   final bool value;
   final Function() onPressed;
-  final Icon onIcon;
-  final Icon offIcon;
+  final Widget onIcon;
+  final Widget offIcon;
 
   @override
   Widget build(BuildContext context) => IconButton(

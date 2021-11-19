@@ -1,10 +1,8 @@
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
-import 'package:built_collection/built_collection.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
 
-import 'schema_util.dart';
+import 'index.dart';
 import 'serializers.dart';
+import 'package:built_value/built_value.dart';
 
 part 'triprecord_record.g.dart';
 
@@ -27,13 +25,13 @@ abstract class TriprecordRecord
 
   @nullable
   @BuiltValueField(wireName: 'created_at')
-  Timestamp get createdAt;
+  DateTime get createdAt;
 
   @nullable
-  Timestamp get startdate;
+  DateTime get startdate;
 
   @nullable
-  Timestamp get enddate;
+  DateTime get enddate;
 
   @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
@@ -54,6 +52,11 @@ abstract class TriprecordRecord
   TriprecordRecord._();
   factory TriprecordRecord([void Function(TriprecordRecordBuilder) updates]) =
       _$TriprecordRecord;
+
+  static TriprecordRecord getDocumentFromData(
+          Map<String, dynamic> data, DocumentReference reference) =>
+      serializers.deserializeWith(serializer,
+          {...mapFromFirestore(data), kDocumentReferenceField: reference});
 }
 
 Map<String, dynamic> createTriprecordRecordData({
@@ -61,11 +64,11 @@ Map<String, dynamic> createTriprecordRecordData({
   String destination,
   String origin,
   DocumentReference userref,
-  Timestamp createdAt,
-  Timestamp startdate,
-  Timestamp enddate,
+  DateTime createdAt,
+  DateTime startdate,
+  DateTime enddate,
 }) =>
-    serializers.serializeWith(
+    serializers.toFirestore(
         TriprecordRecord.serializer,
         TriprecordRecord((t) => t
           ..tripname = tripname
@@ -75,17 +78,3 @@ Map<String, dynamic> createTriprecordRecordData({
           ..createdAt = createdAt
           ..startdate = startdate
           ..enddate = enddate));
-
-TriprecordRecord get dummyTriprecordRecord {
-  final builder = TriprecordRecordBuilder()
-    ..tripname = dummyString
-    ..destination = dummyString
-    ..origin = dummyString
-    ..createdAt = dummyTimestamp
-    ..startdate = dummyTimestamp
-    ..enddate = dummyTimestamp;
-  return builder.build();
-}
-
-List<TriprecordRecord> createDummyTriprecordRecord({int count}) =>
-    List.generate(count, (_) => dummyTriprecordRecord);

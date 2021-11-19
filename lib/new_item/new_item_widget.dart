@@ -17,6 +17,8 @@ class NewItemWidget extends StatefulWidget {
 class _NewItemWidgetState extends State<NewItemWidget> {
   TextEditingController textController;
   bool checkboxListTileValue;
+  bool _loadingButton1 = false;
+  bool _loadingButton2 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -55,14 +57,14 @@ class _NewItemWidgetState extends State<NewItemWidget> {
             color: FlutterFlowTheme.primaryColor,
           ),
           child: Padding(
-            padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+            padding: EdgeInsetsDirectional.fromSTEB(25, 0, 25, 0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(2, 0, 0, 0),
+                  padding: EdgeInsetsDirectional.fromSTEB(2, 0, 0, 0),
                   child: Card(
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     color: Color(0xFFF5F5F5),
@@ -71,7 +73,7 @@ class _NewItemWidgetState extends State<NewItemWidget> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(15, 5, 15, 7),
+                      padding: EdgeInsetsDirectional.fromSTEB(15, 5, 15, 7),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -85,20 +87,17 @@ class _NewItemWidgetState extends State<NewItemWidget> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
                             child: TextFormField(
                               controller: textController,
                               obscureText: false,
                               decoration: InputDecoration(
                                 isDense: true,
                                 labelText: 'Item Name',
-                                labelStyle: FlutterFlowTheme.bodyText1.override(
-                                  fontFamily: 'Poppins',
-                                ),
+                                labelStyle: FlutterFlowTheme.bodyText1,
                                 hintText: '[Some hint text...]',
-                                hintStyle: FlutterFlowTheme.bodyText1.override(
-                                  fontFamily: 'Poppins',
-                                ),
+                                hintStyle: FlutterFlowTheme.bodyText1,
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                     color: FlutterFlowTheme.secondaryColor,
@@ -120,15 +119,13 @@ class _NewItemWidgetState extends State<NewItemWidget> {
                                   ),
                                 ),
                               ),
-                              style: FlutterFlowTheme.bodyText1.override(
-                                fontFamily: 'Poppins',
-                              ),
+                              style: FlutterFlowTheme.bodyText1,
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                            padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
                             child: CheckboxListTile(
-                              value: checkboxListTileValue ?? false,
+                              value: checkboxListTileValue ??= false,
                               onChanged: (newValue) => setState(
                                   () => checkboxListTileValue = newValue),
                               title: Text(
@@ -143,6 +140,7 @@ class _NewItemWidgetState extends State<NewItemWidget> {
                               activeColor: FlutterFlowTheme.secondaryColor,
                               checkColor: FlutterFlowTheme.tertiaryColor,
                               dense: true,
+                              controlAffinity: ListTileControlAffinity.trailing,
                             ),
                           )
                         ],
@@ -157,7 +155,12 @@ class _NewItemWidgetState extends State<NewItemWidget> {
                   children: [
                     FFButtonWidget(
                       onPressed: () async {
-                        Navigator.pop(context);
+                        setState(() => _loadingButton1 = true);
+                        try {
+                          Navigator.pop(context);
+                        } finally {
+                          setState(() => _loadingButton1 = false);
+                        }
                       },
                       text: 'Cancel',
                       options: FFButtonOptions(
@@ -174,23 +177,24 @@ class _NewItemWidgetState extends State<NewItemWidget> {
                         ),
                         borderRadius: 5,
                       ),
+                      loading: _loadingButton1,
                     ),
                     FFButtonWidget(
                       onPressed: () async {
-                        final packedinbag = checkboxListTileValue;
-                        final userreference = currentUserReference;
-                        final itemname = textController.text;
-
-                        final itemlistRecordData = createItemlistRecordData(
-                          packedinbag: packedinbag,
-                          userreference: userreference,
-                          itemname: itemname,
-                        );
-
-                        await ItemlistRecord.collection
-                            .doc()
-                            .set(itemlistRecordData);
-                        Navigator.pop(context);
+                        setState(() => _loadingButton2 = true);
+                        try {
+                          final itemlistCreateData = createItemlistRecordData(
+                            packedinbag: checkboxListTileValue,
+                            userreference: currentUserReference,
+                            itemname: textController.text,
+                          );
+                          await ItemlistRecord.collection
+                              .doc()
+                              .set(itemlistCreateData);
+                          Navigator.pop(context);
+                        } finally {
+                          setState(() => _loadingButton2 = false);
+                        }
                       },
                       text: 'Save',
                       options: FFButtonOptions(
@@ -207,6 +211,7 @@ class _NewItemWidgetState extends State<NewItemWidget> {
                         ),
                         borderRadius: 5,
                       ),
+                      loading: _loadingButton2,
                     )
                   ],
                 )

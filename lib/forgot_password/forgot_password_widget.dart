@@ -1,5 +1,6 @@
 import '../auth/auth_util.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
+import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,6 +14,7 @@ class ForgotPasswordWidget extends StatefulWidget {
 
 class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
   TextEditingController emailAddressController;
+  bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -33,18 +35,18 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
             color: FlutterFlowTheme.primaryColor,
           ),
           child: Align(
-            alignment: Alignment(0, -0.98),
+            alignment: AlignmentDirectional(0, -0.98),
             child: Padding(
-              padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+              padding: EdgeInsetsDirectional.fromSTEB(25, 0, 25, 0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Align(
-                    alignment: Alignment(0.06, -0.63),
+                    alignment: AlignmentDirectional(0.06, -0.63),
                     child: Image.asset(
-                      'assets/images/DROOT Revisited-01.png',
+                      'assets/images/DROOT_Revisited-01.png',
                       width: 280,
                       height: MediaQuery.of(context).size.height * 0.25,
                       fit: BoxFit.contain,
@@ -107,23 +109,28 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Padding(
-                        padding: EdgeInsets.fromLTRB(2, 0, 5, 0),
+                        padding: EdgeInsetsDirectional.fromSTEB(2, 0, 5, 0),
                         child: FFButtonWidget(
                           onPressed: () async {
-                            if (emailAddressController.text.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Email required!',
+                            setState(() => _loadingButton = true);
+                            try {
+                              if (emailAddressController.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Email required!',
+                                    ),
                                   ),
-                                ),
+                                );
+                                return;
+                              }
+                              await resetPassword(
+                                email: emailAddressController.text,
+                                context: context,
                               );
-                              return;
+                            } finally {
+                              setState(() => _loadingButton = false);
                             }
-                            await resetPassword(
-                              email: emailAddressController.text,
-                              context: context,
-                            );
                           },
                           text: 'Reset Password',
                           options: FFButtonOptions(
@@ -140,6 +147,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                             ),
                             borderRadius: 5,
                           ),
+                          loading: _loadingButton,
                         ),
                       )
                     ],

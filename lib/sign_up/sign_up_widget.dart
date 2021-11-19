@@ -17,20 +17,26 @@ class SignUpWidget extends StatefulWidget {
 
 class _SignUpWidgetState extends State<SignUpWidget> {
   TextEditingController confirmPasswordController;
+  bool confirmPasswordVisibility;
   TextEditingController dateofBirthController;
   TextEditingController fullNameController;
   TextEditingController emailAddressController;
   TextEditingController passwordController;
+  bool passwordVisibility;
+  bool _loadingButton1 = false;
+  bool _loadingButton2 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
     confirmPasswordController = TextEditingController();
+    confirmPasswordVisibility = false;
     dateofBirthController = TextEditingController();
     fullNameController = TextEditingController();
     emailAddressController = TextEditingController();
     passwordController = TextEditingController();
+    passwordVisibility = false;
   }
 
   @override
@@ -45,13 +51,13 @@ class _SignUpWidgetState extends State<SignUpWidget> {
             color: FlutterFlowTheme.primaryColor,
           ),
           child: Padding(
-            padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+            padding: EdgeInsetsDirectional.fromSTEB(25, 0, 25, 0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Image.asset(
-                  'assets/images/DROOT Revisited-01.png',
+                  'assets/images/DROOT_Revisited-01.png',
                   height: MediaQuery.of(context).size.height * 0.2,
                   fit: BoxFit.scaleDown,
                 ),
@@ -194,7 +200,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     ),
                     TextFormField(
                       controller: passwordController,
-                      obscureText: true,
+                      obscureText: !passwordVisibility,
                       decoration: InputDecoration(
                         labelText: 'Password',
                         labelStyle: FlutterFlowTheme.bodyText1.override(
@@ -221,6 +227,17 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                             topRight: Radius.circular(4.0),
                           ),
                         ),
+                        suffixIcon: InkWell(
+                          onTap: () => setState(
+                            () => passwordVisibility = !passwordVisibility,
+                          ),
+                          child: Icon(
+                            passwordVisibility
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
+                            size: 22,
+                          ),
+                        ),
                       ),
                       style: FlutterFlowTheme.bodyText1.override(
                         fontFamily: 'Poppins',
@@ -229,7 +246,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     ),
                     TextFormField(
                       controller: confirmPasswordController,
-                      obscureText: true,
+                      obscureText: !confirmPasswordVisibility,
                       decoration: InputDecoration(
                         labelText: 'Confirm Password',
                         labelStyle: FlutterFlowTheme.bodyText1.override(
@@ -256,6 +273,18 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                             topRight: Radius.circular(4.0),
                           ),
                         ),
+                        suffixIcon: InkWell(
+                          onTap: () => setState(
+                            () => confirmPasswordVisibility =
+                                !confirmPasswordVisibility,
+                          ),
+                          child: Icon(
+                            confirmPasswordVisibility
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
+                            size: 22,
+                          ),
+                        ),
                       ),
                       style: FlutterFlowTheme.bodyText1.override(
                         fontFamily: 'Poppins',
@@ -265,7 +294,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(2, 0, 0, 0),
+                  padding: EdgeInsetsDirectional.fromSTEB(2, 0, 0, 0),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -273,51 +302,50 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     children: [
                       FFButtonWidget(
                         onPressed: () async {
-                          if (passwordController.text !=
-                              confirmPasswordController.text) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  "Passwords don't match!",
+                          setState(() => _loadingButton1 = true);
+                          try {
+                            if (passwordController.text !=
+                                confirmPasswordController.text) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    "Passwords don't match!",
+                                  ),
                                 ),
-                              ),
+                              );
+                              return;
+                            }
+
+                            final user = await createAccountWithEmail(
+                              context,
+                              emailAddressController.text,
+                              passwordController.text,
                             );
-                            return;
+                            if (user == null) {
+                              return;
+                            }
+
+                            final usersCreateData = createUsersRecordData(
+                              email: emailAddressController.text,
+                              displayName: fullNameController.text,
+                              photoUrl:
+                                  'https://upload.wikimedia.org/wikipedia/commons/8/85/Elon_Musk_Royal_Society_%28crop1%29.jpg',
+                              createdTime: getCurrentTimestamp,
+                            );
+                            await UsersRecord.collection
+                                .doc(user.uid)
+                                .update(usersCreateData);
+
+                            await Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePageWidget(),
+                              ),
+                              (r) => false,
+                            );
+                          } finally {
+                            setState(() => _loadingButton1 = false);
                           }
-
-                          final user = await createAccountWithEmail(
-                            context,
-                            emailAddressController.text,
-                            passwordController.text,
-                          );
-                          if (user == null) {
-                            return;
-                          }
-
-                          final email = emailAddressController.text;
-                          final displayName = fullNameController.text;
-                          final photoUrl =
-                              'https://upload.wikimedia.org/wikipedia/commons/8/85/Elon_Musk_Royal_Society_%28crop1%29.jpg';
-                          final createdTime = getCurrentTimestamp;
-
-                          final usersRecordData = createUsersRecordData(
-                            email: email,
-                            displayName: displayName,
-                            photoUrl: photoUrl,
-                            createdTime: createdTime,
-                          );
-
-                          await UsersRecord.collection
-                              .doc(user.uid)
-                              .update(usersRecordData);
-
-                          await Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomePageWidget(),
-                            ),
-                            (r) => false,
-                          );
                         },
                         text: 'Sign Up',
                         options: FFButtonOptions(
@@ -334,6 +362,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           ),
                           borderRadius: 5,
                         ),
+                        loading: _loadingButton1,
                       )
                     ],
                   ),
@@ -354,17 +383,22 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     Divider(),
                     FFButtonWidget(
                       onPressed: () async {
-                        final user = await signInWithGoogle(context);
-                        if (user == null) {
-                          return;
+                        setState(() => _loadingButton2 = true);
+                        try {
+                          final user = await signInWithGoogle(context);
+                          if (user == null) {
+                            return;
+                          }
+                          await Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePageWidget(),
+                            ),
+                            (r) => false,
+                          );
+                        } finally {
+                          setState(() => _loadingButton2 = false);
                         }
-                        await Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomePageWidget(),
-                          ),
-                          (r) => false,
-                        );
                       },
                       text: 'Sign Up with Google',
                       icon: FaIcon(
@@ -386,6 +420,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         ),
                         borderRadius: 5,
                       ),
+                      loading: _loadingButton2,
                     )
                   ],
                 )

@@ -1,4 +1,5 @@
 import '../flutter_flow/flutter_flow_theme.dart';
+import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_youtube_player.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -39,22 +40,22 @@ class _AboutWidgetState extends State<AboutWidget> {
       backgroundColor: FlutterFlowTheme.primaryColor,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+          padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
-                padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                padding: EdgeInsetsDirectional.fromSTEB(30, 10, 30, 10),
                 child: Image.asset(
-                  'assets/images/DROOT Revisited-02.png',
+                  'assets/images/DROOT_Revisited-02.png',
                   width: MediaQuery.of(context).size.width * 0.8,
                   height: 100,
                   fit: BoxFit.cover,
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
                 child: FlutterFlowYoutubePlayer(
                   url: 'https://youtu.be/OCPzfclw950',
                   autoPlay: false,
@@ -64,7 +65,7 @@ class _AboutWidgetState extends State<AboutWidget> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
                 child: AutoSizeText(
                   'Droot is a platform that will assist the user before, during, and after the trip. We aim to create an online marketplace for all travel-related activities. The application comes up with a beautiful and intuitive interface, making it more accessible and operable by any age group. It will connect all the companions thus keeping them updated.',
                   textAlign: TextAlign.center,

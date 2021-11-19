@@ -1,6 +1,7 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
+import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../new_document_page/new_document_page_widget.dart';
 import '../profile/profile_widget.dart';
@@ -17,7 +18,12 @@ class DocumentsWidget extends StatefulWidget {
 }
 
 class _DocumentsWidgetState extends State<DocumentsWidget> {
+  bool _loadingButton1 = false;
+  bool _loadingButton2 = false;
+  bool _loadingButton3 = false;
+  bool _loadingButton4 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  bool _loadingButton5 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,19 +34,26 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
+          return Center(
+            child: SizedBox(
+              width: 50,
+              height: 50,
+              child: CircularProgressIndicator(
+                color: FlutterFlowTheme.primaryColor,
+              ),
+            ),
+          );
         }
         List<DocumentrecordRecord> documentsDocumentrecordRecordList =
             snapshot.data;
-        // Customize what your widget looks like with no query results.
+        // Return an empty Container when the document does not exist.
         if (snapshot.data.isEmpty) {
-          // return Container();
-          // For now, we'll just include some dummy data.
-          documentsDocumentrecordRecordList =
-              createDummyDocumentrecordRecord(count: 1);
+          return Container();
         }
         final documentsDocumentrecordRecord =
-            documentsDocumentrecordRecordList.first;
+            documentsDocumentrecordRecordList.isNotEmpty
+                ? documentsDocumentrecordRecordList.first
+                : null;
         return Scaffold(
           key: scaffoldKey,
           appBar: AppBar(
@@ -102,17 +115,25 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
               decoration: BoxDecoration(
                 color: FlutterFlowTheme.primaryColor,
               ),
-              child: StreamBuilder<UsersRecord>(
-                stream: UsersRecord.getDocument(currentUserReference),
-                builder: (context, snapshot) {
-                  // Customize what your widget looks like when it's loading.
-                  if (!snapshot.hasData) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  final columnUsersRecord = snapshot.data;
-                  return Padding(
-                    padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-                    child: Column(
+              child: Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),
+                child: StreamBuilder<UsersRecord>(
+                  stream: UsersRecord.getDocument(currentUserReference),
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: CircularProgressIndicator(
+                            color: FlutterFlowTheme.primaryColor,
+                          ),
+                        ),
+                      );
+                    }
+                    final columnUsersRecord = snapshot.data;
+                    return Column(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -136,7 +157,15 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                           builder: (context, snapshot) {
                             // Customize what your widget looks like when it's loading.
                             if (!snapshot.hasData) {
-                              return Center(child: CircularProgressIndicator());
+                              return Center(
+                                child: SizedBox(
+                                  width: 50,
+                                  height: 50,
+                                  child: CircularProgressIndicator(
+                                    color: FlutterFlowTheme.primaryColor,
+                                  ),
+                                ),
+                              );
                             }
                             final textUsersRecord = snapshot.data;
                             return Text(
@@ -164,7 +193,7 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                           color: Color(0x5C9E9E9E),
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                          padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -195,16 +224,22 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                                   ),
                                   borderRadius: 12,
                                 ),
+                                loading: _loadingButton1,
                               ),
                               Divider(),
                               FFButtonWidget(
                                 onPressed: () async {
-                                  await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ProfileWidget(),
-                                    ),
-                                  );
+                                  setState(() => _loadingButton2 = true);
+                                  try {
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ProfileWidget(),
+                                      ),
+                                    );
+                                  } finally {
+                                    setState(() => _loadingButton2 = false);
+                                  }
                                 },
                                 text: 'Profile',
                                 icon: Icon(
@@ -227,6 +262,7 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                                   ),
                                   borderRadius: 12,
                                 ),
+                                loading: _loadingButton2,
                               ),
                               Divider(),
                               FFButtonWidget(
@@ -254,6 +290,7 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                                   ),
                                   borderRadius: 12,
                                 ),
+                                loading: _loadingButton3,
                               ),
                               Divider(
                                 thickness: 1,
@@ -261,14 +298,19 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                               ),
                               FFButtonWidget(
                                 onPressed: () async {
-                                  await signOut();
-                                  await Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => StartPageWidget(),
-                                    ),
-                                    (r) => false,
-                                  );
+                                  setState(() => _loadingButton4 = true);
+                                  try {
+                                    await signOut();
+                                    await Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => StartPageWidget(),
+                                      ),
+                                      (r) => false,
+                                    );
+                                  } finally {
+                                    setState(() => _loadingButton4 = false);
+                                  }
                                 },
                                 text: 'Sign Out',
                                 icon: Icon(
@@ -291,20 +333,21 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                                   ),
                                   borderRadius: 12,
                                 ),
+                                loading: _loadingButton4,
                               )
                             ],
                           ),
                         )
                       ],
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
           ),
           body: SafeArea(
             child: Padding(
-              padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+              padding: EdgeInsetsDirectional.fromSTEB(20, 10, 20, 0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -319,11 +362,18 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                       builder: (context, snapshot) {
                         // Customize what your widget looks like when it's loading.
                         if (!snapshot.hasData) {
-                          return Center(child: CircularProgressIndicator());
+                          return Center(
+                            child: SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: CircularProgressIndicator(
+                                color: FlutterFlowTheme.primaryColor,
+                              ),
+                            ),
+                          );
                         }
                         List<DocumentrecordRecord>
                             listViewDocumentrecordRecordList = snapshot.data;
-                        // Customize what your widget looks like with no query results.
                         if (listViewDocumentrecordRecordList.isEmpty) {
                           return Center(
                             child: Image.asset(
@@ -346,41 +396,48 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Stack(
-                                alignment:
-                                    Alignment(-0.09999999999999998, 0.95),
+                                alignment: AlignmentDirectional(
+                                    -0.09999999999999998, 0.95),
                                 children: [
                                   Align(
-                                    alignment: Alignment(0, 0),
+                                    alignment: AlignmentDirectional(0, 0),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Column(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
-                                            CachedNetworkImage(
-                                              imageUrl:
-                                                  listViewDocumentrecordRecord
-                                                      .imageDoc,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.5,
-                                              fit: BoxFit.cover,
+                                            InkWell(
+                                              onTap: () async {
+                                                scaffoldKey.currentState
+                                                    .openDrawer();
+                                              },
+                                              child: CachedNetworkImage(
+                                                imageUrl:
+                                                    listViewDocumentrecordRecord
+                                                        .imageDoc,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.5,
+                                                fit: BoxFit.cover,
+                                              ),
                                             )
                                           ],
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.fromLTRB(
-                                              15, 15, 15, 25),
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  15, 15, 15, 25),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
                                               Padding(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    0, 10, 0, 0),
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(0, 10, 0, 0),
                                                 child: Row(
                                                   mainAxisSize:
                                                       MainAxisSize.max,
@@ -407,29 +464,25 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                                                 children: [
                                                   Padding(
                                                     padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            0, 8, 0, 0),
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                0, 8, 0, 0),
                                                     child: Text(
                                                       'Type:',
                                                       style: FlutterFlowTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily: 'Poppins',
-                                                      ),
+                                                          .bodyText1,
                                                     ),
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            5, 8, 0, 0),
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                5, 8, 0, 0),
                                                     child: Text(
                                                       listViewDocumentrecordRecord
                                                           .documentType,
                                                       style: FlutterFlowTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily: 'Poppins',
-                                                      ),
+                                                          .bodyText1,
                                                     ),
                                                   )
                                                 ],
@@ -439,29 +492,25 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                                                 children: [
                                                   Padding(
                                                     padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            0, 8, 0, 0),
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                0, 8, 0, 0),
                                                     child: Text(
                                                       'Description:',
                                                       style: FlutterFlowTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily: 'Poppins',
-                                                      ),
+                                                          .bodyText1,
                                                     ),
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            5, 8, 0, 0),
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                5, 8, 0, 0),
                                                     child: Text(
                                                       listViewDocumentrecordRecord
                                                           .description,
                                                       style: FlutterFlowTheme
-                                                          .bodyText1
-                                                          .override(
-                                                        fontFamily: 'Poppins',
-                                                      ),
+                                                          .bodyText1,
                                                     ),
                                                   )
                                                 ],
@@ -470,13 +519,21 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                                           ),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.fromLTRB(
-                                              10, 0, 10, 10),
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  10, 0, 10, 10),
                                           child: FFButtonWidget(
                                             onPressed: () async {
-                                              await listViewDocumentrecordRecord
-                                                  .reference
-                                                  .delete();
+                                              setState(
+                                                  () => _loadingButton5 = true);
+                                              try {
+                                                await listViewDocumentrecordRecord
+                                                    .reference
+                                                    .delete();
+                                              } finally {
+                                                setState(() =>
+                                                    _loadingButton5 = false);
+                                              }
                                             },
                                             text: 'Delete Document',
                                             icon: Icon(
@@ -502,6 +559,7 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                                               ),
                                               borderRadius: 12,
                                             ),
+                                            loading: _loadingButton5,
                                           ),
                                         )
                                       ],

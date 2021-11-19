@@ -1,5 +1,6 @@
 import '../auth/auth_util.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
+import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../forgot_password/forgot_password_widget.dart';
 import '../home_page/home_page_widget.dart';
@@ -17,6 +18,9 @@ class SignInWidget extends StatefulWidget {
 class _SignInWidgetState extends State<SignInWidget> {
   TextEditingController emailAddressController;
   TextEditingController passwordController;
+  bool passwordVisibility;
+  bool _loadingButton1 = false;
+  bool _loadingButton2 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -24,6 +28,7 @@ class _SignInWidgetState extends State<SignInWidget> {
     super.initState();
     emailAddressController = TextEditingController();
     passwordController = TextEditingController();
+    passwordVisibility = false;
   }
 
   @override
@@ -38,18 +43,18 @@ class _SignInWidgetState extends State<SignInWidget> {
             color: FlutterFlowTheme.primaryColor,
           ),
           child: Align(
-            alignment: Alignment(0, -0.98),
+            alignment: AlignmentDirectional(0, -0.98),
             child: Padding(
-              padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+              padding: EdgeInsetsDirectional.fromSTEB(25, 0, 25, 0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Align(
-                    alignment: Alignment(0.06, -0.63),
+                    alignment: AlignmentDirectional(0.06, -0.63),
                     child: Image.asset(
-                      'assets/images/DROOT Revisited-01.png',
+                      'assets/images/DROOT_Revisited-01.png',
                       width: 280,
                       height: MediaQuery.of(context).size.height * 0.25,
                       fit: BoxFit.contain,
@@ -92,7 +97,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                   ),
                   TextFormField(
                     controller: passwordController,
-                    obscureText: true,
+                    obscureText: !passwordVisibility,
                     decoration: InputDecoration(
                       labelText: 'Password',
                       labelStyle: FlutterFlowTheme.bodyText1.override(
@@ -119,6 +124,17 @@ class _SignInWidgetState extends State<SignInWidget> {
                           topRight: Radius.circular(4.0),
                         ),
                       ),
+                      suffixIcon: InkWell(
+                        onTap: () => setState(
+                          () => passwordVisibility = !passwordVisibility,
+                        ),
+                        child: Icon(
+                          passwordVisibility
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                          size: 22,
+                        ),
+                      ),
                     ),
                     style: FlutterFlowTheme.bodyText1.override(
                       fontFamily: 'Poppins',
@@ -130,25 +146,30 @@ class _SignInWidgetState extends State<SignInWidget> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Padding(
-                        padding: EdgeInsets.fromLTRB(2, 0, 5, 0),
+                        padding: EdgeInsetsDirectional.fromSTEB(2, 0, 5, 0),
                         child: FFButtonWidget(
                           onPressed: () async {
-                            final user = await signInWithEmail(
-                              context,
-                              emailAddressController.text,
-                              passwordController.text,
-                            );
-                            if (user == null) {
-                              return;
-                            }
+                            setState(() => _loadingButton1 = true);
+                            try {
+                              final user = await signInWithEmail(
+                                context,
+                                emailAddressController.text,
+                                passwordController.text,
+                              );
+                              if (user == null) {
+                                return;
+                              }
 
-                            await Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePageWidget(),
-                              ),
-                              (r) => false,
-                            );
+                              await Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomePageWidget(),
+                                ),
+                                (r) => false,
+                              );
+                            } finally {
+                              setState(() => _loadingButton1 = false);
+                            }
                           },
                           text: 'Sign In',
                           options: FFButtonOptions(
@@ -165,6 +186,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                             ),
                             borderRadius: 5,
                           ),
+                          loading: _loadingButton1,
                         ),
                       )
                     ],
@@ -202,20 +224,25 @@ class _SignInWidgetState extends State<SignInWidget> {
                       ),
                       Divider(),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
+                        padding: EdgeInsetsDirectional.fromSTEB(2, 0, 2, 0),
                         child: FFButtonWidget(
                           onPressed: () async {
-                            final user = await signInWithGoogle(context);
-                            if (user == null) {
-                              return;
+                            setState(() => _loadingButton2 = true);
+                            try {
+                              final user = await signInWithGoogle(context);
+                              if (user == null) {
+                                return;
+                              }
+                              await Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomePageWidget(),
+                                ),
+                                (r) => false,
+                              );
+                            } finally {
+                              setState(() => _loadingButton2 = false);
                             }
-                            await Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePageWidget(),
-                              ),
-                              (r) => false,
-                            );
                           },
                           text: 'Sign In with Google',
                           icon: FaIcon(
@@ -236,6 +263,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                             ),
                             borderRadius: 5,
                           ),
+                          loading: _loadingButton2,
                         ),
                       )
                     ],

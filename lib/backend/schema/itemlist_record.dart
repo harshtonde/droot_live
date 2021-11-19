@@ -1,10 +1,8 @@
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
-import 'package:built_collection/built_collection.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
 
-import 'schema_util.dart';
+import 'index.dart';
 import 'serializers.dart';
+import 'package:built_value/built_value.dart';
 
 part 'itemlist_record.g.dart';
 
@@ -24,7 +22,7 @@ abstract class ItemlistRecord
 
   @nullable
   @BuiltValueField(wireName: 'created_at')
-  Timestamp get createdAt;
+  DateTime get createdAt;
 
   @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
@@ -44,29 +42,23 @@ abstract class ItemlistRecord
   ItemlistRecord._();
   factory ItemlistRecord([void Function(ItemlistRecordBuilder) updates]) =
       _$ItemlistRecord;
+
+  static ItemlistRecord getDocumentFromData(
+          Map<String, dynamic> data, DocumentReference reference) =>
+      serializers.deserializeWith(serializer,
+          {...mapFromFirestore(data), kDocumentReferenceField: reference});
 }
 
 Map<String, dynamic> createItemlistRecordData({
   DocumentReference userreference,
   String itemname,
   bool packedinbag,
-  Timestamp createdAt,
+  DateTime createdAt,
 }) =>
-    serializers.serializeWith(
+    serializers.toFirestore(
         ItemlistRecord.serializer,
         ItemlistRecord((i) => i
           ..userreference = userreference
           ..itemname = itemname
           ..packedinbag = packedinbag
           ..createdAt = createdAt));
-
-ItemlistRecord get dummyItemlistRecord {
-  final builder = ItemlistRecordBuilder()
-    ..itemname = dummyString
-    ..packedinbag = dummyBoolean
-    ..createdAt = dummyTimestamp;
-  return builder.build();
-}
-
-List<ItemlistRecord> createDummyItemlistRecord({int count}) =>
-    List.generate(count, (_) => dummyItemlistRecord);

@@ -18,9 +18,12 @@ class ProfileWidget extends StatefulWidget {
 }
 
 class _ProfileWidgetState extends State<ProfileWidget> {
-  String uploadedFileUrl;
+  String uploadedFileUrl = '';
+  bool _loadingButton1 = false;
   TextEditingController textController1;
   TextEditingController textController2;
+  bool _loadingButton2 = false;
+  bool _loadingButton3 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -37,7 +40,15 @@ class _ProfileWidgetState extends State<ProfileWidget> {
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
+          return Center(
+            child: SizedBox(
+              width: 50,
+              height: 50,
+              child: CircularProgressIndicator(
+                color: FlutterFlowTheme.primaryColor,
+              ),
+            ),
+          );
         }
         final profileUsersRecord = snapshot.data;
         return Scaffold(
@@ -68,14 +79,14 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                 color: FlutterFlowTheme.primaryColor,
               ),
               child: Padding(
-                padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+                padding: EdgeInsetsDirectional.fromSTEB(25, 0, 25, 0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: EdgeInsets.fromLTRB(2, 0, 0, 0),
+                      padding: EdgeInsetsDirectional.fromSTEB(2, 0, 0, 0),
                       child: Container(
                         width: 100,
                         height: 100,
@@ -87,7 +98,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                           ),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
+                          padding: EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
                           child: Container(
                             clipBehavior: Clip.antiAlias,
                             decoration: BoxDecoration(
@@ -109,12 +120,13 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Padding(
-                            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -127,36 +139,41 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: EdgeInsets.fromLTRB(20, 1, 20, 0),
-                                    child: TextFormField(
-                                      controller: textController1,
-                                      obscureText: false,
-                                      decoration: InputDecoration(
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.transparent,
-                                            width: 1,
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        20, 1, 20, 0),
+                                    child: AuthUserStreamWidget(
+                                      child: TextFormField(
+                                        controller: textController1,
+                                        obscureText: false,
+                                        decoration: InputDecoration(
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 1,
+                                            ),
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topLeft: Radius.circular(4.0),
+                                              topRight: Radius.circular(4.0),
+                                            ),
                                           ),
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(4.0),
-                                            topRight: Radius.circular(4.0),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 1,
+                                            ),
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topLeft: Radius.circular(4.0),
+                                              topRight: Radius.circular(4.0),
+                                            ),
                                           ),
                                         ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.transparent,
-                                            width: 1,
-                                          ),
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(4.0),
-                                            topRight: Radius.circular(4.0),
-                                          ),
+                                        style:
+                                            FlutterFlowTheme.bodyText1.override(
+                                          fontFamily: 'Poppins',
+                                          color: FlutterFlowTheme.tertiaryColor,
                                         ),
-                                      ),
-                                      style:
-                                          FlutterFlowTheme.bodyText1.override(
-                                        fontFamily: 'Poppins',
-                                        color: FlutterFlowTheme.tertiaryColor,
                                       ),
                                     ),
                                   ),
@@ -165,7 +182,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -178,36 +196,41 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: EdgeInsets.fromLTRB(10, 1, 20, 0),
-                                    child: TextFormField(
-                                      controller: textController2,
-                                      obscureText: false,
-                                      decoration: InputDecoration(
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.transparent,
-                                            width: 1,
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        10, 1, 20, 0),
+                                    child: AuthUserStreamWidget(
+                                      child: TextFormField(
+                                        controller: textController2,
+                                        obscureText: false,
+                                        decoration: InputDecoration(
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 1,
+                                            ),
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topLeft: Radius.circular(4.0),
+                                              topRight: Radius.circular(4.0),
+                                            ),
                                           ),
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(4.0),
-                                            topRight: Radius.circular(4.0),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Color(0x00000000),
+                                              width: 1,
+                                            ),
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topLeft: Radius.circular(4.0),
+                                              topRight: Radius.circular(4.0),
+                                            ),
                                           ),
                                         ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.transparent,
-                                            width: 1,
-                                          ),
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(4.0),
-                                            topRight: Radius.circular(4.0),
-                                          ),
+                                        style:
+                                            FlutterFlowTheme.bodyText1.override(
+                                          fontFamily: 'Poppins',
+                                          color: FlutterFlowTheme.tertiaryColor,
                                         ),
-                                      ),
-                                      style:
-                                          FlutterFlowTheme.bodyText1.override(
-                                        fontFamily: 'Poppins',
-                                        color: FlutterFlowTheme.tertiaryColor,
                                       ),
                                     ),
                                   ),
@@ -216,29 +239,37 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
+                            padding: EdgeInsetsDirectional.fromSTEB(2, 0, 2, 0),
                             child: FFButtonWidget(
                               onPressed: () async {
-                                final selectedMedia = await selectMedia();
-                                if (selectedMedia != null &&
-                                    validateFileFormat(
-                                        selectedMedia.storagePath, context)) {
-                                  showUploadMessage(
-                                      context, 'Uploading file...',
-                                      showLoading: true);
-                                  final downloadUrl = await uploadData(
-                                      selectedMedia.storagePath,
-                                      selectedMedia.bytes);
-                                  ScaffoldMessenger.of(context)
-                                      .hideCurrentSnackBar();
-                                  if (downloadUrl != null) {
-                                    setState(
-                                        () => uploadedFileUrl = downloadUrl);
-                                    showUploadMessage(context, 'Success!');
-                                  } else {
+                                setState(() => _loadingButton1 = true);
+                                try {
+                                  final selectedMedia = await selectMedia(
+                                    mediaSource: MediaSource.photoGallery,
+                                  );
+                                  if (selectedMedia != null &&
+                                      validateFileFormat(
+                                          selectedMedia.storagePath, context)) {
                                     showUploadMessage(
-                                        context, 'Failed to upload media');
+                                        context, 'Uploading file...',
+                                        showLoading: true);
+                                    final downloadUrl = await uploadData(
+                                        selectedMedia.storagePath,
+                                        selectedMedia.bytes);
+                                    ScaffoldMessenger.of(context)
+                                        .hideCurrentSnackBar();
+                                    if (downloadUrl != null) {
+                                      setState(
+                                          () => uploadedFileUrl = downloadUrl);
+                                      showUploadMessage(context, 'Success!');
+                                    } else {
+                                      showUploadMessage(
+                                          context, 'Failed to upload media');
+                                      return;
+                                    }
                                   }
+                                } finally {
+                                  setState(() => _loadingButton1 = false);
                                 }
                               },
                               text: 'Change Profile Picture',
@@ -256,6 +287,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                 ),
                                 borderRadius: 5,
                               ),
+                              loading: _loadingButton1,
                             ),
                           )
                         ],
@@ -268,7 +300,12 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       children: [
                         FFButtonWidget(
                           onPressed: () async {
-                            Navigator.pop(context);
+                            setState(() => _loadingButton2 = true);
+                            try {
+                              Navigator.pop(context);
+                            } finally {
+                              setState(() => _loadingButton2 = false);
+                            }
                           },
                           text: 'Cancel',
                           options: FFButtonOptions(
@@ -285,27 +322,29 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                             ),
                             borderRadius: 5,
                           ),
+                          loading: _loadingButton2,
                         ),
                         FFButtonWidget(
                           onPressed: () async {
-                            final email = textController2.text;
-                            final displayName = textController1.text;
-                            final photoUrl = uploadedFileUrl;
-
-                            final usersRecordData = createUsersRecordData(
-                              email: email,
-                              displayName: displayName,
-                              photoUrl: photoUrl,
-                            );
-
-                            await currentUserReference.update(usersRecordData);
-                            await Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePageWidget(),
-                              ),
-                              (r) => false,
-                            );
+                            setState(() => _loadingButton3 = true);
+                            try {
+                              final usersUpdateData = createUsersRecordData(
+                                email: textController2.text,
+                                displayName: textController1.text,
+                                photoUrl: uploadedFileUrl,
+                              );
+                              await currentUserReference
+                                  .update(usersUpdateData);
+                              await Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomePageWidget(),
+                                ),
+                                (r) => false,
+                              );
+                            } finally {
+                              setState(() => _loadingButton3 = false);
+                            }
                           },
                           text: 'Save',
                           options: FFButtonOptions(
@@ -322,6 +361,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                             ),
                             borderRadius: 5,
                           ),
+                          loading: _loadingButton3,
                         )
                       ],
                     )

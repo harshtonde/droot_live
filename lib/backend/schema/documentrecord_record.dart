@@ -1,10 +1,8 @@
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
-import 'package:built_collection/built_collection.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
 
-import 'schema_util.dart';
+import 'index.dart';
 import 'serializers.dart';
+import 'package:built_value/built_value.dart';
 
 part 'documentrecord_record.g.dart';
 
@@ -23,7 +21,7 @@ abstract class DocumentrecordRecord
   String get description;
 
   @nullable
-  Timestamp get createdAt;
+  DateTime get createdAt;
 
   @nullable
   DocumentReference get userRef;
@@ -48,16 +46,21 @@ abstract class DocumentrecordRecord
   factory DocumentrecordRecord(
           [void Function(DocumentrecordRecordBuilder) updates]) =
       _$DocumentrecordRecord;
+
+  static DocumentrecordRecord getDocumentFromData(
+          Map<String, dynamic> data, DocumentReference reference) =>
+      serializers.deserializeWith(serializer,
+          {...mapFromFirestore(data), kDocumentReferenceField: reference});
 }
 
 Map<String, dynamic> createDocumentrecordRecordData({
   String documentType,
   String imageDoc,
   String description,
-  Timestamp createdAt,
+  DateTime createdAt,
   DocumentReference userRef,
 }) =>
-    serializers.serializeWith(
+    serializers.toFirestore(
         DocumentrecordRecord.serializer,
         DocumentrecordRecord((d) => d
           ..documentType = documentType
@@ -65,15 +68,3 @@ Map<String, dynamic> createDocumentrecordRecordData({
           ..description = description
           ..createdAt = createdAt
           ..userRef = userRef));
-
-DocumentrecordRecord get dummyDocumentrecordRecord {
-  final builder = DocumentrecordRecordBuilder()
-    ..documentType = dummyString
-    ..imageDoc = dummyImagePath
-    ..description = dummyString
-    ..createdAt = dummyTimestamp;
-  return builder.build();
-}
-
-List<DocumentrecordRecord> createDummyDocumentrecordRecord({int count}) =>
-    List.generate(count, (_) => dummyDocumentrecordRecord);

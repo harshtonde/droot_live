@@ -18,10 +18,14 @@ class NewTripWidget extends StatefulWidget {
 
 class _NewTripWidgetState extends State<NewTripWidget> {
   DateTime datePicked1;
+  bool _loadingButton1 = false;
   DateTime datePicked2;
+  bool _loadingButton2 = false;
   TextEditingController textController1;
   TextEditingController textController2;
   TextEditingController textController3;
+  bool _loadingButton3 = false;
+  bool _loadingButton4 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -62,7 +66,7 @@ class _NewTripWidgetState extends State<NewTripWidget> {
             color: FlutterFlowTheme.primaryColor,
           ),
           child: Padding(
-            padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+            padding: EdgeInsetsDirectional.fromSTEB(25, 0, 25, 0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -180,10 +184,19 @@ class _NewTripWidgetState extends State<NewTripWidget> {
                   children: [
                     FFButtonWidget(
                       onPressed: () async {
-                        await DatePicker.showDatePicker(context,
-                            showTitleActions: true, onConfirm: (date) {
-                          setState(() => datePicked1 = date);
-                        }, currentTime: DateTime.now());
+                        setState(() => _loadingButton1 = true);
+                        try {
+                          await DatePicker.showDatePicker(
+                            context,
+                            showTitleActions: true,
+                            onConfirm: (date) {
+                              setState(() => datePicked1 = date);
+                            },
+                            currentTime: getCurrentTimestamp,
+                          );
+                        } finally {
+                          setState(() => _loadingButton1 = false);
+                        }
                       },
                       text: 'Start Date',
                       options: FFButtonOptions(
@@ -200,13 +213,23 @@ class _NewTripWidgetState extends State<NewTripWidget> {
                         ),
                         borderRadius: 5,
                       ),
+                      loading: _loadingButton1,
                     ),
                     FFButtonWidget(
                       onPressed: () async {
-                        await DatePicker.showDatePicker(context,
-                            showTitleActions: true, onConfirm: (date) {
-                          setState(() => datePicked2 = date);
-                        }, currentTime: DateTime.now());
+                        setState(() => _loadingButton2 = true);
+                        try {
+                          await DatePicker.showDatePicker(
+                            context,
+                            showTitleActions: true,
+                            onConfirm: (date) {
+                              setState(() => datePicked2 = date);
+                            },
+                            currentTime: getCurrentTimestamp,
+                          );
+                        } finally {
+                          setState(() => _loadingButton2 = false);
+                        }
                       },
                       text: 'End Date',
                       options: FFButtonOptions(
@@ -223,6 +246,7 @@ class _NewTripWidgetState extends State<NewTripWidget> {
                         ),
                         borderRadius: 5,
                       ),
+                      loading: _loadingButton2,
                     )
                   ],
                 ),
@@ -233,7 +257,12 @@ class _NewTripWidgetState extends State<NewTripWidget> {
                   children: [
                     FFButtonWidget(
                       onPressed: () async {
-                        Navigator.pop(context);
+                        setState(() => _loadingButton3 = true);
+                        try {
+                          Navigator.pop(context);
+                        } finally {
+                          setState(() => _loadingButton3 = false);
+                        }
                       },
                       text: 'Cancel',
                       options: FFButtonOptions(
@@ -250,37 +279,35 @@ class _NewTripWidgetState extends State<NewTripWidget> {
                         ),
                         borderRadius: 5,
                       ),
+                      loading: _loadingButton3,
                     ),
                     FFButtonWidget(
                       onPressed: () async {
-                        final tripname = textController1.text;
-                        final destination = textController2.text;
-                        final origin = textController3.text;
-                        final userref = currentUserReference;
-                        final createdAt = getCurrentTimestamp;
-                        final startdate = Timestamp.fromDate(datePicked1);
-                        final enddate = Timestamp.fromDate(datePicked2);
-
-                        final triprecordRecordData = createTriprecordRecordData(
-                          tripname: tripname,
-                          destination: destination,
-                          origin: origin,
-                          userref: userref,
-                          createdAt: createdAt,
-                          startdate: startdate,
-                          enddate: enddate,
-                        );
-
-                        await TriprecordRecord.collection
-                            .doc()
-                            .set(triprecordRecordData);
-                        await Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomePageWidget(),
-                          ),
-                          (r) => false,
-                        );
+                        setState(() => _loadingButton4 = true);
+                        try {
+                          final triprecordCreateData =
+                              createTriprecordRecordData(
+                            tripname: textController1.text,
+                            destination: textController2.text,
+                            origin: textController3.text,
+                            userref: currentUserReference,
+                            createdAt: getCurrentTimestamp,
+                            startdate: datePicked1,
+                            enddate: datePicked2,
+                          );
+                          await TriprecordRecord.collection
+                              .doc()
+                              .set(triprecordCreateData);
+                          await Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePageWidget(),
+                            ),
+                            (r) => false,
+                          );
+                        } finally {
+                          setState(() => _loadingButton4 = false);
+                        }
                       },
                       text: 'Save',
                       options: FFButtonOptions(
@@ -297,6 +324,7 @@ class _NewTripWidgetState extends State<NewTripWidget> {
                         ),
                         borderRadius: 5,
                       ),
+                      loading: _loadingButton4,
                     )
                   ],
                 )
