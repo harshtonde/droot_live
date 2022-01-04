@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "837805958901",
+    "project_id": "droot-theroute",
+    "storage_bucket": "droot-theroute.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837805958901:android:688d3cfb321e36c54407bc",
+        "android_client_info": {
+          "package_name": "com.flutterflow.droot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "837805958901-23ji6mfgi6525qtqjb6k26jgb2h2oaqn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI1WK5gkeCExkBjEkRdxIk9KjZs3Dpszg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "837805958901-23ji6mfgi6525qtqjb6k26jgb2h2oaqn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
