@@ -23,7 +23,6 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
 
@@ -75,7 +74,7 @@ class _FlutterFlowYoutubePlayerState extends State<FlutterFlowYoutubePlayer> {
       : widget.width;
 
   double get height => widget.height == null || widget.height >= double.infinity
-      ? (width != null ? width / kYoutubeAspectRatio : null)
+      ? width / kYoutubeAspectRatio
       : widget.height;
 
   void initializePlayer() {
@@ -118,7 +117,7 @@ class _FlutterFlowYoutubePlayerState extends State<FlutterFlowYoutubePlayer> {
 }
 
 String convertUrlToId(String url, {bool trimWhitespaces = true}) {
-  assert(url?.isNotEmpty ?? false, 'Url cannot be empty');
+  assert(url.isNotEmpty, 'Url cannot be empty');
   if (!url.contains("http") && (url.length == 11)) return url;
   if (trimWhitespaces) url = url.trim();
   for (final regex in [
@@ -130,7 +129,7 @@ String convertUrlToId(String url, {bool trimWhitespaces = true}) {
     ),
     RegExp(r"^https:\/\/youtu\.be\/([_\-a-zA-Z0-9]{11}).*$")
   ]) {
-    Match match = regex.firstMatch(url);
+    final match = regex.firstMatch(url);
     if (match != null && match.groupCount >= 1) return match.group(1);
   }
   return null;

@@ -9,7 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SignUpWidget extends StatefulWidget {
-  SignUpWidget({Key key}) : super(key: key);
+  const SignUpWidget({Key key}) : super(key: key);
 
   @override
   _SignUpWidgetState createState() => _SignUpWidgetState();
@@ -23,8 +23,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   TextEditingController emailAddressController;
   TextEditingController passwordController;
   bool passwordVisibility;
-  bool _loadingButton1 = false;
-  bool _loadingButton2 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -48,7 +46,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 1,
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.primaryColor,
+            color: FlutterFlowTheme.of(context).primaryColor,
           ),
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(25, 0, 25, 0),
@@ -56,19 +54,23 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Image.asset(
-                  'assets/images/DROOT_Revisited-01.png',
-                  height: MediaQuery.of(context).size.height * 0.2,
-                  fit: BoxFit.scaleDown,
+                Hero(
+                  tag: 'Logo',
+                  transitionOnUserGestures: true,
+                  child: Image.asset(
+                    'assets/images/DROOT_Revisited-01.png',
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    fit: BoxFit.scaleDown,
+                  ),
                 ),
                 Text(
                   'Sign Up',
                   textAlign: TextAlign.center,
-                  style: FlutterFlowTheme.bodyText1.override(
-                    fontFamily: 'Poppins',
-                    color: FlutterFlowTheme.tertiaryColor,
-                    fontSize: 20,
-                  ),
+                  style: FlutterFlowTheme.of(context).bodyText1.override(
+                        fontFamily: 'Poppins',
+                        color: FlutterFlowTheme.of(context).tertiaryColor,
+                        fontSize: 20,
+                      ),
                 ),
                 Divider(
                   height: 1,
@@ -86,10 +88,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                             obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'Full Name',
-                              labelStyle: FlutterFlowTheme.bodyText1.override(
-                                fontFamily: 'Poppins',
-                                color: FlutterFlowTheme.tertiaryColor,
-                              ),
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                   color: Color(0xFF9090AC),
@@ -111,10 +109,12 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                 ),
                               ),
                             ),
-                            style: FlutterFlowTheme.bodyText1.override(
-                              fontFamily: 'Poppins',
-                              color: FlutterFlowTheme.tertiaryColor,
-                            ),
+                            style:
+                                FlutterFlowTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Poppins',
+                                      color: FlutterFlowTheme.of(context)
+                                          .tertiaryColor,
+                                    ),
                             textAlign: TextAlign.start,
                           ),
                         ),
@@ -125,7 +125,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                             color: Color(0xFFEEEEEE),
                             shape: BoxShape.rectangle,
                           ),
-                        )
+                        ),
                       ],
                     ),
                     TextFormField(
@@ -133,10 +133,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       obscureText: false,
                       decoration: InputDecoration(
                         labelText: 'Date of Birth',
-                        labelStyle: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Poppins',
-                          color: FlutterFlowTheme.tertiaryColor,
-                        ),
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0xFF9090AC),
@@ -158,20 +154,16 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           ),
                         ),
                       ),
-                      style: FlutterFlowTheme.bodyText1.override(
-                        fontFamily: 'Poppins',
-                        color: FlutterFlowTheme.tertiaryColor,
-                      ),
+                      style: FlutterFlowTheme.of(context).bodyText1.override(
+                            fontFamily: 'Poppins',
+                            color: FlutterFlowTheme.of(context).tertiaryColor,
+                          ),
                     ),
                     TextFormField(
                       controller: emailAddressController,
                       obscureText: false,
                       decoration: InputDecoration(
                         labelText: 'Email Address',
-                        labelStyle: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Poppins',
-                          color: FlutterFlowTheme.tertiaryColor,
-                        ),
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0xFF9090AC),
@@ -193,20 +185,16 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           ),
                         ),
                       ),
-                      style: FlutterFlowTheme.bodyText1.override(
-                        fontFamily: 'Poppins',
-                        color: FlutterFlowTheme.tertiaryColor,
-                      ),
+                      style: FlutterFlowTheme.of(context).bodyText1.override(
+                            fontFamily: 'Poppins',
+                            color: FlutterFlowTheme.of(context).tertiaryColor,
+                          ),
                     ),
                     TextFormField(
                       controller: passwordController,
                       obscureText: !passwordVisibility,
                       decoration: InputDecoration(
                         labelText: 'Password',
-                        labelStyle: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Poppins',
-                          color: FlutterFlowTheme.tertiaryColor,
-                        ),
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0xFF9090AC),
@@ -231,6 +219,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           onTap: () => setState(
                             () => passwordVisibility = !passwordVisibility,
                           ),
+                          focusNode: FocusNode(skipTraversal: true),
                           child: Icon(
                             passwordVisibility
                                 ? Icons.visibility_outlined
@@ -239,20 +228,16 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           ),
                         ),
                       ),
-                      style: FlutterFlowTheme.bodyText1.override(
-                        fontFamily: 'Poppins',
-                        color: FlutterFlowTheme.tertiaryColor,
-                      ),
+                      style: FlutterFlowTheme.of(context).bodyText1.override(
+                            fontFamily: 'Poppins',
+                            color: FlutterFlowTheme.of(context).tertiaryColor,
+                          ),
                     ),
                     TextFormField(
                       controller: confirmPasswordController,
                       obscureText: !confirmPasswordVisibility,
                       decoration: InputDecoration(
                         labelText: 'Confirm Password',
-                        labelStyle: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Poppins',
-                          color: FlutterFlowTheme.tertiaryColor,
-                        ),
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0xFF9090AC),
@@ -278,6 +263,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                             () => confirmPasswordVisibility =
                                 !confirmPasswordVisibility,
                           ),
+                          focusNode: FocusNode(skipTraversal: true),
                           child: Icon(
                             confirmPasswordVisibility
                                 ? Icons.visibility_outlined
@@ -286,11 +272,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           ),
                         ),
                       ),
-                      style: FlutterFlowTheme.bodyText1.override(
-                        fontFamily: 'Poppins',
-                        color: FlutterFlowTheme.tertiaryColor,
-                      ),
-                    )
+                      style: FlutterFlowTheme.of(context).bodyText1.override(
+                            fontFamily: 'Poppins',
+                            color: FlutterFlowTheme.of(context).tertiaryColor,
+                          ),
+                    ),
                   ],
                 ),
                 Padding(
@@ -302,68 +288,63 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     children: [
                       FFButtonWidget(
                         onPressed: () async {
-                          setState(() => _loadingButton1 = true);
-                          try {
-                            if (passwordController.text !=
-                                confirmPasswordController.text) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    "Passwords don't match!",
-                                  ),
+                          if (passwordController?.text !=
+                              confirmPasswordController?.text) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Passwords don\'t match!',
                                 ),
-                              );
-                              return;
-                            }
-
-                            final user = await createAccountWithEmail(
-                              context,
-                              emailAddressController.text,
-                              passwordController.text,
-                            );
-                            if (user == null) {
-                              return;
-                            }
-
-                            final usersCreateData = createUsersRecordData(
-                              email: emailAddressController.text,
-                              displayName: fullNameController.text,
-                              photoUrl:
-                                  'https://upload.wikimedia.org/wikipedia/commons/8/85/Elon_Musk_Royal_Society_%28crop1%29.jpg',
-                              createdTime: getCurrentTimestamp,
-                            );
-                            await UsersRecord.collection
-                                .doc(user.uid)
-                                .update(usersCreateData);
-
-                            await Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePageWidget(),
                               ),
-                              (r) => false,
                             );
-                          } finally {
-                            setState(() => _loadingButton1 = false);
+                            return;
                           }
+
+                          final user = await createAccountWithEmail(
+                            context,
+                            emailAddressController.text,
+                            passwordController.text,
+                          );
+                          if (user == null) {
+                            return;
+                          }
+
+                          final usersCreateData = createUsersRecordData(
+                            email: emailAddressController.text,
+                            displayName: fullNameController.text,
+                            photoUrl:
+                                'https://upload.wikimedia.org/wikipedia/commons/8/85/Elon_Musk_Royal_Society_%28crop1%29.jpg',
+                            createdTime: getCurrentTimestamp,
+                          );
+                          await UsersRecord.collection
+                              .doc(user.uid)
+                              .update(usersCreateData);
+
+                          await Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePageWidget(),
+                            ),
+                            (r) => false,
+                          );
                         },
                         text: 'Sign Up',
                         options: FFButtonOptions(
                           width: 130,
                           height: 40,
-                          color: FlutterFlowTheme.secondaryColor,
-                          textStyle: FlutterFlowTheme.subtitle2.override(
-                            fontFamily: 'Poppins',
-                            color: Colors.white,
-                          ),
+                          color: FlutterFlowTheme.of(context).secondaryColor,
+                          textStyle:
+                              FlutterFlowTheme.of(context).subtitle2.override(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                  ),
                           borderSide: BorderSide(
                             color: Colors.transparent,
                             width: 1,
                           ),
-                          borderRadius: 5,
+                          borderRadius: BorderRadius.circular(5),
                         ),
-                        loading: _loadingButton1,
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -375,55 +356,51 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     Text(
                       'Or',
                       textAlign: TextAlign.center,
-                      style: FlutterFlowTheme.bodyText1.override(
-                        fontFamily: 'Poppins',
-                        color: FlutterFlowTheme.tertiaryColor,
-                      ),
+                      style: FlutterFlowTheme.of(context).bodyText1.override(
+                            fontFamily: 'Poppins',
+                            color: FlutterFlowTheme.of(context).tertiaryColor,
+                          ),
                     ),
                     Divider(),
                     FFButtonWidget(
                       onPressed: () async {
-                        setState(() => _loadingButton2 = true);
-                        try {
-                          final user = await signInWithGoogle(context);
-                          if (user == null) {
-                            return;
-                          }
-                          await Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomePageWidget(),
-                            ),
-                            (r) => false,
-                          );
-                        } finally {
-                          setState(() => _loadingButton2 = false);
+                        final user = await signInWithGoogle(context);
+                        if (user == null) {
+                          return;
                         }
+                        await Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomePageWidget(),
+                          ),
+                          (r) => false,
+                        );
                       },
                       text: 'Sign Up with Google',
                       icon: FaIcon(
                         FontAwesomeIcons.google,
-                        color: FlutterFlowTheme.primaryColor,
+                        color: FlutterFlowTheme.of(context).primaryColor,
                         size: 20,
                       ),
                       options: FFButtonOptions(
                         width: 130,
                         height: 40,
-                        color: FlutterFlowTheme.tertiaryColor,
-                        textStyle: FlutterFlowTheme.subtitle2.override(
-                          fontFamily: 'Poppins',
-                          color: FlutterFlowTheme.primaryColor,
-                        ),
+                        color: FlutterFlowTheme.of(context).tertiaryColor,
+                        textStyle: FlutterFlowTheme.of(context)
+                            .subtitle2
+                            .override(
+                              fontFamily: 'Poppins',
+                              color: FlutterFlowTheme.of(context).primaryColor,
+                            ),
                         borderSide: BorderSide(
                           color: Colors.transparent,
                           width: 1,
                         ),
-                        borderRadius: 5,
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      loading: _loadingButton2,
-                    )
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),

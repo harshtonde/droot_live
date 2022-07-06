@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NewDocumentPageWidget extends StatefulWidget {
-  NewDocumentPageWidget({Key key}) : super(key: key);
+  const NewDocumentPageWidget({Key key}) : super(key: key);
 
   @override
   _NewDocumentPageWidgetState createState() => _NewDocumentPageWidgetState();
@@ -19,11 +19,8 @@ class NewDocumentPageWidget extends StatefulWidget {
 
 class _NewDocumentPageWidgetState extends State<NewDocumentPageWidget> {
   String uploadedFileUrl = '';
-  bool _loadingButton1 = false;
   TextEditingController textController1;
   TextEditingController textController2;
-  bool _loadingButton2 = false;
-  bool _loadingButton3 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -42,14 +39,14 @@ class _NewDocumentPageWidgetState extends State<NewDocumentPageWidget> {
         automaticallyImplyLeading: true,
         leading: Icon(
           Icons.arrow_back_ios,
-          color: FlutterFlowTheme.secondaryColor,
+          color: FlutterFlowTheme.of(context).secondaryColor,
         ),
         title: Text(
           'New Document',
-          style: FlutterFlowTheme.bodyText1.override(
-            fontFamily: 'Poppins',
-            color: Colors.white,
-          ),
+          style: FlutterFlowTheme.of(context).bodyText1.override(
+                fontFamily: 'Poppins',
+                color: Colors.white,
+              ),
         ),
         actions: [],
         centerTitle: true,
@@ -60,7 +57,7 @@ class _NewDocumentPageWidgetState extends State<NewDocumentPageWidget> {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 1,
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.primaryColor,
+            color: FlutterFlowTheme.of(context).primaryColor,
           ),
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(25, 0, 25, 0),
@@ -74,10 +71,6 @@ class _NewDocumentPageWidgetState extends State<NewDocumentPageWidget> {
                   obscureText: false,
                   decoration: InputDecoration(
                     labelText: 'Document Type',
-                    labelStyle: FlutterFlowTheme.bodyText1.override(
-                      fontFamily: 'Poppins',
-                      color: FlutterFlowTheme.tertiaryColor,
-                    ),
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: Color(0xFF9090AC),
@@ -99,20 +92,16 @@ class _NewDocumentPageWidgetState extends State<NewDocumentPageWidget> {
                       ),
                     ),
                   ),
-                  style: FlutterFlowTheme.bodyText1.override(
-                    fontFamily: 'Poppins',
-                    color: FlutterFlowTheme.tertiaryColor,
-                  ),
+                  style: FlutterFlowTheme.of(context).bodyText1.override(
+                        fontFamily: 'Poppins',
+                        color: FlutterFlowTheme.of(context).tertiaryColor,
+                      ),
                 ),
                 TextFormField(
                   controller: textController2,
                   obscureText: false,
                   decoration: InputDecoration(
                     labelText: 'Description',
-                    labelStyle: FlutterFlowTheme.bodyText1.override(
-                      fontFamily: 'Poppins',
-                      color: FlutterFlowTheme.tertiaryColor,
-                    ),
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: Color(0xFF9090AC),
@@ -134,10 +123,10 @@ class _NewDocumentPageWidgetState extends State<NewDocumentPageWidget> {
                       ),
                     ),
                   ),
-                  style: FlutterFlowTheme.bodyText1.override(
-                    fontFamily: 'Poppins',
-                    color: FlutterFlowTheme.tertiaryColor,
-                  ),
+                  style: FlutterFlowTheme.of(context).bodyText1.override(
+                        fontFamily: 'Poppins',
+                        color: FlutterFlowTheme.of(context).tertiaryColor,
+                      ),
                 ),
                 Divider(),
                 Row(
@@ -147,30 +136,39 @@ class _NewDocumentPageWidgetState extends State<NewDocumentPageWidget> {
                   children: [
                     FFButtonWidget(
                       onPressed: () async {
-                        setState(() => _loadingButton1 = true);
-                        try {
-                          final selectedMedia = await selectMedia(
-                            mediaSource: MediaSource.photoGallery,
+                        final selectedMedia = await selectMedia(
+                          mediaSource: MediaSource.photoGallery,
+                          multiImage: false,
+                        );
+                        if (selectedMedia != null &&
+                            selectedMedia.every((m) =>
+                                validateFileFormat(m.storagePath, context))) {
+                          showUploadMessage(
+                            context,
+                            'Uploading file...',
+                            showLoading: true,
                           );
-                          if (selectedMedia != null &&
-                              validateFileFormat(
-                                  selectedMedia.storagePath, context)) {
-                            showUploadMessage(context, 'Uploading file...',
-                                showLoading: true);
-                            final downloadUrl = await uploadData(
-                                selectedMedia.storagePath, selectedMedia.bytes);
-                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                            if (downloadUrl != null) {
-                              setState(() => uploadedFileUrl = downloadUrl);
-                              showUploadMessage(context, 'Success!');
-                            } else {
-                              showUploadMessage(
-                                  context, 'Failed to upload media');
-                              return;
-                            }
+                          final downloadUrls = (await Future.wait(selectedMedia
+                                  .map((m) async => await uploadData(
+                                      m.storagePath, m.bytes))))
+                              .where((u) => u != null)
+                              .toList();
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          if (downloadUrls != null &&
+                              downloadUrls.length == selectedMedia.length) {
+                            setState(
+                                () => uploadedFileUrl = downloadUrls.first);
+                            showUploadMessage(
+                              context,
+                              'Success!',
+                            );
+                          } else {
+                            showUploadMessage(
+                              context,
+                              'Failed to upload media',
+                            );
+                            return;
                           }
-                        } finally {
-                          setState(() => _loadingButton1 = false);
                         }
                       },
                       text: 'Upload Image',
@@ -178,18 +176,18 @@ class _NewDocumentPageWidgetState extends State<NewDocumentPageWidget> {
                         width: 280,
                         height: 40,
                         color: Color(0x5C9E9E9E),
-                        textStyle: FlutterFlowTheme.subtitle2.override(
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
-                        ),
+                        textStyle:
+                            FlutterFlowTheme.of(context).subtitle2.override(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                ),
                         borderSide: BorderSide(
                           color: Colors.transparent,
                           width: 1,
                         ),
-                        borderRadius: 5,
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      loading: _loadingButton1,
-                    )
+                    ),
                   ],
                 ),
                 Divider(),
@@ -199,74 +197,63 @@ class _NewDocumentPageWidgetState extends State<NewDocumentPageWidget> {
                   children: [
                     FFButtonWidget(
                       onPressed: () async {
-                        setState(() => _loadingButton2 = true);
-                        try {
-                          Navigator.pop(context);
-                        } finally {
-                          setState(() => _loadingButton2 = false);
-                        }
+                        Navigator.pop(context);
                       },
                       text: 'Cancel',
                       options: FFButtonOptions(
                         width: 130,
                         height: 40,
                         color: Color(0x5C9E9E9E),
-                        textStyle: FlutterFlowTheme.subtitle2.override(
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
-                        ),
+                        textStyle:
+                            FlutterFlowTheme.of(context).subtitle2.override(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                ),
                         borderSide: BorderSide(
                           color: Colors.transparent,
                           width: 1,
                         ),
-                        borderRadius: 5,
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      loading: _loadingButton2,
                     ),
                     FFButtonWidget(
                       onPressed: () async {
-                        setState(() => _loadingButton3 = true);
-                        try {
-                          final documentrecordCreateData =
-                              createDocumentrecordRecordData(
-                            documentType: textController1.text,
-                            imageDoc: uploadedFileUrl,
-                            description: textController2.text,
-                            createdAt: getCurrentTimestamp,
-                          );
-                          await DocumentrecordRecord.collection
-                              .doc()
-                              .set(documentrecordCreateData);
-                          await Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DocumentsWidget(),
-                            ),
-                            (r) => false,
-                          );
-                        } finally {
-                          setState(() => _loadingButton3 = false);
-                        }
+                        final documentrecordCreateData =
+                            createDocumentrecordRecordData(
+                          imageDoc: uploadedFileUrl,
+                          description: textController2.text,
+                          createdAt: getCurrentTimestamp,
+                        );
+                        await DocumentrecordRecord.collection
+                            .doc()
+                            .set(documentrecordCreateData);
+                        await Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DocumentsWidget(),
+                          ),
+                          (r) => false,
+                        );
                       },
                       text: 'Save',
                       options: FFButtonOptions(
                         width: 130,
                         height: 40,
-                        color: FlutterFlowTheme.secondaryColor,
-                        textStyle: FlutterFlowTheme.subtitle2.override(
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
-                        ),
+                        color: FlutterFlowTheme.of(context).secondaryColor,
+                        textStyle:
+                            FlutterFlowTheme.of(context).subtitle2.override(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                ),
                         borderSide: BorderSide(
                           color: Colors.transparent,
                           width: 1,
                         ),
-                        borderRadius: 5,
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      loading: _loadingButton3,
-                    )
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),

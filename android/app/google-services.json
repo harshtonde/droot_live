@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "837805958901",
+    "firebase_url": "https://droot-theroute-default-rtdb.firebaseio.com",
     "project_id": "droot-theroute",
     "storage_bucket": "droot-theroute.appspot.com"
   },
@@ -10,6 +11,58 @@
         "mobilesdk_app_id": "1:837805958901:android:688d3cfb321e36c54407bc",
         "android_client_info": {
           "package_name": "com.flutterflow.droot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "837805958901-6nn3ohaeef6spj0mjto18r6ea0div8c6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flutterflow.droot",
+            "certificate_hash": "dadb4743741e738b4938321697f032d4a4defd5c"
+          }
+        },
+        {
+          "client_id": "837805958901-uuq3gkkcqbfrbi1iqruegf602lc2vt3h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flutterflow.droot",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "837805958901-23ji6mfgi6525qtqjb6k26jgb2h2oaqn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI1WK5gkeCExkBjEkRdxIk9KjZs3Dpszg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "837805958901-23ji6mfgi6525qtqjb6k26jgb2h2oaqn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "837805958901-6a5vpjrbufelu5b5vvsrbakiing863kn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.droot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837805958901:android:5facee2e652b42064407bc",
+        "android_client_info": {
+          "package_name": "com.mycompany.droot"
         }
       },
       "oauth_client": [
@@ -29,6 +82,13 @@
             {
               "client_id": "837805958901-23ji6mfgi6525qtqjb6k26jgb2h2oaqn.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "837805958901-6a5vpjrbufelu5b5vvsrbakiing863kn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.droot"
+              }
             }
           ]
         }

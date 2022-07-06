@@ -9,7 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SignInWidget extends StatefulWidget {
-  SignInWidget({Key key}) : super(key: key);
+  const SignInWidget({Key key}) : super(key: key);
 
   @override
   _SignInWidgetState createState() => _SignInWidgetState();
@@ -19,8 +19,6 @@ class _SignInWidgetState extends State<SignInWidget> {
   TextEditingController emailAddressController;
   TextEditingController passwordController;
   bool passwordVisibility;
-  bool _loadingButton1 = false;
-  bool _loadingButton2 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -40,7 +38,7 @@ class _SignInWidgetState extends State<SignInWidget> {
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.primaryColor,
+            color: FlutterFlowTheme.of(context).primaryColor,
           ),
           child: Align(
             alignment: AlignmentDirectional(0, -0.98),
@@ -65,10 +63,6 @@ class _SignInWidgetState extends State<SignInWidget> {
                     obscureText: false,
                     decoration: InputDecoration(
                       labelText: 'Email Address',
-                      labelStyle: FlutterFlowTheme.bodyText1.override(
-                        fontFamily: 'Poppins',
-                        color: FlutterFlowTheme.tertiaryColor,
-                      ),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                           color: Color(0xFF9090AC),
@@ -90,20 +84,16 @@ class _SignInWidgetState extends State<SignInWidget> {
                         ),
                       ),
                     ),
-                    style: FlutterFlowTheme.bodyText1.override(
-                      fontFamily: 'Poppins',
-                      color: FlutterFlowTheme.tertiaryColor,
-                    ),
+                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                          fontFamily: 'Poppins',
+                          color: FlutterFlowTheme.of(context).tertiaryColor,
+                        ),
                   ),
                   TextFormField(
                     controller: passwordController,
                     obscureText: !passwordVisibility,
                     decoration: InputDecoration(
                       labelText: 'Password',
-                      labelStyle: FlutterFlowTheme.bodyText1.override(
-                        fontFamily: 'Poppins',
-                        color: FlutterFlowTheme.tertiaryColor,
-                      ),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                           color: Color(0xFF9090AC),
@@ -128,6 +118,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                         onTap: () => setState(
                           () => passwordVisibility = !passwordVisibility,
                         ),
+                        focusNode: FocusNode(skipTraversal: true),
                         child: Icon(
                           passwordVisibility
                               ? Icons.visibility_outlined
@@ -136,10 +127,10 @@ class _SignInWidgetState extends State<SignInWidget> {
                         ),
                       ),
                     ),
-                    style: FlutterFlowTheme.bodyText1.override(
-                      fontFamily: 'Poppins',
-                      color: FlutterFlowTheme.tertiaryColor,
-                    ),
+                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                          fontFamily: 'Poppins',
+                          color: FlutterFlowTheme.of(context).tertiaryColor,
+                        ),
                   ),
                   Column(
                     mainAxisSize: MainAxisSize.max,
@@ -149,46 +140,41 @@ class _SignInWidgetState extends State<SignInWidget> {
                         padding: EdgeInsetsDirectional.fromSTEB(2, 0, 5, 0),
                         child: FFButtonWidget(
                           onPressed: () async {
-                            setState(() => _loadingButton1 = true);
-                            try {
-                              final user = await signInWithEmail(
-                                context,
-                                emailAddressController.text,
-                                passwordController.text,
-                              );
-                              if (user == null) {
-                                return;
-                              }
-
-                              await Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => HomePageWidget(),
-                                ),
-                                (r) => false,
-                              );
-                            } finally {
-                              setState(() => _loadingButton1 = false);
+                            final user = await signInWithEmail(
+                              context,
+                              emailAddressController.text,
+                              passwordController.text,
+                            );
+                            if (user == null) {
+                              return;
                             }
+
+                            await Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePageWidget(),
+                              ),
+                              (r) => false,
+                            );
                           },
                           text: 'Sign In',
                           options: FFButtonOptions(
                             width: 130,
                             height: 40,
-                            color: FlutterFlowTheme.secondaryColor,
-                            textStyle: FlutterFlowTheme.subtitle2.override(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                            ),
+                            color: FlutterFlowTheme.of(context).secondaryColor,
+                            textStyle:
+                                FlutterFlowTheme.of(context).subtitle2.override(
+                                      fontFamily: 'Poppins',
+                                      color: Colors.white,
+                                    ),
                             borderSide: BorderSide(
                               color: Colors.transparent,
                               width: 1,
                             ),
-                            borderRadius: 5,
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          loading: _loadingButton1,
                         ),
-                      )
+                      ),
                     ],
                   ),
                   InkWell(
@@ -205,7 +191,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                       textAlign: TextAlign.center,
                       style: GoogleFonts.getFont(
                         'Lato',
-                        color: FlutterFlowTheme.tertiaryColor,
+                        color: FlutterFlowTheme.of(context).tertiaryColor,
                         fontSize: 16,
                       ),
                     ),
@@ -217,57 +203,54 @@ class _SignInWidgetState extends State<SignInWidget> {
                       Text(
                         'Or',
                         textAlign: TextAlign.center,
-                        style: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Poppins',
-                          color: FlutterFlowTheme.tertiaryColor,
-                        ),
+                        style: FlutterFlowTheme.of(context).bodyText1.override(
+                              fontFamily: 'Poppins',
+                              color: FlutterFlowTheme.of(context).tertiaryColor,
+                            ),
                       ),
                       Divider(),
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(2, 0, 2, 0),
                         child: FFButtonWidget(
                           onPressed: () async {
-                            setState(() => _loadingButton2 = true);
-                            try {
-                              final user = await signInWithGoogle(context);
-                              if (user == null) {
-                                return;
-                              }
-                              await Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => HomePageWidget(),
-                                ),
-                                (r) => false,
-                              );
-                            } finally {
-                              setState(() => _loadingButton2 = false);
+                            final user = await signInWithGoogle(context);
+                            if (user == null) {
+                              return;
                             }
+                            await Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePageWidget(),
+                              ),
+                              (r) => false,
+                            );
                           },
                           text: 'Sign In with Google',
                           icon: FaIcon(
                             FontAwesomeIcons.google,
-                            color: FlutterFlowTheme.primaryColor,
+                            color: FlutterFlowTheme.of(context).primaryColor,
                           ),
                           options: FFButtonOptions(
                             width: 130,
                             height: 40,
-                            color: FlutterFlowTheme.tertiaryColor,
-                            textStyle: FlutterFlowTheme.subtitle2.override(
-                              fontFamily: 'Poppins',
-                              color: FlutterFlowTheme.primaryColor,
-                            ),
+                            color: FlutterFlowTheme.of(context).tertiaryColor,
+                            textStyle: FlutterFlowTheme.of(context)
+                                .subtitle2
+                                .override(
+                                  fontFamily: 'Poppins',
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryColor,
+                                ),
                             borderSide: BorderSide(
                               color: Colors.transparent,
                               width: 1,
                             ),
-                            borderRadius: 5,
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          loading: _loadingButton2,
                         ),
-                      )
+                      ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),

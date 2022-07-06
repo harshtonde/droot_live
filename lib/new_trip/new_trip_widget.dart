@@ -10,7 +10,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NewTripWidget extends StatefulWidget {
-  NewTripWidget({Key key}) : super(key: key);
+  const NewTripWidget({Key key}) : super(key: key);
 
   @override
   _NewTripWidgetState createState() => _NewTripWidgetState();
@@ -18,14 +18,10 @@ class NewTripWidget extends StatefulWidget {
 
 class _NewTripWidgetState extends State<NewTripWidget> {
   DateTime datePicked1;
-  bool _loadingButton1 = false;
   DateTime datePicked2;
-  bool _loadingButton2 = false;
   TextEditingController textController1;
   TextEditingController textController2;
   TextEditingController textController3;
-  bool _loadingButton3 = false;
-  bool _loadingButton4 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -45,14 +41,14 @@ class _NewTripWidgetState extends State<NewTripWidget> {
         automaticallyImplyLeading: true,
         leading: Icon(
           Icons.arrow_back_ios,
-          color: FlutterFlowTheme.secondaryColor,
+          color: FlutterFlowTheme.of(context).secondaryColor,
         ),
         title: Text(
           'Trip',
-          style: FlutterFlowTheme.bodyText1.override(
-            fontFamily: 'Poppins',
-            color: Colors.white,
-          ),
+          style: FlutterFlowTheme.of(context).bodyText1.override(
+                fontFamily: 'Poppins',
+                color: Colors.white,
+              ),
         ),
         actions: [],
         centerTitle: true,
@@ -63,7 +59,7 @@ class _NewTripWidgetState extends State<NewTripWidget> {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 1,
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.primaryColor,
+            color: FlutterFlowTheme.of(context).primaryColor,
           ),
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(25, 0, 25, 0),
@@ -77,10 +73,6 @@ class _NewTripWidgetState extends State<NewTripWidget> {
                   obscureText: false,
                   decoration: InputDecoration(
                     labelText: 'Trip Name',
-                    labelStyle: FlutterFlowTheme.bodyText1.override(
-                      fontFamily: 'Poppins',
-                      color: FlutterFlowTheme.tertiaryColor,
-                    ),
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: Color(0xFF9090AC),
@@ -102,20 +94,16 @@ class _NewTripWidgetState extends State<NewTripWidget> {
                       ),
                     ),
                   ),
-                  style: FlutterFlowTheme.bodyText1.override(
-                    fontFamily: 'Poppins',
-                    color: FlutterFlowTheme.tertiaryColor,
-                  ),
+                  style: FlutterFlowTheme.of(context).bodyText1.override(
+                        fontFamily: 'Poppins',
+                        color: FlutterFlowTheme.of(context).tertiaryColor,
+                      ),
                 ),
                 TextFormField(
                   controller: textController2,
                   obscureText: false,
                   decoration: InputDecoration(
                     labelText: 'Destination City',
-                    labelStyle: FlutterFlowTheme.bodyText1.override(
-                      fontFamily: 'Poppins',
-                      color: FlutterFlowTheme.tertiaryColor,
-                    ),
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: Color(0xFF9090AC),
@@ -137,20 +125,16 @@ class _NewTripWidgetState extends State<NewTripWidget> {
                       ),
                     ),
                   ),
-                  style: FlutterFlowTheme.bodyText1.override(
-                    fontFamily: 'Poppins',
-                    color: FlutterFlowTheme.tertiaryColor,
-                  ),
+                  style: FlutterFlowTheme.of(context).bodyText1.override(
+                        fontFamily: 'Poppins',
+                        color: FlutterFlowTheme.of(context).tertiaryColor,
+                      ),
                 ),
                 TextFormField(
                   controller: textController3,
                   obscureText: false,
                   decoration: InputDecoration(
                     labelText: 'Origin City',
-                    labelStyle: FlutterFlowTheme.bodyText1.override(
-                      fontFamily: 'Poppins',
-                      color: FlutterFlowTheme.tertiaryColor,
-                    ),
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: Color(0xFF9090AC),
@@ -172,10 +156,10 @@ class _NewTripWidgetState extends State<NewTripWidget> {
                       ),
                     ),
                   ),
-                  style: FlutterFlowTheme.bodyText1.override(
-                    fontFamily: 'Poppins',
-                    color: FlutterFlowTheme.tertiaryColor,
-                  ),
+                  style: FlutterFlowTheme.of(context).bodyText1.override(
+                        fontFamily: 'Poppins',
+                        color: FlutterFlowTheme.of(context).tertiaryColor,
+                      ),
                 ),
                 Divider(),
                 Row(
@@ -184,70 +168,62 @@ class _NewTripWidgetState extends State<NewTripWidget> {
                   children: [
                     FFButtonWidget(
                       onPressed: () async {
-                        setState(() => _loadingButton1 = true);
-                        try {
-                          await DatePicker.showDatePicker(
-                            context,
-                            showTitleActions: true,
-                            onConfirm: (date) {
-                              setState(() => datePicked1 = date);
-                            },
-                            currentTime: getCurrentTimestamp,
-                          );
-                        } finally {
-                          setState(() => _loadingButton1 = false);
-                        }
+                        await DatePicker.showDatePicker(
+                          context,
+                          showTitleActions: true,
+                          onConfirm: (date) {
+                            setState(() => datePicked1 = date);
+                          },
+                          currentTime: getCurrentTimestamp,
+                          minTime: DateTime(0, 0, 0),
+                        );
                       },
                       text: 'Start Date',
                       options: FFButtonOptions(
                         width: 130,
                         height: 40,
                         color: Color(0x5C9E9E9E),
-                        textStyle: FlutterFlowTheme.subtitle2.override(
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
-                        ),
+                        textStyle:
+                            FlutterFlowTheme.of(context).subtitle2.override(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                ),
                         borderSide: BorderSide(
                           color: Colors.transparent,
                           width: 1,
                         ),
-                        borderRadius: 5,
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      loading: _loadingButton1,
                     ),
                     FFButtonWidget(
                       onPressed: () async {
-                        setState(() => _loadingButton2 = true);
-                        try {
-                          await DatePicker.showDatePicker(
-                            context,
-                            showTitleActions: true,
-                            onConfirm: (date) {
-                              setState(() => datePicked2 = date);
-                            },
-                            currentTime: getCurrentTimestamp,
-                          );
-                        } finally {
-                          setState(() => _loadingButton2 = false);
-                        }
+                        await DatePicker.showDatePicker(
+                          context,
+                          showTitleActions: true,
+                          onConfirm: (date) {
+                            setState(() => datePicked2 = date);
+                          },
+                          currentTime: getCurrentTimestamp,
+                          minTime: DateTime(0, 0, 0),
+                        );
                       },
                       text: 'End Date',
                       options: FFButtonOptions(
                         width: 130,
                         height: 40,
                         color: Color(0x5C9E9E9E),
-                        textStyle: FlutterFlowTheme.subtitle2.override(
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
-                        ),
+                        textStyle:
+                            FlutterFlowTheme.of(context).subtitle2.override(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                ),
                         borderSide: BorderSide(
                           color: Colors.transparent,
                           width: 1,
                         ),
-                        borderRadius: 5,
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      loading: _loadingButton2,
-                    )
+                    ),
                   ],
                 ),
                 Divider(),
@@ -257,77 +233,66 @@ class _NewTripWidgetState extends State<NewTripWidget> {
                   children: [
                     FFButtonWidget(
                       onPressed: () async {
-                        setState(() => _loadingButton3 = true);
-                        try {
-                          Navigator.pop(context);
-                        } finally {
-                          setState(() => _loadingButton3 = false);
-                        }
+                        Navigator.pop(context);
                       },
                       text: 'Cancel',
                       options: FFButtonOptions(
                         width: 130,
                         height: 40,
                         color: Color(0x5C9E9E9E),
-                        textStyle: FlutterFlowTheme.subtitle2.override(
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
-                        ),
+                        textStyle:
+                            FlutterFlowTheme.of(context).subtitle2.override(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                ),
                         borderSide: BorderSide(
                           color: Colors.transparent,
                           width: 1,
                         ),
-                        borderRadius: 5,
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      loading: _loadingButton3,
                     ),
                     FFButtonWidget(
                       onPressed: () async {
-                        setState(() => _loadingButton4 = true);
-                        try {
-                          final triprecordCreateData =
-                              createTriprecordRecordData(
-                            tripname: textController1.text,
-                            destination: textController2.text,
-                            origin: textController3.text,
-                            userref: currentUserReference,
-                            createdAt: getCurrentTimestamp,
-                            startdate: datePicked1,
-                            enddate: datePicked2,
-                          );
-                          await TriprecordRecord.collection
-                              .doc()
-                              .set(triprecordCreateData);
-                          await Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomePageWidget(),
-                            ),
-                            (r) => false,
-                          );
-                        } finally {
-                          setState(() => _loadingButton4 = false);
-                        }
+                        final triprecordCreateData = createTriprecordRecordData(
+                          tripname: textController1.text,
+                          destination: textController2.text,
+                          origin: textController3.text,
+                          userref: currentUserReference,
+                          createdAt: getCurrentTimestamp,
+                          startdate: datePicked1,
+                          enddate: datePicked2,
+                        );
+                        await TriprecordRecord.collection
+                            .doc()
+                            .set(triprecordCreateData);
+                        await Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomePageWidget(),
+                          ),
+                          (r) => false,
+                        );
                       },
                       text: 'Save',
                       options: FFButtonOptions(
                         width: 130,
                         height: 40,
-                        color: FlutterFlowTheme.secondaryColor,
-                        textStyle: FlutterFlowTheme.subtitle2.override(
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
-                        ),
+                        color: FlutterFlowTheme.of(context).secondaryColor,
+                        textStyle:
+                            FlutterFlowTheme.of(context).subtitle2.override(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                ),
                         borderSide: BorderSide(
                           color: Colors.transparent,
                           width: 1,
                         ),
-                        borderRadius: 5,
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      loading: _loadingButton4,
-                    )
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),

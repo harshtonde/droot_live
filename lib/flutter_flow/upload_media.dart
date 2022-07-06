@@ -1,11 +1,13 @@
 import 'dart:typed_data';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime_type/mime_type.dart';
 
 import '../auth/auth_util.dart';
+import 'flutter_flow_util.dart';
 
 const allowedFormats = {'image/png', 'image/jpeg', 'video/mp4', 'image/gif'};
 
@@ -21,10 +23,11 @@ enum MediaSource {
   camera,
 }
 
-Future<SelectedMedia> selectMediaWithSourceBottomSheet({
+Future<List<SelectedMedia>> selectMediaWithSourceBottomSheet({
   BuildContext context,
   double maxWidth,
   double maxHeight,
+  int imageQuality,
   bool allowPhoto,
   bool allowVideo = false,
   String pickerFontFamily = 'Roboto',
@@ -108,33 +111,60 @@ Future<SelectedMedia> selectMediaWithSourceBottomSheet({
   return selectMedia(
     maxWidth: maxWidth,
     maxHeight: maxHeight,
+    imageQuality: imageQuality,
     isVideo: mediaSource == MediaSource.videoGallery ||
         (mediaSource == MediaSource.camera && allowVideo && !allowPhoto),
     mediaSource: mediaSource,
   );
 }
 
-Future<SelectedMedia> selectMedia({
+Future<List<SelectedMedia>> selectMedia({
   double maxWidth,
   double maxHeight,
+  int imageQuality,
   bool isVideo = false,
   MediaSource mediaSource = MediaSource.camera,
+  bool multiImage = false,
 }) async {
   final picker = ImagePicker();
+
+  if (multiImage) {
+    final pickedMediaFuture = picker.pickMultiImage(
+      maxWidth: maxWidth,
+      maxHeight: maxHeight,
+      imageQuality: imageQuality,
+    );
+    final pickedMedia = await pickedMediaFuture;
+    if (pickedMedia == null || pickedMedia.isEmpty) {
+      return null;
+    }
+    return Future.wait(pickedMedia.asMap().entries.map((e) async {
+      final index = e.key;
+      final media = e.value;
+      final mediaBytes = await media.readAsBytes();
+      final path = storagePath(currentUserUid, media.name, false, index);
+      return SelectedMedia(path, mediaBytes);
+    }));
+  }
+
   final source = mediaSource == MediaSource.camera
       ? ImageSource.camera
       : ImageSource.gallery;
   final pickedMediaFuture = isVideo
       ? picker.pickVideo(source: source)
       : picker.pickImage(
-          maxWidth: maxWidth, maxHeight: maxHeight, source: source);
+          maxWidth: maxWidth,
+          maxHeight: maxHeight,
+          imageQuality: imageQuality,
+          source: source,
+        );
   final pickedMedia = await pickedMediaFuture;
   final mediaBytes = await pickedMedia?.readAsBytes();
   if (mediaBytes == null) {
     return null;
   }
   final path = storagePath(currentUserUid, pickedMedia.name, isVideo);
-  return SelectedMedia(path, mediaBytes);
+  return [SelectedMedia(path, mediaBytes)];
 }
 
 bool validateFileFormat(String filePath, BuildContext context) {
@@ -149,12 +179,38 @@ bool validateFileFormat(String filePath, BuildContext context) {
   return false;
 }
 
-String storagePath(String uid, String filePath, bool isVideo) {
+Future<SelectedMedia> selectFile({
+  List<String> allowedExtensions = const ['pdf'],
+}) async {
+  final pickedFiles = await FilePicker.platform.pickFiles(
+    type: FileType.custom,
+    allowedExtensions: allowedExtensions,
+    withData: true,
+  );
+  if (pickedFiles == null || pickedFiles.files.isEmpty) {
+    return null;
+  }
+
+  final file = pickedFiles.files.first;
+  if (file?.bytes == null) {
+    return null;
+  }
+  final path = storagePath(currentUserUid, file.name, false);
+  return SelectedMedia(path, file.bytes);
+}
+
+String storagePath(String uid, String filePath, bool isVideo, [int index]) {
   final timestamp = DateTime.now().microsecondsSinceEpoch;
   // Workaround fixed by https://github.com/flutter/plugins/pull/3685
   // (not yet in stable).
   final ext = isVideo ? 'mp4' : filePath.split('.').last;
-  return 'users/$uid/uploads/$timestamp.$ext';
+  final indexStr = index != null ? '_$index' : '';
+  return 'users/$uid/uploads/$timestamp$indexStr.$ext';
+}
+
+String signatureStoragePath(String uid) {
+  final timestamp = DateTime.now().microsecondsSinceEpoch;
+  return 'users/$uid/uploads/signature_$timestamp.png';
 }
 
 void showUploadMessage(BuildContext context, String message,

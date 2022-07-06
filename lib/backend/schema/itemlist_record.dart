@@ -39,6 +39,10 @@ abstract class ItemlistRecord
       .snapshots()
       .map((s) => serializers.deserializeWith(serializer, serializedData(s)));
 
+  static Future<ItemlistRecord> getDocumentOnce(DocumentReference ref) => ref
+      .get()
+      .then((s) => serializers.deserializeWith(serializer, serializedData(s)));
+
   ItemlistRecord._();
   factory ItemlistRecord([void Function(ItemlistRecordBuilder) updates]) =
       _$ItemlistRecord;

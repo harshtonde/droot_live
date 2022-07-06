@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AboutWidget extends StatefulWidget {
-  AboutWidget({Key key}) : super(key: key);
+  const AboutWidget({Key key}) : super(key: key);
 
   @override
   _AboutWidgetState createState() => _AboutWidgetState();
@@ -24,20 +24,20 @@ class _AboutWidgetState extends State<AboutWidget> {
         automaticallyImplyLeading: true,
         leading: Icon(
           Icons.arrow_back_ios,
-          color: FlutterFlowTheme.secondaryColor,
+          color: FlutterFlowTheme.of(context).secondaryColor,
         ),
         title: Text(
           'About',
-          style: FlutterFlowTheme.bodyText1.override(
-            fontFamily: 'Poppins',
-            color: Colors.white,
-          ),
+          style: FlutterFlowTheme.of(context).bodyText1.override(
+                fontFamily: 'Poppins',
+                color: Colors.white,
+              ),
         ),
         actions: [],
         centerTitle: true,
         elevation: 25,
       ),
-      backgroundColor: FlutterFlowTheme.primaryColor,
+      backgroundColor: FlutterFlowTheme.of(context).primaryColor,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
@@ -69,13 +69,13 @@ class _AboutWidgetState extends State<AboutWidget> {
                 child: AutoSizeText(
                   'Droot is a platform that will assist the user before, during, and after the trip. We aim to create an online marketplace for all travel-related activities. The application comes up with a beautiful and intuitive interface, making it more accessible and operable by any age group. It will connect all the companions thus keeping them updated.',
                   textAlign: TextAlign.center,
-                  style: FlutterFlowTheme.bodyText1.override(
-                    fontFamily: 'Poppins',
-                    color: FlutterFlowTheme.tertiaryColor,
-                    fontStyle: FontStyle.italic,
-                  ),
+                  style: FlutterFlowTheme.of(context).bodyText1.override(
+                        fontFamily: 'Poppins',
+                        color: FlutterFlowTheme.of(context).tertiaryColor,
+                        fontStyle: FontStyle.italic,
+                      ),
                 ),
-              )
+              ),
             ],
           ),
         ),

@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfileWidget extends StatefulWidget {
-  ProfileWidget({Key key}) : super(key: key);
+  const ProfileWidget({Key key}) : super(key: key);
 
   @override
   _ProfileWidgetState createState() => _ProfileWidgetState();
@@ -19,11 +19,8 @@ class ProfileWidget extends StatefulWidget {
 
 class _ProfileWidgetState extends State<ProfileWidget> {
   String uploadedFileUrl = '';
-  bool _loadingButton1 = false;
   TextEditingController textController1;
   TextEditingController textController2;
-  bool _loadingButton2 = false;
-  bool _loadingButton3 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -45,7 +42,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
               width: 50,
               height: 50,
               child: CircularProgressIndicator(
-                color: FlutterFlowTheme.primaryColor,
+                color: FlutterFlowTheme.of(context).primaryColor,
               ),
             ),
           );
@@ -58,14 +55,14 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             automaticallyImplyLeading: true,
             leading: Icon(
               Icons.arrow_back_ios,
-              color: FlutterFlowTheme.secondaryColor,
+              color: FlutterFlowTheme.of(context).secondaryColor,
             ),
             title: Text(
               'Profile',
-              style: FlutterFlowTheme.bodyText1.override(
-                fontFamily: 'Poppins',
-                color: Colors.white,
-              ),
+              style: FlutterFlowTheme.of(context).bodyText1.override(
+                    fontFamily: 'Poppins',
+                    color: Colors.white,
+                  ),
             ),
             actions: [],
             centerTitle: true,
@@ -76,7 +73,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 1,
               decoration: BoxDecoration(
-                color: FlutterFlowTheme.primaryColor,
+                color: FlutterFlowTheme.of(context).primaryColor,
               ),
               child: Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(25, 0, 25, 0),
@@ -93,7 +90,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: FlutterFlowTheme.secondaryColor,
+                            color: FlutterFlowTheme.of(context).secondaryColor,
                             width: 3,
                           ),
                         ),
@@ -114,10 +111,10 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                     ),
                     Text(
                       profileUsersRecord.displayName,
-                      style: FlutterFlowTheme.title3.override(
-                        fontFamily: 'Poppins',
-                        color: FlutterFlowTheme.tertiaryColor,
-                      ),
+                      style: FlutterFlowTheme.of(context).title3.override(
+                            fontFamily: 'Poppins',
+                            color: FlutterFlowTheme.of(context).tertiaryColor,
+                          ),
                     ),
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
@@ -132,10 +129,13 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                               children: [
                                 Text(
                                   'Name',
-                                  style: FlutterFlowTheme.bodyText1.override(
-                                    fontFamily: 'Poppins',
-                                    color: FlutterFlowTheme.tertiaryColor,
-                                  ),
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyText1
+                                      .override(
+                                        fontFamily: 'Poppins',
+                                        color: FlutterFlowTheme.of(context)
+                                            .tertiaryColor,
+                                      ),
                                 ),
                                 Expanded(
                                   child: Padding(
@@ -169,15 +169,18 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                             ),
                                           ),
                                         ),
-                                        style:
-                                            FlutterFlowTheme.bodyText1.override(
-                                          fontFamily: 'Poppins',
-                                          color: FlutterFlowTheme.tertiaryColor,
-                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText1
+                                            .override(
+                                              fontFamily: 'Poppins',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .tertiaryColor,
+                                            ),
                                       ),
                                     ),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -189,52 +192,53 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                               children: [
                                 Text(
                                   'Email Address',
-                                  style: FlutterFlowTheme.bodyText1.override(
-                                    fontFamily: 'Poppins',
-                                    color: FlutterFlowTheme.tertiaryColor,
-                                  ),
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyText1
+                                      .override(
+                                        fontFamily: 'Poppins',
+                                        color: FlutterFlowTheme.of(context)
+                                            .tertiaryColor,
+                                      ),
                                 ),
                                 Expanded(
                                   child: Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         10, 1, 20, 0),
-                                    child: AuthUserStreamWidget(
-                                      child: TextFormField(
-                                        controller: textController2,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          enabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(4.0),
-                                              topRight: Radius.circular(4.0),
-                                            ),
+                                    child: TextFormField(
+                                      controller: textController2,
+                                      obscureText: false,
+                                      decoration: InputDecoration(
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0x00000000),
+                                            width: 1,
                                           ),
-                                          focusedBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0x00000000),
-                                              width: 1,
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(4.0),
-                                              topRight: Radius.circular(4.0),
-                                            ),
+                                          borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(4.0),
+                                            topRight: Radius.circular(4.0),
                                           ),
                                         ),
-                                        style:
-                                            FlutterFlowTheme.bodyText1.override(
-                                          fontFamily: 'Poppins',
-                                          color: FlutterFlowTheme.tertiaryColor,
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0x00000000),
+                                            width: 1,
+                                          ),
+                                          borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(4.0),
+                                            topRight: Radius.circular(4.0),
+                                          ),
                                         ),
                                       ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyText1
+                                          .override(
+                                            fontFamily: 'Poppins',
+                                            color: FlutterFlowTheme.of(context)
+                                                .tertiaryColor,
+                                          ),
                                     ),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -242,34 +246,43 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                             padding: EdgeInsetsDirectional.fromSTEB(2, 0, 2, 0),
                             child: FFButtonWidget(
                               onPressed: () async {
-                                setState(() => _loadingButton1 = true);
-                                try {
-                                  final selectedMedia = await selectMedia(
-                                    mediaSource: MediaSource.photoGallery,
+                                final selectedMedia = await selectMedia(
+                                  mediaSource: MediaSource.photoGallery,
+                                  multiImage: false,
+                                );
+                                if (selectedMedia != null &&
+                                    selectedMedia.every((m) =>
+                                        validateFileFormat(
+                                            m.storagePath, context))) {
+                                  showUploadMessage(
+                                    context,
+                                    'Uploading file...',
+                                    showLoading: true,
                                   );
-                                  if (selectedMedia != null &&
-                                      validateFileFormat(
-                                          selectedMedia.storagePath, context)) {
+                                  final downloadUrls = (await Future.wait(
+                                          selectedMedia.map((m) async =>
+                                              await uploadData(
+                                                  m.storagePath, m.bytes))))
+                                      .where((u) => u != null)
+                                      .toList();
+                                  ScaffoldMessenger.of(context)
+                                      .hideCurrentSnackBar();
+                                  if (downloadUrls != null &&
+                                      downloadUrls.length ==
+                                          selectedMedia.length) {
+                                    setState(() =>
+                                        uploadedFileUrl = downloadUrls.first);
                                     showUploadMessage(
-                                        context, 'Uploading file...',
-                                        showLoading: true);
-                                    final downloadUrl = await uploadData(
-                                        selectedMedia.storagePath,
-                                        selectedMedia.bytes);
-                                    ScaffoldMessenger.of(context)
-                                        .hideCurrentSnackBar();
-                                    if (downloadUrl != null) {
-                                      setState(
-                                          () => uploadedFileUrl = downloadUrl);
-                                      showUploadMessage(context, 'Success!');
-                                    } else {
-                                      showUploadMessage(
-                                          context, 'Failed to upload media');
-                                      return;
-                                    }
+                                      context,
+                                      'Success!',
+                                    );
+                                  } else {
+                                    showUploadMessage(
+                                      context,
+                                      'Failed to upload media',
+                                    );
+                                    return;
                                   }
-                                } finally {
-                                  setState(() => _loadingButton1 = false);
                                 }
                               },
                               text: 'Change Profile Picture',
@@ -277,19 +290,20 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                 width: double.infinity,
                                 height: 40,
                                 color: Color(0x5C9E9E9E),
-                                textStyle: FlutterFlowTheme.subtitle2.override(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                ),
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .subtitle2
+                                    .override(
+                                      fontFamily: 'Poppins',
+                                      color: Colors.white,
+                                    ),
                                 borderSide: BorderSide(
                                   color: Colors.transparent,
                                   width: 1,
                                 ),
-                                borderRadius: 5,
+                                borderRadius: BorderRadius.circular(5),
                               ),
-                              loading: _loadingButton1,
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -300,71 +314,60 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       children: [
                         FFButtonWidget(
                           onPressed: () async {
-                            setState(() => _loadingButton2 = true);
-                            try {
-                              Navigator.pop(context);
-                            } finally {
-                              setState(() => _loadingButton2 = false);
-                            }
+                            Navigator.pop(context);
                           },
                           text: 'Cancel',
                           options: FFButtonOptions(
                             width: 130,
                             height: 40,
                             color: Color(0x5C9E9E9E),
-                            textStyle: FlutterFlowTheme.subtitle2.override(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                            ),
+                            textStyle:
+                                FlutterFlowTheme.of(context).subtitle2.override(
+                                      fontFamily: 'Poppins',
+                                      color: Colors.white,
+                                    ),
                             borderSide: BorderSide(
                               color: Colors.transparent,
                               width: 1,
                             ),
-                            borderRadius: 5,
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          loading: _loadingButton2,
                         ),
                         FFButtonWidget(
                           onPressed: () async {
-                            setState(() => _loadingButton3 = true);
-                            try {
-                              final usersUpdateData = createUsersRecordData(
-                                email: textController2.text,
-                                displayName: textController1.text,
-                                photoUrl: uploadedFileUrl,
-                              );
-                              await currentUserReference
-                                  .update(usersUpdateData);
-                              await Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => HomePageWidget(),
-                                ),
-                                (r) => false,
-                              );
-                            } finally {
-                              setState(() => _loadingButton3 = false);
-                            }
+                            final usersUpdateData = createUsersRecordData(
+                              email: textController2.text,
+                              displayName: textController1.text,
+                              photoUrl: uploadedFileUrl,
+                            );
+                            await currentUserReference.update(usersUpdateData);
+                            await Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePageWidget(),
+                              ),
+                              (r) => false,
+                            );
                           },
                           text: 'Save',
                           options: FFButtonOptions(
                             width: 130,
                             height: 40,
-                            color: FlutterFlowTheme.secondaryColor,
-                            textStyle: FlutterFlowTheme.subtitle2.override(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                            ),
+                            color: FlutterFlowTheme.of(context).secondaryColor,
+                            textStyle:
+                                FlutterFlowTheme.of(context).subtitle2.override(
+                                      fontFamily: 'Poppins',
+                                      color: Colors.white,
+                                    ),
                             borderSide: BorderSide(
                               color: Colors.transparent,
                               width: 1,
                             ),
-                            borderRadius: 5,
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          loading: _loadingButton3,
-                        )
+                        ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),

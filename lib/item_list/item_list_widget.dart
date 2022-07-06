@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ItemListWidget extends StatefulWidget {
-  ItemListWidget({Key key}) : super(key: key);
+  const ItemListWidget({Key key}) : super(key: key);
 
   @override
   _ItemListWidgetState createState() => _ItemListWidgetState();
@@ -34,7 +34,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
               width: 50,
               height: 50,
               child: CircularProgressIndicator(
-                color: FlutterFlowTheme.primaryColor,
+                color: FlutterFlowTheme.of(context).primaryColor,
               ),
             ),
           );
@@ -54,21 +54,21 @@ class _ItemListWidgetState extends State<ItemListWidget> {
               },
               child: Icon(
                 Icons.arrow_back_ios,
-                color: FlutterFlowTheme.secondaryColor,
+                color: FlutterFlowTheme.of(context).secondaryColor,
               ),
             ),
             title: Text(
               itemListTriprecordRecord.tripname,
-              style: FlutterFlowTheme.bodyText1.override(
-                fontFamily: 'Poppins',
-                color: Colors.white,
-              ),
+              style: FlutterFlowTheme.of(context).bodyText1.override(
+                    fontFamily: 'Poppins',
+                    color: Colors.white,
+                  ),
             ),
             actions: [],
             centerTitle: true,
             elevation: 25,
           ),
-          backgroundColor: FlutterFlowTheme.primaryColor,
+          backgroundColor: FlutterFlowTheme.of(context).primaryColor,
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               await Navigator.push(
@@ -78,7 +78,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                 ),
               );
             },
-            backgroundColor: FlutterFlowTheme.secondaryColor,
+            backgroundColor: FlutterFlowTheme.of(context).secondaryColor,
             elevation: 8,
             child: FlutterFlowIconButton(
               borderColor: Colors.transparent,
@@ -86,7 +86,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
               buttonSize: 48,
               icon: Icon(
                 Icons.add,
-                color: FlutterFlowTheme.tertiaryColor,
+                color: FlutterFlowTheme.of(context).tertiaryColor,
                 size: 30,
               ),
               onPressed: () async {
@@ -115,7 +115,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                         width: 50,
                         height: 50,
                         child: CircularProgressIndicator(
-                          color: FlutterFlowTheme.primaryColor,
+                          color: FlutterFlowTheme.of(context).primaryColor,
                         ),
                       ),
                     );
@@ -146,7 +146,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                           children: [
                             Text(
                               listViewItemlistRecord.itemname,
-                              style: FlutterFlowTheme.bodyText1,
+                              style: FlutterFlowTheme.of(context).bodyText1,
                             ),
                             FlutterFlowIconButton(
                               borderColor: Colors.transparent,
@@ -154,7 +154,8 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                               buttonSize: 48,
                               icon: Icon(
                                 Icons.delete,
-                                color: FlutterFlowTheme.primaryColor,
+                                color:
+                                    FlutterFlowTheme.of(context).primaryColor,
                                 size: 30,
                               ),
                               onPressed: () async {
@@ -182,7 +183,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                                 color: Colors.black,
                                 size: 25,
                               ),
-                            )
+                            ),
                           ],
                         ),
                       );

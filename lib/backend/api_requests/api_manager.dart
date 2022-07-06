@@ -9,6 +9,8 @@ enum ApiCallType {
   GET,
   POST,
   DELETE,
+  PUT,
+  PATCH,
 }
 
 enum BodyType {
@@ -32,11 +34,19 @@ class ApiCallRecord extends Equatable {
   List<Object> get props => [callName, apiUrl, headers, params, body, bodyType];
 }
 
+class ApiCallResponse {
+  const ApiCallResponse(this.jsonBody, this.statusCode);
+  final dynamic jsonBody;
+  final int statusCode;
+  // Whether we recieved a 2xx status (which generally marks success).
+  bool get succeeded => statusCode >= 200 && statusCode < 300;
+}
+
 class ApiManager {
   ApiManager._();
 
   // Cache that will ensure identical calls are not repeatedly made.
-  static Map<ApiCallRecord, dynamic> _apiCache = {};
+  static Map<ApiCallRecord, ApiCallResponse> _apiCache = {};
 
   static ApiManager _instance;
   static ApiManager get instance => _instance ??= ApiManager._();
@@ -58,12 +68,21 @@ class ApiManager {
   static String asQueryParams(Map<String, dynamic> map) =>
       map.entries.map((e) => "${e.key}=${e.value}").join('&');
 
-  static Future<dynamic> urlRequest(
+  static ApiCallResponse createResponse(
+      http.Response response, bool returnBody) {
+    var jsonBody;
+    try {
+      jsonBody = returnBody ? json.decode(response.body) : null;
+    } catch (_) {}
+    return ApiCallResponse(jsonBody, response.statusCode);
+  }
+
+  static Future<ApiCallResponse> urlRequest(
     ApiCallType callType,
     String apiUrl,
     Map<String, dynamic> headers,
     Map<String, dynamic> params,
-    bool returnResponse,
+    bool returnBody,
   ) async {
     if (params.isNotEmpty) {
       final lastUriPart = apiUrl.split('/').last;
@@ -74,36 +93,34 @@ class ApiManager {
     final makeRequest = callType == ApiCallType.GET ? http.get : http.delete;
     final response =
         await makeRequest(Uri.parse(apiUrl), headers: toStringMap(headers));
-    var jsonResponse;
-    try {
-      jsonResponse = json.decode(response.body);
-    } catch (_) {
-      // response may be empty, or invalid JSON.
-    }
-    return returnResponse ? jsonResponse ?? {} : null;
+    return createResponse(response, returnBody);
   }
 
-  static Future<dynamic> postRequest(
+  static Future<ApiCallResponse> requestWithBody(
+    ApiCallType type,
     String apiUrl,
     Map<String, dynamic> headers,
     Map<String, dynamic> params,
     String body,
     BodyType bodyType,
-    bool returnResponse,
+    bool returnBody,
   ) async {
-    final postBody = createPostBody(headers, params, body, bodyType);
-    final response = await http.post(Uri.parse(apiUrl),
+    assert(
+      {ApiCallType.POST, ApiCallType.PUT, ApiCallType.PATCH}.contains(type),
+      'Invalid ApiCallType $type for request with body',
+    );
+    final postBody = createBody(headers, params, body, bodyType);
+    final requestFn = {
+      ApiCallType.POST: http.post,
+      ApiCallType.PUT: http.put,
+      ApiCallType.PATCH: http.patch,
+    }[type];
+    final response = await requestFn(Uri.parse(apiUrl),
         headers: toStringMap(headers), body: postBody);
-    var jsonResponse;
-    try {
-      jsonResponse = json.decode(response.body);
-    } catch (_) {
-      // response may be empty, or invalid JSON.
-    }
-    return returnResponse ? jsonResponse ?? {} : null;
+    return createResponse(response, returnBody);
   }
 
-  static dynamic createPostBody(
+  static dynamic createBody(
     Map<String, dynamic> headers,
     Map<String, dynamic> params,
     String body,
@@ -132,16 +149,17 @@ class ApiManager {
     return postBody;
   }
 
-  Future<dynamic> makeApiCall(
-      {String callName,
-      String apiUrl,
-      ApiCallType callType,
-      Map<String, dynamic> headers = const {},
-      Map<String, dynamic> params = const {},
-      String body,
-      BodyType bodyType,
-      bool returnResponse,
-      bool cache = false}) async {
+  Future<ApiCallResponse> makeApiCall({
+    String callName,
+    String apiUrl,
+    ApiCallType callType,
+    Map<String, dynamic> headers = const {},
+    Map<String, dynamic> params = const {},
+    String body,
+    BodyType bodyType,
+    bool returnBody,
+    bool cache = false,
+  }) async {
     final callRecord =
         ApiCallRecord(callName, apiUrl, headers, params, body, bodyType);
     // Modify for your specific needs if this differs from your API.
@@ -158,16 +176,18 @@ class ApiManager {
       return _apiCache[callRecord];
     }
 
-    var result;
+    ApiCallResponse result;
     switch (callType) {
       case ApiCallType.GET:
       case ApiCallType.DELETE:
         result =
-            await urlRequest(callType, apiUrl, headers, params, returnResponse);
+            await urlRequest(callType, apiUrl, headers, params, returnBody);
         break;
       case ApiCallType.POST:
-        result = await postRequest(
-            apiUrl, headers, params, body, bodyType, returnResponse);
+      case ApiCallType.PUT:
+      case ApiCallType.PATCH:
+        result = await requestWithBody(
+            callType, apiUrl, headers, params, body, bodyType, returnBody);
         break;
     }
 

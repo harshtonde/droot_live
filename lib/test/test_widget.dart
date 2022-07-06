@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TestWidget extends StatefulWidget {
-  TestWidget({Key key}) : super(key: key);
+  const TestWidget({Key key}) : super(key: key);
 
   @override
   _TestWidgetState createState() => _TestWidgetState();
@@ -27,7 +27,7 @@ class _TestWidgetState extends State<TestWidget> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 1,
               decoration: BoxDecoration(
-                color: FlutterFlowTheme.primaryColor,
+                color: FlutterFlowTheme.of(context).primaryColor,
                 shape: BoxShape.rectangle,
               ),
               child: Column(
@@ -70,7 +70,8 @@ class _TestWidgetState extends State<TestWidget> {
                                             height: 50,
                                             child: CircularProgressIndicator(
                                               color:
-                                                  FlutterFlowTheme.primaryColor,
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryColor,
                                             ),
                                           ),
                                         );
@@ -102,32 +103,34 @@ class _TestWidgetState extends State<TestWidget> {
                                                 rowItemlistRecord.packedinbag,
                                             onIcon: Icon(
                                               Icons.check_box,
-                                              color: FlutterFlowTheme
-                                                  .secondaryColor,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryColor,
                                               size: 25,
                                             ),
                                             offIcon: Icon(
                                               Icons.check_box_outline_blank,
                                               color:
-                                                  FlutterFlowTheme.primaryColor,
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryColor,
                                               size: 25,
                                             ),
-                                          )
+                                          ),
                                         ],
                                       );
                                     },
                                   ),
                                 ),
                               ),
-                            )
+                            ),
                           ],
-                        )
+                        ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

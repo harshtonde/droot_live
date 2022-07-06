@@ -12,9 +12,6 @@ abstract class DocumentrecordRecord
       _$documentrecordRecordSerializer;
 
   @nullable
-  String get documentType;
-
-  @nullable
   String get imageDoc;
 
   @nullable
@@ -27,13 +24,20 @@ abstract class DocumentrecordRecord
   DocumentReference get userRef;
 
   @nullable
+  String get documentURL;
+
+  @nullable
+  BuiltList<DocumentReference> get documentType;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
   static void _initializeBuilder(DocumentrecordRecordBuilder builder) => builder
-    ..documentType = ''
     ..imageDoc = ''
-    ..description = '';
+    ..description = ''
+    ..documentURL = ''
+    ..documentType = ListBuilder();
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('documentrecord');
@@ -41,6 +45,10 @@ abstract class DocumentrecordRecord
   static Stream<DocumentrecordRecord> getDocument(DocumentReference ref) => ref
       .snapshots()
       .map((s) => serializers.deserializeWith(serializer, serializedData(s)));
+
+  static Future<DocumentrecordRecord> getDocumentOnce(DocumentReference ref) =>
+      ref.get().then(
+          (s) => serializers.deserializeWith(serializer, serializedData(s)));
 
   DocumentrecordRecord._();
   factory DocumentrecordRecord(
@@ -54,17 +62,18 @@ abstract class DocumentrecordRecord
 }
 
 Map<String, dynamic> createDocumentrecordRecordData({
-  String documentType,
   String imageDoc,
   String description,
   DateTime createdAt,
   DocumentReference userRef,
+  String documentURL,
 }) =>
     serializers.toFirestore(
         DocumentrecordRecord.serializer,
         DocumentrecordRecord((d) => d
-          ..documentType = documentType
           ..imageDoc = imageDoc
           ..description = description
           ..createdAt = createdAt
-          ..userRef = userRef));
+          ..userRef = userRef
+          ..documentURL = documentURL
+          ..documentType = null));

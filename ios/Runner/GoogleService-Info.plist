@@ -3,9 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>837805958901-tat91iv5t17sh8q9i8djeci4c87ejqpr.apps.googleusercontent.com</string>
+	<string>837805958901-6a5vpjrbufelu5b5vvsrbakiing863kn.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.837805958901-tat91iv5t17sh8q9i8djeci4c87ejqpr</string>
+	<string>com.googleusercontent.apps.837805958901-6a5vpjrbufelu5b5vvsrbakiing863kn</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>837805958901-6nn3ohaeef6spj0mjto18r6ea0div8c6.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyA9uC_OQnzyiKLWL6m2xDY6m0pN_w6EKDk</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.flutterflow.droot</string>
+	<string>com.mycompany.droot</string>
 	<key>PROJECT_ID</key>
 	<string>droot-theroute</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:837805958901:ios:4cf67b35e42ed1124407bc</string>
+	<string>1:837805958901:ios:27270f4dc5acd5cb4407bc</string>
+	<key>DATABASE_URL</key>
+	<string>https://droot-theroute-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

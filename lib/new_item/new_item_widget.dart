@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NewItemWidget extends StatefulWidget {
-  NewItemWidget({Key key}) : super(key: key);
+  const NewItemWidget({Key key}) : super(key: key);
 
   @override
   _NewItemWidgetState createState() => _NewItemWidgetState();
@@ -17,8 +17,6 @@ class NewItemWidget extends StatefulWidget {
 class _NewItemWidgetState extends State<NewItemWidget> {
   TextEditingController textController;
   bool checkboxListTileValue;
-  bool _loadingButton1 = false;
-  bool _loadingButton2 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -36,14 +34,14 @@ class _NewItemWidgetState extends State<NewItemWidget> {
         automaticallyImplyLeading: true,
         leading: Icon(
           Icons.arrow_back_ios,
-          color: FlutterFlowTheme.secondaryColor,
+          color: FlutterFlowTheme.of(context).secondaryColor,
         ),
         title: Text(
           'Item',
-          style: FlutterFlowTheme.bodyText1.override(
-            fontFamily: 'Poppins',
-            color: Colors.white,
-          ),
+          style: FlutterFlowTheme.of(context).bodyText1.override(
+                fontFamily: 'Poppins',
+                color: Colors.white,
+              ),
         ),
         actions: [],
         centerTitle: true,
@@ -54,7 +52,7 @@ class _NewItemWidgetState extends State<NewItemWidget> {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 1,
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.primaryColor,
+            color: FlutterFlowTheme.of(context).primaryColor,
           ),
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(25, 0, 25, 0),
@@ -80,11 +78,12 @@ class _NewItemWidgetState extends State<NewItemWidget> {
                         children: [
                           Text(
                             'Add new item',
-                            style: FlutterFlowTheme.bodyText1.override(
-                              fontFamily: 'Poppins',
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                            ),
+                            style:
+                                FlutterFlowTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                           ),
                           Padding(
                             padding:
@@ -95,12 +94,11 @@ class _NewItemWidgetState extends State<NewItemWidget> {
                               decoration: InputDecoration(
                                 isDense: true,
                                 labelText: 'Item Name',
-                                labelStyle: FlutterFlowTheme.bodyText1,
                                 hintText: '[Some hint text...]',
-                                hintStyle: FlutterFlowTheme.bodyText1,
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: FlutterFlowTheme.secondaryColor,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryColor,
                                     width: 1,
                                   ),
                                   borderRadius: const BorderRadius.only(
@@ -110,7 +108,8 @@ class _NewItemWidgetState extends State<NewItemWidget> {
                                 ),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: FlutterFlowTheme.secondaryColor,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryColor,
                                     width: 1,
                                   ),
                                   borderRadius: const BorderRadius.only(
@@ -119,30 +118,40 @@ class _NewItemWidgetState extends State<NewItemWidget> {
                                   ),
                                 ),
                               ),
-                              style: FlutterFlowTheme.bodyText1,
+                              style: FlutterFlowTheme.of(context).bodyText1,
                             ),
                           ),
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
-                            child: CheckboxListTile(
-                              value: checkboxListTileValue ??= false,
-                              onChanged: (newValue) => setState(
-                                  () => checkboxListTileValue = newValue),
-                              title: Text(
-                                'Is the item packed?',
-                                style: FlutterFlowTheme.subtitle2.override(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
+                            child: Theme(
+                              data: ThemeData(
+                                unselectedWidgetColor: Color(0xFF707070),
                               ),
-                              tileColor: Color(0x00F40000),
-                              activeColor: FlutterFlowTheme.secondaryColor,
-                              checkColor: FlutterFlowTheme.tertiaryColor,
-                              dense: true,
-                              controlAffinity: ListTileControlAffinity.trailing,
+                              child: CheckboxListTile(
+                                value: checkboxListTileValue ??= false,
+                                onChanged: (newValue) => setState(
+                                    () => checkboxListTileValue = newValue),
+                                title: Text(
+                                  'Is the item packed?',
+                                  style: FlutterFlowTheme.of(context)
+                                      .subtitle2
+                                      .override(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                ),
+                                tileColor: Color(0x00F40000),
+                                activeColor:
+                                    FlutterFlowTheme.of(context).secondaryColor,
+                                checkColor:
+                                    FlutterFlowTheme.of(context).tertiaryColor,
+                                dense: true,
+                                controlAffinity:
+                                    ListTileControlAffinity.trailing,
+                              ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -155,66 +164,56 @@ class _NewItemWidgetState extends State<NewItemWidget> {
                   children: [
                     FFButtonWidget(
                       onPressed: () async {
-                        setState(() => _loadingButton1 = true);
-                        try {
-                          Navigator.pop(context);
-                        } finally {
-                          setState(() => _loadingButton1 = false);
-                        }
+                        Navigator.pop(context);
                       },
                       text: 'Cancel',
                       options: FFButtonOptions(
                         width: 130,
                         height: 40,
                         color: Color(0x5C9E9E9E),
-                        textStyle: FlutterFlowTheme.subtitle2.override(
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
-                        ),
+                        textStyle:
+                            FlutterFlowTheme.of(context).subtitle2.override(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                ),
                         borderSide: BorderSide(
                           color: Colors.transparent,
                           width: 1,
                         ),
-                        borderRadius: 5,
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      loading: _loadingButton1,
                     ),
                     FFButtonWidget(
                       onPressed: () async {
-                        setState(() => _loadingButton2 = true);
-                        try {
-                          final itemlistCreateData = createItemlistRecordData(
-                            packedinbag: checkboxListTileValue,
-                            userreference: currentUserReference,
-                            itemname: textController.text,
-                          );
-                          await ItemlistRecord.collection
-                              .doc()
-                              .set(itemlistCreateData);
-                          Navigator.pop(context);
-                        } finally {
-                          setState(() => _loadingButton2 = false);
-                        }
+                        final itemlistCreateData = createItemlistRecordData(
+                          packedinbag: checkboxListTileValue,
+                          userreference: currentUserReference,
+                          itemname: textController.text,
+                        );
+                        await ItemlistRecord.collection
+                            .doc()
+                            .set(itemlistCreateData);
+                        Navigator.pop(context);
                       },
                       text: 'Save',
                       options: FFButtonOptions(
                         width: 130,
                         height: 40,
-                        color: FlutterFlowTheme.secondaryColor,
-                        textStyle: FlutterFlowTheme.subtitle2.override(
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
-                        ),
+                        color: FlutterFlowTheme.of(context).secondaryColor,
+                        textStyle:
+                            FlutterFlowTheme.of(context).subtitle2.override(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                ),
                         borderSide: BorderSide(
                           color: Colors.transparent,
                           width: 1,
                         ),
-                        borderRadius: 5,
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      loading: _loadingButton2,
-                    )
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),

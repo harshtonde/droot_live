@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ForgotPasswordWidget extends StatefulWidget {
-  ForgotPasswordWidget({Key key}) : super(key: key);
+  const ForgotPasswordWidget({Key key}) : super(key: key);
 
   @override
   _ForgotPasswordWidgetState createState() => _ForgotPasswordWidgetState();
@@ -14,7 +14,6 @@ class ForgotPasswordWidget extends StatefulWidget {
 
 class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
   TextEditingController emailAddressController;
-  bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -32,7 +31,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.primaryColor,
+            color: FlutterFlowTheme.of(context).primaryColor,
           ),
           child: Align(
             alignment: AlignmentDirectional(0, -0.98),
@@ -54,30 +53,26 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                   ),
                   Text(
                     'Forgot Your Password?',
-                    style: FlutterFlowTheme.title1.override(
-                      fontFamily: 'Poppins',
-                      color: FlutterFlowTheme.tertiaryColor,
-                    ),
+                    style: FlutterFlowTheme.of(context).title1.override(
+                          fontFamily: 'Poppins',
+                          color: FlutterFlowTheme.of(context).tertiaryColor,
+                        ),
                   ),
                   Text(
                     'Don\'t worry! Just fill in your email and we will send you a link to reset your password.',
                     textAlign: TextAlign.center,
-                    style: FlutterFlowTheme.bodyText1.override(
-                      fontFamily: 'Poppins',
-                      color: FlutterFlowTheme.tertiaryColor,
-                      fontWeight: FontWeight.w300,
-                      fontStyle: FontStyle.italic,
-                    ),
+                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                          fontFamily: 'Poppins',
+                          color: FlutterFlowTheme.of(context).tertiaryColor,
+                          fontWeight: FontWeight.w300,
+                          fontStyle: FontStyle.italic,
+                        ),
                   ),
                   TextFormField(
                     controller: emailAddressController,
                     obscureText: false,
                     decoration: InputDecoration(
                       labelText: 'Email Address',
-                      labelStyle: FlutterFlowTheme.bodyText1.override(
-                        fontFamily: 'Poppins',
-                        color: FlutterFlowTheme.tertiaryColor,
-                      ),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                           color: Color(0xFF9090AC),
@@ -99,10 +94,10 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                         ),
                       ),
                     ),
-                    style: FlutterFlowTheme.bodyText1.override(
-                      fontFamily: 'Poppins',
-                      color: FlutterFlowTheme.tertiaryColor,
-                    ),
+                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                          fontFamily: 'Poppins',
+                          color: FlutterFlowTheme.of(context).tertiaryColor,
+                        ),
                   ),
                   Column(
                     mainAxisSize: MainAxisSize.max,
@@ -112,51 +107,48 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                         padding: EdgeInsetsDirectional.fromSTEB(2, 0, 5, 0),
                         child: FFButtonWidget(
                           onPressed: () async {
-                            setState(() => _loadingButton = true);
-                            try {
-                              if (emailAddressController.text.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      'Email required!',
-                                    ),
+                            if (emailAddressController.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Email required!',
                                   ),
-                                );
-                                return;
-                              }
-                              await resetPassword(
-                                email: emailAddressController.text,
-                                context: context,
+                                ),
                               );
-                            } finally {
-                              setState(() => _loadingButton = false);
+                              return;
                             }
+                            await resetPassword(
+                              email: emailAddressController.text,
+                              context: context,
+                            );
                           },
                           text: 'Reset Password',
                           options: FFButtonOptions(
                             width: 130,
                             height: 40,
-                            color: FlutterFlowTheme.secondaryColor,
-                            textStyle: FlutterFlowTheme.subtitle2.override(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                            ),
+                            color: FlutterFlowTheme.of(context).secondaryColor,
+                            textStyle:
+                                FlutterFlowTheme.of(context).subtitle2.override(
+                                      fontFamily: 'Poppins',
+                                      color: Colors.white,
+                                    ),
                             borderSide: BorderSide(
                               color: Colors.transparent,
                               width: 1,
                             ),
-                            borderRadius: 5,
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          loading: _loadingButton,
                         ),
-                      )
+                      ),
                     ],
                   ),
                   Column(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [Divider()],
-                  )
+                    children: [
+                      Divider(),
+                    ],
+                  ),
                 ],
               ),
             ),

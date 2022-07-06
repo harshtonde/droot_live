@@ -8,21 +8,19 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class StartPageWidget extends StatefulWidget {
-  StartPageWidget({Key key}) : super(key: key);
+  const StartPageWidget({Key key}) : super(key: key);
 
   @override
   _StartPageWidgetState createState() => _StartPageWidgetState();
 }
 
 class _StartPageWidgetState extends State<StartPageWidget> {
-  bool _loadingButton1 = false;
-  bool _loadingButton2 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<dynamic>(
-      future: weatherCall(),
+    return FutureBuilder<ApiCallResponse>(
+      future: WeatherCall.call(),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -31,7 +29,7 @@ class _StartPageWidgetState extends State<StartPageWidget> {
               width: 50,
               height: 50,
               child: CircularProgressIndicator(
-                color: FlutterFlowTheme.primaryColor,
+                color: FlutterFlowTheme.of(context).primaryColor,
               ),
             ),
           );
@@ -53,19 +51,23 @@ class _StartPageWidgetState extends State<StartPageWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Image.asset(
-                      'assets/images/DROOT_Revisited-01.png',
-                      height: MediaQuery.of(context).size.height * 0.2,
-                      fit: BoxFit.scaleDown,
+                    Hero(
+                      tag: 'Logo',
+                      transitionOnUserGestures: true,
+                      child: Image.asset(
+                        'assets/images/DROOT_Revisited-01.png',
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        fit: BoxFit.scaleDown,
+                      ),
                     ),
                     Text(
                       'Let\'s Get\nStarted...',
                       textAlign: TextAlign.center,
-                      style: FlutterFlowTheme.title1.override(
-                        fontFamily: 'Poppins',
-                        color: Colors.white,
-                        fontSize: 40,
-                      ),
+                      style: FlutterFlowTheme.of(context).title1.override(
+                            fontFamily: 'Poppins',
+                            color: Colors.white,
+                            fontSize: 40,
+                          ),
                     ),
                     Column(
                       mainAxisSize: MainAxisSize.max,
@@ -73,69 +75,59 @@ class _StartPageWidgetState extends State<StartPageWidget> {
                       children: [
                         FFButtonWidget(
                           onPressed: () async {
-                            setState(() => _loadingButton1 = true);
-                            try {
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SignUpWidget(),
-                                ),
-                              );
-                            } finally {
-                              setState(() => _loadingButton1 = false);
-                            }
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SignUpWidget(),
+                              ),
+                            );
                           },
                           text: 'New user? Sign Up',
                           options: FFButtonOptions(
                             width: 130,
                             height: 40,
                             color: Color(0xFFF40000),
-                            textStyle: FlutterFlowTheme.subtitle2.override(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                            ),
+                            textStyle:
+                                FlutterFlowTheme.of(context).subtitle2.override(
+                                      fontFamily: 'Poppins',
+                                      color: Colors.white,
+                                    ),
                             borderSide: BorderSide(
                               color: Colors.transparent,
                               width: 1,
                             ),
-                            borderRadius: 5,
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          loading: _loadingButton1,
                         ),
                         Divider(),
                         FFButtonWidget(
                           onPressed: () async {
-                            setState(() => _loadingButton2 = true);
-                            try {
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SignInWidget(),
-                                ),
-                              );
-                            } finally {
-                              setState(() => _loadingButton2 = false);
-                            }
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SignInWidget(),
+                              ),
+                            );
                           },
                           text: 'Already a user? Sign In',
                           options: FFButtonOptions(
                             width: 130,
                             height: 40,
                             color: Color(0xFFF40000),
-                            textStyle: FlutterFlowTheme.subtitle2.override(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                            ),
+                            textStyle:
+                                FlutterFlowTheme.of(context).subtitle2.override(
+                                      fontFamily: 'Poppins',
+                                      color: Colors.white,
+                                    ),
                             borderSide: BorderSide(
                               color: Colors.transparent,
                               width: 1,
                             ),
-                            borderRadius: 5,
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          loading: _loadingButton2,
-                        )
+                        ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),

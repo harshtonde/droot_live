@@ -49,6 +49,10 @@ abstract class TriprecordRecord
       .snapshots()
       .map((s) => serializers.deserializeWith(serializer, serializedData(s)));
 
+  static Future<TriprecordRecord> getDocumentOnce(DocumentReference ref) => ref
+      .get()
+      .then((s) => serializers.deserializeWith(serializer, serializedData(s)));
+
   TriprecordRecord._();
   factory TriprecordRecord([void Function(TriprecordRecordBuilder) updates]) =
       _$TriprecordRecord;

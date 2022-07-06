@@ -1,23 +1,23 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
+import '../flutter_flow/flutter_flow_pdf_viewer.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../new_document_page/new_document_page_widget.dart';
 import '../profile/profile_widget.dart';
 import '../start_page/start_page_widget.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class DocumentsWidget extends StatefulWidget {
-  const DocumentsWidget({Key key}) : super(key: key);
+class DocumentsCopyWidget extends StatefulWidget {
+  const DocumentsCopyWidget({Key key}) : super(key: key);
 
   @override
-  _DocumentsWidgetState createState() => _DocumentsWidgetState();
+  _DocumentsCopyWidgetState createState() => _DocumentsCopyWidgetState();
 }
 
-class _DocumentsWidgetState extends State<DocumentsWidget> {
+class _DocumentsCopyWidgetState extends State<DocumentsCopyWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -39,15 +39,15 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
             ),
           );
         }
-        List<DocumentrecordRecord> documentsDocumentrecordRecordList =
+        List<DocumentrecordRecord> documentsCopyDocumentrecordRecordList =
             snapshot.data;
         // Return an empty Container when the document does not exist.
         if (snapshot.data.isEmpty) {
           return Container();
         }
-        final documentsDocumentrecordRecord =
-            documentsDocumentrecordRecordList.isNotEmpty
-                ? documentsDocumentrecordRecordList.first
+        final documentsCopyDocumentrecordRecord =
+            documentsCopyDocumentrecordRecordList.isNotEmpty
+                ? documentsCopyDocumentrecordRecordList.first
                 : null;
         return Scaffold(
           key: scaffoldKey,
@@ -408,24 +408,12 @@ class _DocumentsWidgetState extends State<DocumentsWidget> {
                                         Column(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
-                                            InkWell(
-                                              onTap: () async {
-                                                scaffoldKey.currentState
-                                                    .openDrawer();
-                                              },
-                                              child: CachedNetworkImage(
-                                                imageUrl:
-                                                    listViewDocumentrecordRecord
-                                                        .imageDoc,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.5,
-                                                fit: BoxFit.cover,
-                                              ),
+                                            FlutterFlowPdfViewer(
+                                              networkPath:
+                                                  listViewDocumentrecordRecord
+                                                      .documentURL,
+                                              height: 300,
+                                              horizontalScroll: false,
                                             ),
                                           ],
                                         ),

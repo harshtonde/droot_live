@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TripPageWidget extends StatefulWidget {
-  TripPageWidget({
+  const TripPageWidget({
     Key key,
     this.tripRecord,
   }) : super(key: key);
@@ -27,13 +27,7 @@ class TripPageWidget extends StatefulWidget {
 }
 
 class _TripPageWidgetState extends State<TripPageWidget> {
-  bool _loadingButton1 = false;
-  bool _loadingButton2 = false;
-  bool _loadingButton3 = false;
-  bool _loadingButton4 = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  bool _loadingButton5 = false;
-  bool _loadingButton6 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -48,15 +42,15 @@ class _TripPageWidgetState extends State<TripPageWidget> {
           },
           child: Icon(
             Icons.arrow_back_ios,
-            color: FlutterFlowTheme.secondaryColor,
+            color: FlutterFlowTheme.of(context).secondaryColor,
           ),
         ),
         title: Text(
           widget.tripRecord.tripname,
-          style: FlutterFlowTheme.bodyText1.override(
-            fontFamily: 'Poppins',
-            color: Colors.white,
-          ),
+          style: FlutterFlowTheme.of(context).bodyText1.override(
+                fontFamily: 'Poppins',
+                color: Colors.white,
+              ),
         ),
         actions: [
           FlutterFlowIconButton(
@@ -65,26 +59,26 @@ class _TripPageWidgetState extends State<TripPageWidget> {
             buttonSize: 48,
             icon: Icon(
               Icons.delete_outlined,
-              color: FlutterFlowTheme.secondaryColor,
+              color: FlutterFlowTheme.of(context).secondaryColor,
               size: 30,
             ),
             onPressed: () async {
               Navigator.pop(context);
               await widget.tripRecord.reference.delete();
             },
-          )
+          ),
         ],
         centerTitle: true,
         elevation: 25,
       ),
-      backgroundColor: FlutterFlowTheme.primaryColor,
+      backgroundColor: FlutterFlowTheme.of(context).primaryColor,
       drawer: Drawer(
         elevation: 100,
         child: Container(
           width: 100,
           height: 100,
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.primaryColor,
+            color: FlutterFlowTheme.of(context).primaryColor,
           ),
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),
@@ -98,7 +92,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                       width: 50,
                       height: 50,
                       child: CircularProgressIndicator(
-                        color: FlutterFlowTheme.primaryColor,
+                        color: FlutterFlowTheme.of(context).primaryColor,
                       ),
                     ),
                   );
@@ -133,7 +127,8 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                               width: 50,
                               height: 50,
                               child: CircularProgressIndicator(
-                                color: FlutterFlowTheme.primaryColor,
+                                color:
+                                    FlutterFlowTheme.of(context).primaryColor,
                               ),
                             ),
                           );
@@ -142,20 +137,23 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                         return Text(
                           columnUsersRecord.displayName,
                           textAlign: TextAlign.start,
-                          style: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Poppins',
-                            color: FlutterFlowTheme.tertiaryColor,
-                          ),
+                          style: FlutterFlowTheme.of(context)
+                              .bodyText1
+                              .override(
+                                fontFamily: 'Poppins',
+                                color:
+                                    FlutterFlowTheme.of(context).tertiaryColor,
+                              ),
                         );
                       },
                     ),
                     Text(
                       'Droot user',
                       textAlign: TextAlign.start,
-                      style: FlutterFlowTheme.bodyText1.override(
-                        fontFamily: 'Poppins',
-                        color: FlutterFlowTheme.tertiaryColor,
-                      ),
+                      style: FlutterFlowTheme.of(context).bodyText1.override(
+                            fontFamily: 'Poppins',
+                            color: FlutterFlowTheme.of(context).tertiaryColor,
+                          ),
                     ),
                     Divider(
                       thickness: 1,
@@ -177,61 +175,58 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                             text: 'Home',
                             icon: Icon(
                               Icons.home,
-                              color: FlutterFlowTheme.tertiaryColor,
+                              color: FlutterFlowTheme.of(context).tertiaryColor,
                               size: 20,
                             ),
                             options: FFButtonOptions(
                               width: 130,
                               height: 40,
-                              color: FlutterFlowTheme.primaryColor,
-                              textStyle: FlutterFlowTheme.subtitle2.override(
-                                fontFamily: 'Poppins',
-                                color: Colors.white,
-                              ),
+                              color: FlutterFlowTheme.of(context).primaryColor,
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .subtitle2
+                                  .override(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                  ),
                               borderSide: BorderSide(
                                 color: Colors.transparent,
                                 width: 1,
                               ),
-                              borderRadius: 12,
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                            loading: _loadingButton1,
                           ),
                           Divider(),
                           FFButtonWidget(
                             onPressed: () async {
-                              setState(() => _loadingButton2 = true);
-                              try {
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ProfileWidget(),
-                                  ),
-                                );
-                              } finally {
-                                setState(() => _loadingButton2 = false);
-                              }
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProfileWidget(),
+                                ),
+                              );
                             },
                             text: 'Profile',
                             icon: Icon(
                               Icons.person,
-                              color: FlutterFlowTheme.tertiaryColor,
+                              color: FlutterFlowTheme.of(context).tertiaryColor,
                               size: 20,
                             ),
                             options: FFButtonOptions(
                               width: 130,
                               height: 40,
-                              color: FlutterFlowTheme.primaryColor,
-                              textStyle: FlutterFlowTheme.subtitle2.override(
-                                fontFamily: 'Poppins',
-                                color: Colors.white,
-                              ),
+                              color: FlutterFlowTheme.of(context).primaryColor,
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .subtitle2
+                                  .override(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                  ),
                               borderSide: BorderSide(
                                 color: Colors.transparent,
                                 width: 1,
                               ),
-                              borderRadius: 12,
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                            loading: _loadingButton2,
                           ),
                           Divider(),
                           FFButtonWidget(
@@ -241,24 +236,25 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                             text: 'Settings',
                             icon: Icon(
                               Icons.settings,
-                              color: FlutterFlowTheme.tertiaryColor,
+                              color: FlutterFlowTheme.of(context).tertiaryColor,
                               size: 20,
                             ),
                             options: FFButtonOptions(
                               width: 130,
                               height: 40,
-                              color: FlutterFlowTheme.primaryColor,
-                              textStyle: FlutterFlowTheme.subtitle2.override(
-                                fontFamily: 'Poppins',
-                                color: Colors.white,
-                              ),
+                              color: FlutterFlowTheme.of(context).primaryColor,
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .subtitle2
+                                  .override(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                  ),
                               borderSide: BorderSide(
                                 color: Colors.transparent,
                                 width: 1,
                               ),
-                              borderRadius: 12,
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                            loading: _loadingButton3,
                           ),
                           Divider(
                             thickness: 1,
@@ -266,45 +262,41 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                           ),
                           FFButtonWidget(
                             onPressed: () async {
-                              setState(() => _loadingButton4 = true);
-                              try {
-                                await signOut();
-                                await Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => StartPageWidget(),
-                                  ),
-                                  (r) => false,
-                                );
-                              } finally {
-                                setState(() => _loadingButton4 = false);
-                              }
+                              await signOut();
+                              await Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => StartPageWidget(),
+                                ),
+                                (r) => false,
+                              );
                             },
                             text: 'Sign Out',
                             icon: Icon(
                               Icons.logout,
-                              color: FlutterFlowTheme.tertiaryColor,
+                              color: FlutterFlowTheme.of(context).tertiaryColor,
                               size: 20,
                             ),
                             options: FFButtonOptions(
                               width: 130,
                               height: 40,
-                              color: FlutterFlowTheme.primaryColor,
-                              textStyle: FlutterFlowTheme.subtitle2.override(
-                                fontFamily: 'Poppins',
-                                color: Colors.white,
-                              ),
+                              color: FlutterFlowTheme.of(context).primaryColor,
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .subtitle2
+                                  .override(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                  ),
                               borderSide: BorderSide(
                                 color: Colors.transparent,
                                 width: 1,
                               ),
-                              borderRadius: 12,
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                            loading: _loadingButton4,
-                          )
+                          ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 );
               },
@@ -319,8 +311,8 @@ class _TripPageWidgetState extends State<TripPageWidget> {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                FutureBuilder<dynamic>(
-                  future: unsplashCall(
+                FutureBuilder<ApiCallResponse>(
+                  future: UnsplashCall.call(
                     query: widget.tripRecord.destination,
                   ),
                   builder: (context, snapshot) {
@@ -331,7 +323,7 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                           width: 50,
                           height: 50,
                           child: CircularProgressIndicator(
-                            color: FlutterFlowTheme.primaryColor,
+                            color: FlutterFlowTheme.of(context).primaryColor,
                           ),
                         ),
                       );
@@ -356,9 +348,10 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                 Builder(
                                   builder: (context) {
                                     final searchResults = (getJsonField(
-                                                    cardUnsplashResponse,
-                                                    r'''$.results''')
-                                                ?.toList() ??
+                                              (cardUnsplashResponse?.jsonBody ??
+                                                  ''),
+                                              r'''$.results''',
+                                            )?.toList() ??
                                             [])
                                         .take(1)
                                         .toList();
@@ -369,8 +362,8 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                               (searchResultsIndex) {
                                         final searchResultsItem =
                                             searchResults[searchResultsIndex];
-                                        return FutureBuilder<dynamic>(
-                                          future: unsplashCall(
+                                        return FutureBuilder<ApiCallResponse>(
+                                          future: UnsplashCall.call(
                                             query:
                                                 widget.tripRecord.destination,
                                           ),
@@ -383,7 +376,8 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                   height: 50,
                                                   child:
                                                       CircularProgressIndicator(
-                                                    color: FlutterFlowTheme
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
                                                         .primaryColor,
                                                   ),
                                                 ),
@@ -393,8 +387,9 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                 snapshot.data;
                                             return CachedNetworkImage(
                                               imageUrl: getJsonField(
-                                                  searchResultsItem,
-                                                  r'''$.urls.full'''),
+                                                searchResultsItem,
+                                                r'''$.urls.full''',
+                                              ),
                                               width: double.infinity,
                                               height: 200,
                                               fit: BoxFit.cover,
@@ -421,13 +416,16 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                           children: [
                                             Text(
                                               'Overview',
-                                              style: FlutterFlowTheme.bodyText1
-                                                  .override(
-                                                fontFamily: 'Poppins',
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            )
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1
+                                                      .override(
+                                                        fontFamily: 'Poppins',
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -440,7 +438,9 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                     0, 8, 0, 0),
                                             child: Text(
                                               'Origin:',
-                                              style: FlutterFlowTheme.bodyText1,
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1,
                                             ),
                                           ),
                                           Padding(
@@ -449,7 +449,9 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                     5, 8, 0, 0),
                                             child: Text(
                                               widget.tripRecord.origin,
-                                              style: FlutterFlowTheme.bodyText1,
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1,
                                             ),
                                           ),
                                           Padding(
@@ -458,7 +460,9 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                     20, 8, 0, 0),
                                             child: Text(
                                               'Destination:',
-                                              style: FlutterFlowTheme.bodyText1,
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1,
                                             ),
                                           ),
                                           Padding(
@@ -467,9 +471,11 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                     5, 8, 0, 0),
                                             child: Text(
                                               widget.tripRecord.destination,
-                                              style: FlutterFlowTheme.bodyText1,
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1,
                                             ),
-                                          )
+                                          ),
                                         ],
                                       ),
                                       Row(
@@ -481,7 +487,9 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                     0, 8, 0, 0),
                                             child: Text(
                                               'Start Date:',
-                                              style: FlutterFlowTheme.bodyText1,
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1,
                                             ),
                                           ),
                                           Padding(
@@ -491,9 +499,11 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                             child: Text(
                                               widget.tripRecord.startdate
                                                   .toString(),
-                                              style: FlutterFlowTheme.bodyText1,
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1,
                                             ),
-                                          )
+                                          ),
                                         ],
                                       ),
                                       Row(
@@ -505,7 +515,9 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                                     0, 8, 0, 0),
                                             child: Text(
                                               'End Date:',
-                                              style: FlutterFlowTheme.bodyText1,
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1,
                                             ),
                                           ),
                                           Padding(
@@ -515,17 +527,19 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                             child: Text(
                                               widget.tripRecord.enddate
                                                   .toString(),
-                                              style: FlutterFlowTheme.bodyText1,
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyText1,
                                             ),
-                                          )
+                                          ),
                                         ],
-                                      )
+                                      ),
                                     ],
                                   ),
-                                )
+                                ),
                               ],
                             ),
-                          )
+                          ),
                         ],
                       ),
                     );
@@ -535,11 +549,11 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                 Text(
                   'Weather ☁',
                   textAlign: TextAlign.start,
-                  style: FlutterFlowTheme.title2.override(
-                    fontFamily: 'Poppins',
-                    color: FlutterFlowTheme.tertiaryColor,
-                    fontWeight: FontWeight.normal,
-                  ),
+                  style: FlutterFlowTheme.of(context).title2.override(
+                        fontFamily: 'Poppins',
+                        color: FlutterFlowTheme.of(context).tertiaryColor,
+                        fontWeight: FontWeight.normal,
+                      ),
                 ),
                 Card(
                   clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -565,17 +579,19 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                 children: [
                                   Text(
                                     'Temperature(in °C):',
-                                    style: FlutterFlowTheme.bodyText1.override(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyText1
+                                        .override(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                   ),
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         5, 0, 0, 0),
-                                    child: FutureBuilder<dynamic>(
-                                      future: weatherAPICall(
+                                    child: FutureBuilder<ApiCallResponse>(
+                                      future: WeatherAPICall.call(
                                         q: widget.tripRecord.destination,
                                       ),
                                       builder: (context, snapshot) {
@@ -586,8 +602,9 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                               width: 50,
                                               height: 50,
                                               child: CircularProgressIndicator(
-                                                color: FlutterFlowTheme
-                                                    .primaryColor,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryColor,
                                               ),
                                             ),
                                           );
@@ -595,18 +612,21 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                         final textWeatherAPIResponse =
                                             snapshot.data;
                                         return Text(
-                                          getJsonField(textWeatherAPIResponse,
-                                                  r'''$.current.temp_c''')
-                                              .toString(),
-                                          style: FlutterFlowTheme.subtitle2
+                                          getJsonField(
+                                            (textWeatherAPIResponse?.jsonBody ??
+                                                ''),
+                                            r'''$.current.temp_c''',
+                                          ).toString(),
+                                          style: FlutterFlowTheme.of(context)
+                                              .subtitle2
                                               .override(
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.w600,
+                                              ),
                                         );
                                       },
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -619,17 +639,19 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                 children: [
                                   Text(
                                     'Weather:',
-                                    style: FlutterFlowTheme.bodyText1.override(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyText1
+                                        .override(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                   ),
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         5, 0, 0, 0),
-                                    child: FutureBuilder<dynamic>(
-                                      future: weatherAPICall(
+                                    child: FutureBuilder<ApiCallResponse>(
+                                      future: WeatherAPICall.call(
                                         q: widget.tripRecord.destination,
                                       ),
                                       builder: (context, snapshot) {
@@ -640,8 +662,9 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                               width: 50,
                                               height: 50,
                                               child: CircularProgressIndicator(
-                                                color: FlutterFlowTheme
-                                                    .primaryColor,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryColor,
                                               ),
                                             ),
                                           );
@@ -649,21 +672,24 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                         final textWeatherAPIResponse =
                                             snapshot.data;
                                         return AutoSizeText(
-                                          getJsonField(textWeatherAPIResponse,
-                                                  r'''$.current.condition.text''')
-                                              .toString(),
-                                          style: FlutterFlowTheme.bodyText1
+                                          getJsonField(
+                                            (textWeatherAPIResponse?.jsonBody ??
+                                                ''),
+                                            r'''$.current.condition.text''',
+                                          ).toString(),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyText1
                                               .override(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w300,
-                                          ),
+                                                fontFamily: 'Poppins',
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w300,
+                                              ),
                                         );
                                       },
                                     ),
                                   ),
-                                  FutureBuilder<dynamic>(
-                                    future: weatherAPICall(
+                                  FutureBuilder<ApiCallResponse>(
+                                    future: WeatherAPICall.call(
                                       q: widget.tripRecord.destination,
                                     ),
                                     builder: (context, snapshot) {
@@ -675,7 +701,8 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                             height: 50,
                                             child: CircularProgressIndicator(
                                               color:
-                                                  FlutterFlowTheme.primaryColor,
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryColor,
                                             ),
                                           ),
                                         );
@@ -684,86 +711,76 @@ class _TripPageWidgetState extends State<TripPageWidget> {
                                           snapshot.data;
                                       return CachedNetworkImage(
                                         imageUrl: getJsonField(
-                                            imageWeatherAPIResponse,
-                                            r'''$.current.condition.icon'''),
+                                          (imageWeatherAPIResponse?.jsonBody ??
+                                              ''),
+                                          r'''$.current.condition.icon''',
+                                        ),
                                         height:
                                             MediaQuery.of(context).size.height *
                                                 0.05,
                                         fit: BoxFit.fill,
                                       );
                                     },
-                                  )
+                                  ),
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
                 FFButtonWidget(
                   onPressed: () async {
-                    setState(() => _loadingButton5 = true);
-                    try {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => NewDocumentPageWidget(),
-                        ),
-                      );
-                    } finally {
-                      setState(() => _loadingButton5 = false);
-                    }
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NewDocumentPageWidget(),
+                      ),
+                    );
                   },
                   text: 'Documents',
                   options: FFButtonOptions(
                     width: 130,
                     height: 40,
                     color: Color(0x27FFFFFF),
-                    textStyle: FlutterFlowTheme.subtitle2.override(
-                      fontFamily: 'Poppins',
-                      color: Colors.white,
-                    ),
+                    textStyle: FlutterFlowTheme.of(context).subtitle2.override(
+                          fontFamily: 'Poppins',
+                          color: Colors.white,
+                        ),
                     borderSide: BorderSide(
                       color: Colors.transparent,
                       width: 1,
                     ),
-                    borderRadius: 12,
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  loading: _loadingButton5,
                 ),
                 FFButtonWidget(
                   onPressed: () async {
-                    setState(() => _loadingButton6 = true);
-                    try {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ItemListWidget(),
-                        ),
-                      );
-                    } finally {
-                      setState(() => _loadingButton6 = false);
-                    }
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ItemListWidget(),
+                      ),
+                    );
                   },
                   text: 'List',
                   options: FFButtonOptions(
                     width: 130,
                     height: 40,
                     color: Color(0x27FFFFFF),
-                    textStyle: FlutterFlowTheme.subtitle2.override(
-                      fontFamily: 'Poppins',
-                      color: Colors.white,
-                    ),
+                    textStyle: FlutterFlowTheme.of(context).subtitle2.override(
+                          fontFamily: 'Poppins',
+                          color: Colors.white,
+                        ),
                     borderSide: BorderSide(
                       color: Colors.transparent,
                       width: 1,
                     ),
-                    borderRadius: 12,
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  loading: _loadingButton6,
-                )
+                ),
               ],
             ),
           ),
