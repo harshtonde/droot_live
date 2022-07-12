@@ -113,30 +113,26 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Divider(),
-                    AuthUserStreamWidget(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.25,
-                        height: MediaQuery.of(context).size.width * 0.25,
-                        clipBehavior: Clip.antiAlias,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        child: CachedNetworkImage(
-                          imageUrl: currentUserPhoto,
-                          fit: BoxFit.cover,
-                        ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.25,
+                      height: MediaQuery.of(context).size.width * 0.25,
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      child: CachedNetworkImage(
+                        imageUrl: currentUserPhoto,
+                        fit: BoxFit.cover,
                       ),
                     ),
                     Divider(),
-                    AuthUserStreamWidget(
-                      child: Text(
-                        currentUserDisplayName,
-                        textAlign: TextAlign.start,
-                        style: FlutterFlowTheme.of(context).bodyText1.override(
-                              fontFamily: 'Poppins',
-                              color: FlutterFlowTheme.of(context).tertiaryColor,
-                            ),
-                      ),
+                    Text(
+                      currentUserDisplayName,
+                      textAlign: TextAlign.start,
+                      style: FlutterFlowTheme.of(context).bodyText1.override(
+                            fontFamily: 'Poppins',
+                            color: FlutterFlowTheme.of(context).tertiaryColor,
+                          ),
                     ),
                     Text(
                       'Droot user',

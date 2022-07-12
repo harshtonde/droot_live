@@ -1,5 +1,3 @@
-import '../auth/auth_util.dart';
-import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
@@ -308,17 +306,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           if (user == null) {
                             return;
                           }
-
-                          final usersCreateData = createUsersRecordData(
-                            email: emailAddressController.text,
-                            displayName: fullNameController.text,
-                            photoUrl:
-                                'https://upload.wikimedia.org/wikipedia/commons/8/85/Elon_Musk_Royal_Society_%28crop1%29.jpg',
-                            createdTime: getCurrentTimestamp,
-                          );
-                          await UsersRecord.collection
-                              .doc(user.uid)
-                              .update(usersCreateData);
 
                           await Navigator.pushAndRemoveUntil(
                             context,
