@@ -15,6 +15,7 @@ import 'lat_lng.dart';
 export 'lat_lng.dart';
 export 'place.dart';
 export 'dart:math' show min, max;
+export 'dart:convert' show jsonEncode, jsonDecode;
 export 'package:intl/intl.dart';
 export 'package:cloud_firestore/cloud_firestore.dart' show DocumentReference;
 export 'package:page_transition/page_transition.dart';
