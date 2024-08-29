@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 
 class FFButtonOptions {
   const FFButtonOptions({
+    this.textAlign,
     this.textStyle,
     this.elevation,
     this.height,
@@ -18,39 +19,50 @@ class FFButtonOptions {
     this.iconPadding,
     this.borderRadius,
     this.borderSide,
+    this.hoverColor,
+    this.hoverBorderSide,
+    this.hoverTextColor,
+    this.hoverElevation,
+    this.maxLines,
   });
 
-  final TextStyle textStyle;
-  final double elevation;
-  final double height;
-  final double width;
-  final EdgeInsetsGeometry padding;
-  final Color color;
-  final Color disabledColor;
-  final Color disabledTextColor;
-  final Color splashColor;
-  final double iconSize;
-  final Color iconColor;
-  final EdgeInsetsGeometry iconPadding;
-  final BorderRadius borderRadius;
-  final BorderSide borderSide;
+  final TextAlign? textAlign;
+  final TextStyle? textStyle;
+  final double? elevation;
+  final double? height;
+  final double? width;
+  final EdgeInsetsGeometry? padding;
+  final Color? color;
+  final Color? disabledColor;
+  final Color? disabledTextColor;
+  final int? maxLines;
+  final Color? splashColor;
+  final double? iconSize;
+  final Color? iconColor;
+  final EdgeInsetsGeometry? iconPadding;
+  final BorderRadius? borderRadius;
+  final BorderSide? borderSide;
+  final Color? hoverColor;
+  final BorderSide? hoverBorderSide;
+  final Color? hoverTextColor;
+  final double? hoverElevation;
 }
 
 class FFButtonWidget extends StatefulWidget {
   const FFButtonWidget({
-    Key key,
-    @required this.text,
-    @required this.onPressed,
+    super.key,
+    required this.text,
+    required this.onPressed,
     this.icon,
     this.iconData,
-    @required this.options,
+    required this.options,
     this.showLoadingIndicator = true,
-  }) : super(key: key);
+  });
 
   final String text;
-  final Widget icon;
-  final IconData iconData;
-  final Function() onPressed;
+  final Widget? icon;
+  final IconData? iconData;
+  final Function()? onPressed;
   final FFButtonOptions options;
   final bool showLoadingIndicator;
 
@@ -61,93 +73,156 @@ class FFButtonWidget extends StatefulWidget {
 class _FFButtonWidgetState extends State<FFButtonWidget> {
   bool loading = false;
 
+  int get maxLines => widget.options.maxLines ?? 1;
+  String? get text =>
+      widget.options.textStyle?.fontSize == 0 ? null : widget.text;
+
   @override
   Widget build(BuildContext context) {
     Widget textWidget = loading
-        ? Center(
-            child: Container(
-              width: 23,
-              height: 23,
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  widget.options.textStyle.color ?? Colors.white,
+        ? SizedBox(
+            width: widget.options.width == null
+                ? _getTextWidth(text, widget.options.textStyle, maxLines)
+                : null,
+            child: Center(
+              child: SizedBox(
+                width: 23,
+                height: 23,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    widget.options.textStyle?.color ?? Colors.white,
+                  ),
                 ),
               ),
             ),
           )
         : AutoSizeText(
-            widget.text,
-            style: widget.options.textStyle,
-            maxLines: 1,
+            text ?? '',
+            style:
+                text == null ? null : widget.options.textStyle?.withoutColor(),
+            textAlign: widget.options.textAlign,
+            maxLines: maxLines,
             overflow: TextOverflow.ellipsis,
           );
 
-    final onPressed = widget.showLoadingIndicator
-        ? () async {
-            if (loading) {
-              return;
-            }
-            setState(() => loading = true);
-            try {
-              await widget.onPressed();
-            } finally {
-              if (mounted) {
-                setState(() => loading = false);
+    final onPressed = widget.onPressed != null
+        ? (widget.showLoadingIndicator
+            ? () async {
+                if (loading) {
+                  return;
+                }
+                setState(() => loading = true);
+                try {
+                  await widget.onPressed!();
+                } finally {
+                  if (mounted) {
+                    setState(() => loading = false);
+                  }
+                }
               }
-            }
-          }
-        : () => widget.onPressed();
+            : () => widget.onPressed!())
+        : null;
 
     ButtonStyle style = ButtonStyle(
-      shape: MaterialStateProperty.all<OutlinedBorder>(
-        RoundedRectangleBorder(
-          borderRadius:
-              widget.options.borderRadius ?? BorderRadius.circular(8.0),
-          side: widget.options.borderSide ?? BorderSide.none,
-        ),
-      ),
-      foregroundColor: MaterialStateProperty.resolveWith<Color>(
+      shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
         (states) {
-          if (states.contains(MaterialState.disabled)) {
-            return widget.options.disabledTextColor;
+          if (states.contains(MaterialState.hovered) &&
+              widget.options.hoverBorderSide != null) {
+            return RoundedRectangleBorder(
+              borderRadius:
+                  widget.options.borderRadius ?? BorderRadius.circular(8),
+              side: widget.options.hoverBorderSide!,
+            );
           }
-          return widget.options.textStyle.color;
+          return RoundedRectangleBorder(
+            borderRadius:
+                widget.options.borderRadius ?? BorderRadius.circular(8),
+            side: widget.options.borderSide ?? BorderSide.none,
+          );
         },
       ),
-      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+      foregroundColor: MaterialStateProperty.resolveWith<Color?>(
         (states) {
-          if (states.contains(MaterialState.disabled)) {
+          if (states.contains(MaterialState.disabled) &&
+              widget.options.disabledTextColor != null) {
+            return widget.options.disabledTextColor;
+          }
+          if (states.contains(MaterialState.hovered) &&
+              widget.options.hoverTextColor != null) {
+            return widget.options.hoverTextColor;
+          }
+          return widget.options.textStyle?.color ?? Colors.white;
+        },
+      ),
+      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+        (states) {
+          if (states.contains(MaterialState.disabled) &&
+              widget.options.disabledColor != null) {
             return widget.options.disabledColor;
+          }
+          if (states.contains(MaterialState.hovered) &&
+              widget.options.hoverColor != null) {
+            return widget.options.hoverColor;
           }
           return widget.options.color;
         },
       ),
-      overlayColor: MaterialStateProperty.resolveWith<Color>((states) {
+      overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
         if (states.contains(MaterialState.pressed)) {
           return widget.options.splashColor;
         }
-        return null;
+        return widget.options.hoverColor == null ? null : Colors.transparent;
       }),
       padding: MaterialStateProperty.all(widget.options.padding ??
-          const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0)),
-      elevation:
-          MaterialStateProperty.all<double>(widget.options.elevation ?? 2.0),
+          const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0)),
+      elevation: MaterialStateProperty.resolveWith<double?>(
+        (states) {
+          if (states.contains(MaterialState.hovered) &&
+              widget.options.hoverElevation != null) {
+            return widget.options.hoverElevation!;
+          }
+          return widget.options.elevation ?? 2.0;
+        },
+      ),
     );
 
-    if (widget.icon != null || widget.iconData != null) {
-      return Container(
+    if ((widget.icon != null || widget.iconData != null) && !loading) {
+      Widget icon = widget.icon ??
+          FaIcon(
+            widget.iconData!,
+            size: widget.options.iconSize,
+            color: widget.options.iconColor,
+          );
+
+      if (text == null) {
+        return Container(
+          height: widget.options.height,
+          width: widget.options.width,
+          decoration: BoxDecoration(
+            border: Border.fromBorderSide(
+              widget.options.borderSide ?? BorderSide.none,
+            ),
+            borderRadius:
+                widget.options.borderRadius ?? BorderRadius.circular(8),
+          ),
+          child: IconButton(
+            splashRadius: 1.0,
+            icon: Padding(
+              padding: widget.options.iconPadding ?? EdgeInsets.zero,
+              child: icon,
+            ),
+            onPressed: onPressed,
+            style: style,
+          ),
+        );
+      }
+      return SizedBox(
         height: widget.options.height,
         width: widget.options.width,
         child: ElevatedButton.icon(
           icon: Padding(
             padding: widget.options.iconPadding ?? EdgeInsets.zero,
-            child: widget.icon ??
-                FaIcon(
-                  widget.iconData,
-                  size: widget.options.iconSize,
-                  color: widget.options.iconColor ??
-                      widget.options.textStyle.color,
-                ),
+            child: icon,
           ),
           label: textWidget,
           onPressed: onPressed,
@@ -156,7 +231,7 @@ class _FFButtonWidgetState extends State<FFButtonWidget> {
       );
     }
 
-    return Container(
+    return SizedBox(
       height: widget.options.height,
       width: widget.options.width,
       child: ElevatedButton(
@@ -167,3 +242,47 @@ class _FFButtonWidgetState extends State<FFButtonWidget> {
     );
   }
 }
+
+extension _WithoutColorExtension on TextStyle {
+  TextStyle withoutColor() => TextStyle(
+        inherit: inherit,
+        color: null,
+        backgroundColor: backgroundColor,
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        fontStyle: fontStyle,
+        letterSpacing: letterSpacing,
+        wordSpacing: wordSpacing,
+        textBaseline: textBaseline,
+        height: height,
+        leadingDistribution: leadingDistribution,
+        locale: locale,
+        foreground: foreground,
+        background: background,
+        shadows: shadows,
+        fontFeatures: fontFeatures,
+        decoration: decoration,
+        decorationColor: decorationColor,
+        decorationStyle: decorationStyle,
+        decorationThickness: decorationThickness,
+        debugLabel: debugLabel,
+        fontFamily: fontFamily,
+        fontFamilyFallback: fontFamilyFallback,
+        // The _package field is private so unfortunately we can't set it here,
+        // but it's almost always unset anyway.
+        // package: _package,
+        overflow: overflow,
+      );
+}
+
+// Slightly hacky method of getting the layout width of the provided text.
+double? _getTextWidth(String? text, TextStyle? style, int maxLines) =>
+    text != null
+        ? (TextPainter(
+            text: TextSpan(text: text, style: style),
+            textDirection: TextDirection.ltr,
+            maxLines: maxLines,
+          )..layout())
+            .size
+            .width
+        : null;

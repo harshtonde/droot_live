@@ -1,84 +1,149 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
+
+import '/backend/schema/util/firestore_util.dart';
+import '/backend/schema/util/schema_util.dart';
+
 import 'index.dart';
-import 'serializers.dart';
-import 'package:built_value/built_value.dart';
+import '/flutter_flow/flutter_flow_util.dart';
 
-part 'triprecord_record.g.dart';
+class TriprecordRecord extends FirestoreRecord {
+  TriprecordRecord._(
+    DocumentReference reference,
+    Map<String, dynamic> data,
+  ) : super(reference, data) {
+    _initializeFields();
+  }
 
-abstract class TriprecordRecord
-    implements Built<TriprecordRecord, TriprecordRecordBuilder> {
-  static Serializer<TriprecordRecord> get serializer =>
-      _$triprecordRecordSerializer;
+  // "tripname" field.
+  String? _tripname;
+  String get tripname => _tripname ?? '';
+  bool hasTripname() => _tripname != null;
 
-  @nullable
-  String get tripname;
+  // "destination" field.
+  String? _destination;
+  String get destination => _destination ?? '';
+  bool hasDestination() => _destination != null;
 
-  @nullable
-  String get destination;
+  // "origin" field.
+  String? _origin;
+  String get origin => _origin ?? '';
+  bool hasOrigin() => _origin != null;
 
-  @nullable
-  String get origin;
+  // "userref" field.
+  DocumentReference? _userref;
+  DocumentReference? get userref => _userref;
+  bool hasUserref() => _userref != null;
 
-  @nullable
-  DocumentReference get userref;
+  // "created_at" field.
+  DateTime? _createdAt;
+  DateTime? get createdAt => _createdAt;
+  bool hasCreatedAt() => _createdAt != null;
 
-  @nullable
-  @BuiltValueField(wireName: 'created_at')
-  DateTime get createdAt;
+  // "startdate" field.
+  DateTime? _startdate;
+  DateTime? get startdate => _startdate;
+  bool hasStartdate() => _startdate != null;
 
-  @nullable
-  DateTime get startdate;
+  // "enddate" field.
+  DateTime? _enddate;
+  DateTime? get enddate => _enddate;
+  bool hasEnddate() => _enddate != null;
 
-  @nullable
-  DateTime get enddate;
-
-  @nullable
-  @BuiltValueField(wireName: kDocumentReferenceField)
-  DocumentReference get reference;
-
-  static void _initializeBuilder(TriprecordRecordBuilder builder) => builder
-    ..tripname = ''
-    ..destination = ''
-    ..origin = '';
+  void _initializeFields() {
+    _tripname = snapshotData['tripname'] as String?;
+    _destination = snapshotData['destination'] as String?;
+    _origin = snapshotData['origin'] as String?;
+    _userref = snapshotData['userref'] as DocumentReference?;
+    _createdAt = snapshotData['created_at'] as DateTime?;
+    _startdate = snapshotData['startdate'] as DateTime?;
+    _enddate = snapshotData['enddate'] as DateTime?;
+  }
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('triprecord');
 
-  static Stream<TriprecordRecord> getDocument(DocumentReference ref) => ref
-      .snapshots()
-      .map((s) => serializers.deserializeWith(serializer, serializedData(s)));
+  static Stream<TriprecordRecord> getDocument(DocumentReference ref) =>
+      ref.snapshots().map((s) => TriprecordRecord.fromSnapshot(s));
 
-  static Future<TriprecordRecord> getDocumentOnce(DocumentReference ref) => ref
-      .get()
-      .then((s) => serializers.deserializeWith(serializer, serializedData(s)));
+  static Future<TriprecordRecord> getDocumentOnce(DocumentReference ref) =>
+      ref.get().then((s) => TriprecordRecord.fromSnapshot(s));
 
-  TriprecordRecord._();
-  factory TriprecordRecord([void Function(TriprecordRecordBuilder) updates]) =
-      _$TriprecordRecord;
+  static TriprecordRecord fromSnapshot(DocumentSnapshot snapshot) =>
+      TriprecordRecord._(
+        snapshot.reference,
+        mapFromFirestore(snapshot.data() as Map<String, dynamic>),
+      );
 
   static TriprecordRecord getDocumentFromData(
-          Map<String, dynamic> data, DocumentReference reference) =>
-      serializers.deserializeWith(serializer,
-          {...mapFromFirestore(data), kDocumentReferenceField: reference});
+    Map<String, dynamic> data,
+    DocumentReference reference,
+  ) =>
+      TriprecordRecord._(reference, mapFromFirestore(data));
+
+  @override
+  String toString() =>
+      'TriprecordRecord(reference: ${reference.path}, data: $snapshotData)';
+
+  @override
+  int get hashCode => reference.path.hashCode;
+
+  @override
+  bool operator ==(other) =>
+      other is TriprecordRecord &&
+      reference.path.hashCode == other.reference.path.hashCode;
 }
 
 Map<String, dynamic> createTriprecordRecordData({
-  String tripname,
-  String destination,
-  String origin,
-  DocumentReference userref,
-  DateTime createdAt,
-  DateTime startdate,
-  DateTime enddate,
-}) =>
-    serializers.toFirestore(
-        TriprecordRecord.serializer,
-        TriprecordRecord((t) => t
-          ..tripname = tripname
-          ..destination = destination
-          ..origin = origin
-          ..userref = userref
-          ..createdAt = createdAt
-          ..startdate = startdate
-          ..enddate = enddate));
+  String? tripname,
+  String? destination,
+  String? origin,
+  DocumentReference? userref,
+  DateTime? createdAt,
+  DateTime? startdate,
+  DateTime? enddate,
+}) {
+  final firestoreData = mapToFirestore(
+    <String, dynamic>{
+      'tripname': tripname,
+      'destination': destination,
+      'origin': origin,
+      'userref': userref,
+      'created_at': createdAt,
+      'startdate': startdate,
+      'enddate': enddate,
+    }.withoutNulls,
+  );
+
+  return firestoreData;
+}
+
+class TriprecordRecordDocumentEquality implements Equality<TriprecordRecord> {
+  const TriprecordRecordDocumentEquality();
+
+  @override
+  bool equals(TriprecordRecord? e1, TriprecordRecord? e2) {
+    return e1?.tripname == e2?.tripname &&
+        e1?.destination == e2?.destination &&
+        e1?.origin == e2?.origin &&
+        e1?.userref == e2?.userref &&
+        e1?.createdAt == e2?.createdAt &&
+        e1?.startdate == e2?.startdate &&
+        e1?.enddate == e2?.enddate;
+  }
+
+  @override
+  int hash(TriprecordRecord? e) => const ListEquality().hash([
+        e?.tripname,
+        e?.destination,
+        e?.origin,
+        e?.userref,
+        e?.createdAt,
+        e?.startdate,
+        e?.enddate
+      ]);
+
+  @override
+  bool isValidKey(Object? o) => o is TriprecordRecord;
+}
